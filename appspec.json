@@ -1,0 +1,41 @@
+{
+  "settings": [
+  ],
+  "dependencies": {
+    "R": [
+      {
+        "name": "move"
+      },
+	        {
+        "name": "moveVis"
+      }
+    ]
+  },
+  "createsArtifacts": true,
+  "license": {
+    "key": "MIT"
+  },
+  "language": "eng",
+  "keywords": [
+    "animation",
+    "gif"
+  ],
+  "people": [
+    {
+     "firstName": "Andrea",
+      "middleInitials": null,
+      "lastName": "Kölzsch",
+      "email": "akoelzsch@ab.mpg.de",
+      "roles": [
+        "author",
+        "creator"
+      ],
+      "orcid": "0000-0003-0193-1563",
+      "affiliation": "Max-Planck-Institute of Animal Behavior",
+      "affiliationRor": "https://ror.org/026stee22"
+    }
+  ],
+  "documentation": {
+    "url": "https://github.com/movestore/animation-moveVis/blob/main/README.md"
+  }
+}
