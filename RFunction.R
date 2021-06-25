@@ -12,7 +12,8 @@ rFunction <- function(data,reso,uni)
   } else
   {
     logger.info(paste("You request an anitmation output file with alignment time intervals of",reso,uni,". Be aware that the calculations will likely take some time."))
-    m <- align_move(data,res=reso,unit=uni) 
+    m <- align_move(data,res=as.numeric(reso),unit=uni) 
+    #m <- align_move(data,res=reso,unit=uni) 
   }
 
   names_all <- namesIndiv(data)
