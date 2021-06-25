@@ -11,7 +11,7 @@ rFunction <- function(data,reso,uni)
     m <- align_move(data,res="mean",unit="hours")
   } else
   {
-    logger.info(paste("You request an anitmation output file with alignment time intervals of",res,uni,". Be aware that the calculations will likely take some time."))
+    logger.info(paste("You request an anitmation output file with alignment time intervals of",reso,uni,". Be aware that the calculations will likely take some time."))
     m <- align_move(data,res=reso,unit=uni) 
   }
 
