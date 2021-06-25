@@ -1,18 +1,18 @@
 library('move')
 library('moveVis')
 
-rFunction <- function(data,res,uni)
+rFunction <- function(data,reso,uni)
 {
   Sys.setenv(tz="GMT")
   
-  if (is.null(res))
+  if (is.null(reso))
   {
     logger.info("You did not provide a suitable alignment time interval. By default we assume the mean resolution of the data set. Be aware that the calculations will likely take some time.")
     m <- align_move(data,res="mean",unit="hours")
   } else
   {
     logger.info(paste("You request an anitmation output file with alignment time intervals of",res,uni,". Be aware that the calculations will likely take some time."))
-    m <- align_move(data,res=res,unit=uni) 
+    m <- align_move(data,res=reso,unit=uni) 
   }
 
   names_all <- namesIndiv(data)

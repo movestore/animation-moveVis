@@ -1,7 +1,7 @@
 {
   "settings": [
   {
-      "id": "res",
+      "id": "reso",
       "name": "Resolution for alignment",
       "description": "Insert a numeric value to define the resolution to which the tracks shall be thinned for alignment. Default is the mean resolution of the data set. See below for possible units.",
       "defaultValue": null,

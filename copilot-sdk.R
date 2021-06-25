@@ -17,7 +17,7 @@ args <- list()
 #    args[["password"]] = "any-password"
 
 # Add your arguments of your r function here
-args[["res"]] = 1 # 
+args[["reso"]] = 1 # 
 args[["uni"]] = "days"
 #args[["radius"]] = 	1000 #m 
 
