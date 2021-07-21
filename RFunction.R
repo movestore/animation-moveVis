@@ -28,7 +28,7 @@ rFunction <- function(data,reso,uni)
   #frames[[100]]
   
   # animate frames
-  animate_frames(frames, out_file = "animation_moveVis.gif")
+  animate_frames(frames, out_file = paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"animation_moveVis.gif")
   
   result <- data
   return(result)
