@@ -3,7 +3,7 @@ library('moveVis')
 
 rFunction <- function(data,reso,uni)
 {
-  Sys.setenv(tz="GMT")
+  Sys.setenv(tz="UTC")
   
   if (is.null(reso))
   {
