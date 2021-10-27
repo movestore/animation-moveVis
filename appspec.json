@@ -7,7 +7,7 @@
       "defaultValue": null,
       "type": "DOUBLE"
     },
-  {
+    {
       "id": "uni",
       "name": "Unit of your alignment resolution",
       "description": "Select the time unit of your selected alignment resolution. Default is hours.",
@@ -31,15 +31,55 @@
           "displayText": "days"
         }
       ]
-	}
+	},
+	{
+      "id": "maptype",
+      "name": "Map type",
+      "description": "Select the type of map that you want to use as your animation background. The map will be retreived from Open Street map (osm).",
+      "defaultValue": "watercolor",
+      "type": "DROPDOWN",
+      "options": [
+        {
+          "value": "hydda",
+          "displayText": "hydda"
+        },
+		{
+          "value": "watercolor",
+          "displayText": "watercolor"
+        },
+		{
+          "value": "terrain",
+          "displayText": "terrain"
+        },
+		{
+          "value": "topographic",
+          "displayText": "topographic"
+        },
+		{
+          "value": "roads",
+          "displayText": "roads"
+        },
+		{
+          "value": "streets",
+          "displayText": "streets"
+        },
+		{
+          "value": "toner",
+          "displayText": "toner"
+        }
+      ]
+    }
   ],
   "dependencies": {
     "R": [
       {
         "name": "move"
       },
-	        {
+	  {
         "name": "moveVis"
+      },
+	  {
+        "name": "fields"
       }
     ]
   },

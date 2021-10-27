@@ -1,7 +1,8 @@
 library('move')
 library('moveVis')
+library('fields')
 
-rFunction <- function(data,reso,uni)
+rFunction <- function(data,reso,uni,maptype="watercolor")
 {
   Sys.setenv(tz="UTC")
   
@@ -16,9 +17,14 @@ rFunction <- function(data,reso,uni)
     #m <- align_move(data,res=reso,unit=uni) 
   }
 
-  names_all <- namesIndiv(data)
-  frames <- frames_spatial(m, path_colours = rep("red",n.indiv(m)),
-                           map_service = "osm", map_type = "watercolor", alpha = 0.5,path_legend=FALSE) %>%
+  #m.list <- move::split(m) # split m into list by individual
+  #m.list <- mapply(x = m.list, y = cols, function(x, y){
+  #  x$colour <- y
+  #  return(x)
+  #})
+  #m <- moveStack(m.list) 
+  
+  frames <- frames_spatial(m, path_colours=tim.colors(n.indiv(data)), map_service = "osm", map_type = maptype, alpha = 0.5) %>%
     add_labels(x = "Longitude", y = "Latitude") %>% 
     add_northarrow() %>%
     add_scalebar() %>%
@@ -28,7 +34,8 @@ rFunction <- function(data,reso,uni)
   #frames[[100]]
   
   # animate frames
-  animate_frames(frames, out_file = paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"animation_moveVis.gif"))
+  #animate_frames(frames, out_file = paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"animation_moveVis.gif"),overwrite=TRUE)
+  animate_frames(frames, out_file = "animation_moveVis.gif",overwrite=TRUE)
   
   result <- data
   return(result)

@@ -19,7 +19,7 @@ args <- list()
 # Add your arguments of your r function here
 args[["reso"]] = 1 # 
 args[["uni"]] = "days"
-#args[["radius"]] = 	1000 #m 
+args[["maptype"]] = 	"toner" #watercolor, topographic, terrain, streets
 
 
 #################################################################

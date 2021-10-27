@@ -23,9 +23,13 @@ moveStack in Movebank format
 
 `uni`: Parameter to select time unit for alignment resolution. Can only be 'seconds' up to 'days'. Default is 'hours'.
 
+`maptype`: Selection of maptype for animation background. The map will be downloaded from Open Street Map (osm). Default 'watercolor'.
+
 ### Null or error handling:
 **Parameter `res`:** If nothing (NULL) is entered here, a fallback default is used, namely the mean resolution of the data set. Note that only numeric values can be entered, else will lead to an error.
 
 **Parameter `uni`:** This unit parameter is default to 'hours', which might not fit to your data set or requirements; then you have to make your selection.
+
+**Parameter `maptype`:** Since there is a dropdown list of possible values, no error are expected.
 
 **Data:** The full input data set is returned for further use in a next App and cannot be empty.
