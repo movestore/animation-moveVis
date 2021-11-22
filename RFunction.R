@@ -34,8 +34,8 @@ rFunction <- function(data,reso,uni,maptype="watercolor")
   #frames[[100]]
   
   # animate frames
-  #animate_frames(frames, out_file = paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"animation_moveVis.gif"),overwrite=TRUE)
-  animate_frames(frames, out_file = "animation_moveVis.gif",overwrite=TRUE)
+  animate_frames(frames, out_file = paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"animation_moveVis.gif"),overwrite=TRUE)
+  #animate_frames(frames, out_file = "animation_moveVis.gif",overwrite=TRUE)
   
   result <- data
   return(result)
