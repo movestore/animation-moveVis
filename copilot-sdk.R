@@ -2,7 +2,7 @@ library(jsonlite)
 source("logger.R")
 source("RFunction.R")
 
-inputFileName = "input_lowres_geese_74X.rds" #important to set to NULL for movebank-download
+inputFileName = "Animation_input_Ex.rds" #important to set to NULL for movebank-download
 outputFileName = "output.rds"
 
 args <- list()
@@ -17,10 +17,10 @@ args <- list()
 #    args[["password"]] = "any-password"
 
 # Add your arguments of your r function here
-args[["reso"]] = 1 # 
-args[["uni"]] = "days"
-args[["maptype"]] = 	"toner" #watercolor, topographic, terrain, streets
-
+args[["reso"]] = NULL # 
+args[["uni"]] = "hours"
+args[["maptype"]] = 	"hydda" #toner, roads, hydda, watercolor, topographic, terrain, streets
+args[["frames_per_sec"]] = 50
 
 #################################################################
 #################################################################

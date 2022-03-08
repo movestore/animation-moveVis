@@ -1,6 +1,6 @@
 {
   "settings": [
-  {
+	{
       "id": "reso",
       "name": "Temporal resolution for alignment",
       "description": "Insert a numeric value to define the temporal resolution to which the movement data will be thinned for alignment. Default is the mean temporal resolution of the data set. See below for possible units.",
@@ -33,6 +33,13 @@
       ]
 	},
 	{
+      "id": "frames_per_sec",
+      "name": "Speed of animation",
+      "description": "Insert a numeric value to define the speed at which your animation shall be running. The unit is frames per second, i.e. relates to the data set. Defaults to 25.",
+      "defaultValue": 25,
+      "type": "DOUBLE"
+    },
+	{
       "id": "maptype",
       "name": "Map type",
       "description": "Select the type of map that you want to use as your animation background. The map will be retreived from Open Street map (osm).",
@@ -40,10 +47,6 @@
       "type": "DROPDOWN",
       "options": [
         {
-          "value": "hydda",
-          "displayText": "hydda"
-        },
-		{
           "value": "watercolor",
           "displayText": "watercolor"
         },
@@ -54,10 +57,6 @@
 		{
           "value": "topographic",
           "displayText": "topographic"
-        },
-		{
-          "value": "roads",
-          "displayText": "roads"
         },
 		{
           "value": "streets",

@@ -2,7 +2,7 @@ library('move')
 library('moveVis')
 library('fields')
 
-rFunction <- function(data,reso,uni,maptype="watercolor")
+rFunction <- function(data,reso=NULL,uni="hours",maptype="watercolor",frames_per_sec=25)
 {
   Sys.setenv(tz="UTC")
   
@@ -24,17 +24,17 @@ rFunction <- function(data,reso,uni,maptype="watercolor")
   #})
   #m <- moveStack(m.list) 
   
-  frames <- frames_spatial(m, path_colours=tim.colors(n.indiv(data)), map_service = "osm", map_type = maptype, alpha = 0.5) %>%
+  frames <- frames_spatial(m, path_colours=tim.colors(n.indiv(data)), map_service = "osm", map_type = maptype, alpha = 0.5, equidistant = FALSE) %>%
     add_labels(x = "Longitude", y = "Latitude") %>% 
     add_northarrow() %>%
     add_scalebar() %>%
     add_timestamps(m, type = "label") %>%
-    add_progress()
+    add_progress(colour = "white")
   
   #frames[[100]]
   
   # animate frames
-  animate_frames(frames, out_file = paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"animation_moveVis.gif"),overwrite=TRUE)
+  animate_frames(frames, out_file = paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"animation_moveVis.gif"),overwrite=TRUE, fps=frames_per_sec)
   #animate_frames(frames, out_file = "animation_moveVis.gif",overwrite=TRUE)
   
   result <- data
