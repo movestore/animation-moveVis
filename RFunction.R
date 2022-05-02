@@ -8,11 +8,11 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="watercolor",frames_per
   
   if (is.null(reso))
   {
-    logger.info("You did not provide a suitable alignment time interval. By default we assume the mean resolution of the data set. Be aware that the calculations will likely take some time.")
-    m <- align_move(data,res="mean",unit="hours")
+    logger.info("You did not provide a suitable alignment time interval. By default we assume the mean resolution of the data set. Beware that the calculations will likely take some time.")
+    m <- align_move(data,res="mean",unit=uni)
   } else
   {
-    logger.info(paste("You request an anitmation output file with alignment time intervals of",reso,uni,". Be aware that the calculations will likely take some time."))
+    logger.info(paste("You request an anitmation output file with alignment time intervals of",reso,uni,". Beware that the calculations will likely take some time."))
     m <- align_move(data,res=as.numeric(reso),unit=uni) 
     #m <- align_move(data,res=reso,unit=uni) 
   }

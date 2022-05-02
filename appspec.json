@@ -3,23 +3,23 @@
 	{
       "id": "reso",
       "name": "Temporal resolution for alignment",
-      "description": "Insert a numeric value to define the temporal resolution to which the movement data will be thinned for alignment. Default is the mean temporal resolution of the data set. See below for possible units.",
+      "description": "Insert a numeric value to define the temporal resolution to which the movement data will be thinned for alignment. Default is the mean temporal resolution of the data set. Beware of errors by gaps in your data or unsuitable units. See below for possible time units. Also note that too large data sets can run very long or lead to (memorey limit) errors.",
       "defaultValue": null,
       "type": "DOUBLE"
     },
     {
       "id": "uni",
       "name": "Unit of your alignment resolution",
-      "description": "Select the time unit of your selected alignment resolution. Default is hours.",
+      "description": "Select the time unit of your selected alignment resolution. This will also be used for average alignment resolution if you do not provide a value above. Default is hours. Note that your data have to encompass at least 10-20 times the duration of the unit. Also large time gaps within or between individual tracks can lead to errors or unexpected behaviour.",
       "defaultValue": "hours",
       "type": "RADIOBUTTONS",
       "options": [
 		{
-          "value": "seconds",
+          "value": "secs",
           "displayText": "seconds"
         },
 		        {
-          "value": "minutes",
+          "value": "mins",
           "displayText": "minutes"
         },
 		        {

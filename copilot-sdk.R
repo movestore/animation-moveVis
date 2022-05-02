@@ -2,7 +2,7 @@ library(jsonlite)
 source("logger.R")
 source("RFunction.R")
 
-inputFileName = "Animation_input_Ex.rds" #important to set to NULL for movebank-download
+inputFileName = "App-Output Jag_movevis__Remove_Outliers__2022-05-02_07-22-44.rds" #important to set to NULL for movebank-download
 outputFileName = "output.rds"
 
 args <- list()
@@ -18,8 +18,8 @@ args <- list()
 
 # Add your arguments of your r function here
 args[["reso"]] = NULL # 
-args[["uni"]] = "hours"
-args[["maptype"]] = 	"hydda" #toner, roads, hydda, watercolor, topographic, terrain, streets
+args[["uni"]] = "mins"
+args[["maptype"]] = 	"terrain" #toner, (roads), (hydda), watercolor, topographic, terrain, streets
 args[["frames_per_sec"]] = 50
 
 #################################################################
