@@ -34,7 +34,7 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="watercolor",frames_per
   #frames[[100]]
   
   # animate frames
-  animate_frames(frames, out_file = paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"animation_moveVis.gif"),overwrite=TRUE, fps=frames_per_sec)
+  animate_frames(frames, out_file = paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"animation_moveVis.mp4"),overwrite=TRUE, fps=frames_per_sec)
   #animate_frames(frames, out_file = "animation_moveVis.gif",overwrite=TRUE)
   
   result <- data
