@@ -37,6 +37,9 @@ moveStack in Movebank format
 #### Terrain
 ![](terrain_AniMove_map.png)
 
+#### Streets
+![](streets_AniMove_map_CoarseScale.png)
+
 ### Null or error handling:
 **Parameter `res`:** If nothing (NULL) is entered here, a fallback default is used, namely the mean resolution of the data set. Note that only numeric values can be entered, else will lead to an error.
 
