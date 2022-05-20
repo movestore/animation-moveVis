@@ -25,10 +25,10 @@ moveStack in Movebank format
 
 `maptype`: Selection of maptype for animation background. The map will be downloaded from Open Street Map (osm). Default 'watercolor'. As the App takes rather some time to run, see below examples of the map types to help your decision.
 
-![](../watercolor_AniMove_map.png)
-![](../topographic_AniMove_map.png)
-![](../toner_AniMove_map.png)
-![](../terrain_AniMove_map.png)
+![](watercolor_AniMove_map.png)
+![](topographic_AniMove_map.png)
+![](toner_AniMove_map.png)
+![](terrain_AniMove_map.png)
 
 ### Null or error handling:
 **Parameter `res`:** If nothing (NULL) is entered here, a fallback default is used, namely the mean resolution of the data set. Note that only numeric values can be entered, else will lead to an error.
