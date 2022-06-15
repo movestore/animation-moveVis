@@ -67,6 +67,13 @@
           "displayText": "toner"
         }
       ]
+    },
+	{
+      "id": "show_legend",
+      "name": "Track ID legend",
+      "description": "Select if you want to include a Track ID legend to your animation map.",
+      "defaultValue": true,
+      "type": "CHECKBOX"
     }
   ],
   "dependencies": {

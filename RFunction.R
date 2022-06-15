@@ -2,7 +2,7 @@ library('move')
 library('moveVis')
 library('fields')
 
-rFunction <- function(data,reso=NULL,uni="hours",maptype="watercolor",frames_per_sec=25)
+rFunction <- function(data,reso=NULL,uni="hours",maptype="watercolor",frames_per_sec=25,show_legend=TRUE)
 {
   Sys.setenv(tz="UTC")
   
@@ -24,7 +24,7 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="watercolor",frames_per
   #})
   #m <- moveStack(m.list) 
   
-  frames <- frames_spatial(m, path_colours=tim.colors(n.indiv(data)), map_service = "osm", map_type = maptype, alpha = 0.5, equidistant = FALSE) %>%
+  frames <- frames_spatial(m, path_colours=tim.colors(n.indiv(data)), path_legend=show_legend, path_legend_title= "Track IDs", map_service = "osm", map_type = maptype, map_res=0.2, alpha = 0.5, equidistant = FALSE) %>%
     add_labels(x = "Longitude", y = "Latitude") %>% 
     add_northarrow() %>%
     add_scalebar() %>%

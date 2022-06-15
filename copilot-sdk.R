@@ -2,7 +2,7 @@ library(jsonlite)
 source("logger.R")
 source("RFunction.R")
 
-inputFileName = "App-Output Jag_movevis__Remove_Outliers__2022-05-02_07-22-44.rds" #important to set to NULL for movebank-download
+inputFileName = "App-Output Workflow_Instance_001__Movebank__2022-06-14_10-52-55.rds" #important to set to NULL for movebank-download
 outputFileName = "output.rds"
 
 args <- list()
@@ -17,10 +17,11 @@ args <- list()
 #    args[["password"]] = "any-password"
 
 # Add your arguments of your r function here
-args[["reso"]] = NULL # 
-args[["uni"]] = "mins"
+args[["reso"]] = 12 # 
+args[["uni"]] = "hours"
 args[["maptype"]] = 	"terrain" #toner, (roads), (hydda), watercolor, topographic, terrain, streets
-args[["frames_per_sec"]] = 50
+args[["frames_per_sec"]] = 100
+args[["show_legend"]] = FALSE
 
 #################################################################
 #################################################################
