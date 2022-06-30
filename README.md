@@ -25,6 +25,12 @@ moveStack in Movebank format
 
 `maptype`: Selection of maptype for animation background. The map will be downloaded from Open Street Map (osm). Default 'watercolor'. As the App takes rather some time to run, see below examples of the map types to help your decision.
 
+ `mapres`: resolution of the background map. Can take values between 0 and 1. Default 0.2.
+ 
+ `frames_per_sec`: frames to be shown per second to alter the speed of the animation. Default 25.
+ 
+ `show_legend`: should a legend of the track IDs be shown? Default yes.
+
 #### Watercolor
 ![](watercolor_AniMove_map.png)
 

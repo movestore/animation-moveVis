@@ -2,7 +2,7 @@ library('move')
 library('moveVis')
 library('fields')
 
-rFunction <- function(data,reso=NULL,uni="hours",maptype="watercolor",frames_per_sec=25,show_legend=TRUE)
+rFunction <- function(data,reso=NULL,uni="hours",maptype="watercolor",mapres=0.2,frames_per_sec=25,show_legend=TRUE)
 {
   Sys.setenv(tz="UTC")
   
@@ -16,6 +16,12 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="watercolor",frames_per
     m <- align_move(data,res=as.numeric(reso),unit=uni) 
     #m <- align_move(data,res=reso,unit=uni) 
   }
+  
+  if (mapres<0 | mapres>1) 
+  {
+    logger.info("Your map resolution value is outside of the required boundaries (between 0 and 1). Please go back and adapt. Here, the default value of 0.2 is used.")
+    mapres <- 0.2
+  }
 
   #m.list <- move::split(m) # split m into list by individual
   #m.list <- mapply(x = m.list, y = cols, function(x, y){
@@ -24,7 +30,7 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="watercolor",frames_per
   #})
   #m <- moveStack(m.list) 
   
-  frames <- frames_spatial(m, path_colours=tim.colors(n.indiv(data)), path_legend=show_legend, path_legend_title= "Track IDs", map_service = "osm", map_type = maptype, map_res=0.2, alpha = 0.5, equidistant = FALSE) %>%
+  frames <- frames_spatial(m, path_colours=tim.colors(n.indiv(data)), path_legend=show_legend, path_legend_title= "Track IDs", map_service = "osm", map_type = maptype, map_res=mapres, alpha = 0.5, equidistant = FALSE) %>%
     add_labels(x = "Longitude", y = "Latitude") %>% 
     add_northarrow() %>%
     add_scalebar() %>%
