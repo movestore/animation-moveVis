@@ -4,7 +4,7 @@ MoveApps
 Github repository: *github.com/movestore/animation-moveVis*
 
 ## Description
-Generate an animation of your tracks (using MoveVis) as a .gif to download.
+ Generate an animation of your tracks using the moveVis R package. The animation is saved as a .mp4 artefact that can be downloaded to your device. (Note: depending on the size of your data set this App may take a while to run (30+ min)) 
 
 ## Documentation
 To generate an aligned animation of all tracks of the input data set, first all individual tracks are aligned by time and subsampled to a defined resolution (see parameters). Then all tracks are plotted as moving dots on a common Open Street Map. The frames of all individual tracks are finally combined and written as an animated gif file to download as MoveApps output artefact. The original data set is also passed on as output to a possible next App. 
