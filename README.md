@@ -30,6 +30,12 @@ moveStack in Movebank format
  `frames_per_sec`: frames to be shown per second to alter the speed of the animation. Default 25.
  
  `show_legend`: should a legend of the track IDs be shown? Default yes.
+ 
+ `capt`: text for a caption that will be added at the bottom of the animation window. Default empty.
+ 
+ `file_format`: any of the following video formats: 'gif', 'mov', 'mp4', 'flv', 'avi', 'mpeg', '3gp', 'ogg'. Compatibility depends on computer system. Default 'mp4'.
+ 
+ `ext_adapt`: adaption factor (multiplicative) for map extent. By default, the extent of the data is used. Default 1.
 
 #### Watercolor
 ![](watercolor_AniMove_map.png)

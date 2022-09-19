@@ -81,6 +81,60 @@
       "description": "Select if you want to include a Track ID legend to your animation map.",
       "defaultValue": true,
       "type": "CHECKBOX"
+    },
+	    {
+      "id": "capt",
+      "name": "Caption",
+      "description": "Insert caption text that will be displayed at the bottom of the visualisation window. Typically this is the data reference.",
+      "defaultValue": " ",
+      "type": "STRING"
+    },
+	{
+      "id": "file_format",
+      "name": "Output file format",
+      "description": "Select an output file format from the below options. The file extension must correspond to a file format known by the available renderers of the system on which the video will be run.",
+      "defaultValue": "mp4",
+      "type": "RADIOBUTTONS",
+      "options": [
+		{
+          "value": "mp4",
+          "displayText": "mp4"
+        },
+		        {
+          "value": "gif",
+          "displayText": "gif"
+        },
+		        {
+          "value": "mov",
+          "displayText": "mov"
+        },
+		        {
+          "value": "flv",
+          "displayText": "flv"
+        },
+		        {
+          "value": "avi",
+          "displayText": "avi"
+        },
+		        {
+          "value": "mpeg",
+          "displayText": "mpeg"
+        },
+		        {
+          "value": "3gp",
+          "displayText": "3gp"
+        },
+		        {
+          "value": "ogg",
+          "displayText": "ogg"
+        }
+      ]
+	},{
+      "id": "ext_adap",
+      "name": "Adaption factor for map extent",
+      "description": "Insert the adaption factor by which to multiply the map extent. Anything between 0.1 and 1 decreases, above 1 increases the extent. By default, the extent of the data is used, i.e. 1.",
+      "defaultValue": 1,
+      "type": "DOUBLE"
     }
   ],
   "dependencies": {
