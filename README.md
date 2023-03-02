@@ -7,7 +7,7 @@ Github repository: *github.com/movestore/animation-moveVis*
  Generate an animation of your tracks using the moveVis R package. The animation is saved as a .mp4 artefact that can be downloaded to your device. (Note: depending on the size of your data set this App may take a while to run (30+ min)) 
 
 ## Documentation
-To generate an aligned animation of all tracks of the input data set, first all individual tracks are aligned by time and subsampled to a defined resolution (see parameters). Then all tracks are plotted as moving dots on a common Open Street Map. The frames of all individual tracks are finally combined and written as an animated gif file to download as MoveApps output artefact. The original data set is also passed on as output to a possible next App. 
+To generate an aligned animation of all tracks of the input data set, first all individual tracks are aligned by time and subsampled to a defined resolution (see parameters). Then all tracks are plotted as moving dots on a common 'carto' Map (Open Street Map does presently give errors). The frames of all individual tracks are finally combined and written as an animated gif file to download as MoveApps output artefact. The original data set is also passed on as output to a possible next App. 
 
 ### Input data
 moveStack in Movebank format
@@ -23,7 +23,7 @@ moveStack in Movebank format
 
 `uni`: Parameter to select time unit for alignment resolution. Can only be 'seconds' up to 'days'. Default is 'hours'.
 
-`maptype`: Selection of maptype for animation background. The map will be downloaded from Open Street Map (osm). Default 'watercolor'. As the App takes rather some time to run, see below examples of the map types to help your decision.
+`maptype`: Selection of maptype for animation background. The map will be downloaded from 'carto' (because Open Street Map does presently give errors). Default 'light'. As the App takes rather some time to run, see below examples of the map types to help your decision.
 
  `mapres`: resolution of the background map. Can take values between 0 and 1. Default 0.2.
  
@@ -38,6 +38,8 @@ moveStack in Movebank format
  `ext_adapt`: adaption factor (multiplicative) for map extent. By default, the extent of the data is used. Default 1.
 
 #### Watercolor
+Please note that the example maps have been made with osm maps.
+
 ![](watercolor_AniMove_map.png)
 
 #### Topographic

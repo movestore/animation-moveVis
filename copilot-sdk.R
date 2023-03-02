@@ -2,7 +2,7 @@ library(jsonlite)
 source("logger.R")
 source("RFunction.R")
 
-inputFileName = "App-Output Workflow_Instance_001__Filter_Last_X_Days__2022-05-30_10-14-49.rds" #important to set to NULL for movebank-download
+inputFileName = "INput_Error_NikkiYetke_Feb2023.rds" #important to set to NULL for movebank-download
 outputFileName = "output.rds"
 
 args <- list()
@@ -18,9 +18,10 @@ args <- list()
 
 # Add your arguments of your r function here
 args[["reso"]] = 2 # 
-args[["uni"]] = "hours"
-args[["maptype"]] = 	"terrain" #toner, (roads), (hydda), watercolor, topographic, terrain, streets
-args[["mapres"]] = 0.2 # between 0 and 1
+args[["uni"]] = "days"
+#args[["maptype"]] = 	"terrain" #toner, (roads), (hydda), watercolor, topographic, terrain, streets
+args[["maptype"]] = 	"voyager" #"light", dark", "voyager"
+args[["mapres"]] = 0.5 # between 0 and 1
 args[["frames_per_sec"]] = 200
 args[["show_legend"]] = FALSE
 args[["capt"]] = "ABC et al. Paper about these data. 2022"
@@ -33,7 +34,6 @@ inputData <- NULL
 if(!is.null(inputFileName) && inputFileName != "" && file.exists(inputFileName)) {
   cat("Loading file from", inputFileName, "\n")
   inputData <- readRDS(file = inputFileName)
-  inputData <- moveStack(split(inputData)[1:2],forceTz="UTC")
 } else {
   cat("Skip loading: no input File", "\n")
 }

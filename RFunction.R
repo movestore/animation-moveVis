@@ -32,7 +32,14 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="watercolor",mapres=0.2
   
   ex <- extent(data)*ext_adap
   
-  frames <- frames_spatial(m, path_colours=tim.colors(n.indiv(data)), ext=ex ,path_legend=show_legend, path_legend_title= "Track IDs", map_service = "osm", map_type = maptype, map_res=mapres, alpha = 0.5, equidistant = FALSE) %>%
+  #frames <- frames_spatial(m, path_colours=tim.colors(n.indiv(data)), ext=ex ,path_legend=show_legend, path_legend_title= "Track IDs", map_service = "osm", map_type = maptype, map_res=mapres, alpha = 0.5, equidistant = FALSE) %>%
+  #  add_labels(x = "Longitude", y = "Latitude",caption=capt) %>% 
+  #  add_northarrow() %>%
+  #  add_scalebar() %>%
+  #  add_timestamps(m, type = "label") %>%
+  #  add_progress(colour = "white")
+  
+  frames <- frames_spatial(m, path_colours=tim.colors(n.indiv(data)), ext=ex ,path_legend=show_legend, path_legend_title= "Track IDs", map_service = "carto", map_type = maptype, map_res=mapres, alpha = 0.5, equidistant = FALSE) %>%
     add_labels(x = "Longitude", y = "Latitude",caption=capt) %>% 
     add_northarrow() %>%
     add_scalebar() %>%

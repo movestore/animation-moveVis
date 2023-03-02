@@ -42,29 +42,21 @@
 	{
       "id": "maptype",
       "name": "Map type",
-      "description": "Select the type of map that you want to use as your animation background. The map will be retreived from Open Street map (osm).",
-      "defaultValue": "watercolor",
+      "description": "Select the type of map that you want to use as your animation background. As Open Street meap (osm) is presently having problems, the map will be retreived from 'carto'.",
+      "defaultValue": "light",
       "type": "DROPDOWN",
       "options": [
         {
-          "value": "watercolor",
-          "displayText": "watercolor"
+          "value": "light",
+          "displayText": "light"
         },
 		{
-          "value": "terrain",
-          "displayText": "terrain"
+          "value": "dark",
+          "displayText": "dark"
         },
 		{
-          "value": "topographic",
-          "displayText": "topographic"
-        },
-		{
-          "value": "streets",
-          "displayText": "streets"
-        },
-		{
-          "value": "toner",
-          "displayText": "toner"
+          "value": "voyager",
+          "displayText": "voyager"
         }
       ]
     },
