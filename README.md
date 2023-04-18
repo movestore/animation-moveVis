@@ -4,10 +4,12 @@ MoveApps
 Github repository: *github.com/movestore/animation-moveVis*
 
 ## Description
-Generate an animation of your tracks using the moveVis R package. The animation is saved as a .mp4 artefact that can be downloaded to your device. (Note: depending on the size of your data set this App may take a while to run (30+ min)) 
+Generate an animation of your tracks using the moveVis R package. The animation is saved as a .mp4 artefact that can be downloaded to your device. (Note: depending on the size of your data set this App may take a while to run (30+ min, see logs).) 
 
 ## Documentation
 To generate an aligned animation of all tracks of the input data set, first all individual tracks are aligned by time and subsampled to a defined resolution (see settings below). Then all tracks are plotted as moving dots on a common 'carto' Map (Open Street Map does presently give errors). The frames of all individual tracks are finally combined and written as an animated gif file to download as MoveApps output artefact. The original data set is also passed on as output to a possible next App. 
+
+There are several options how to colour your tracks in the animation. Note that regardless of the colouring attribute, in the legend the track IDs are shown, however with the correct colour. This should be improved.
 
 ### Input data
 moveStack in Movebank format
@@ -28,6 +30,10 @@ moveStack in Movebank format
 **Map type (`maptype`):** Selection of map type for the animation background. The map will be downloaded from 'carto' (because Open Street Map does presently give errors). Default 'light'. Since the App can take a long time to run, see examples below of the available map types to help you make your decision (note that these examples were created using OSM maps).
 
 **Resolution of background map (`mapres`):** Resolution of the background map. Can take values between 0 and 1. Default is 0.2.
+ 
+**Track colour option (`col_opt`):** Options by which attributes to colour the tracks in the animation. Default is `one`, i.e. all tracks have the same colour (red). 
+ 
+**Other attribute for track colouring (`other`):** Animal or track attribute name if the user has selected `other` in the above setting. Will not be used else. 
  
 **Track ID legend (`show_legend`):** Should a legend containing the track IDs be shown? Default yes.
  

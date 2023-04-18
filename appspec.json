@@ -68,16 +68,48 @@
       "type": "DOUBLE"
     },
 	{
+      "id": "col_opt",
+      "name": "Track colour option",
+      "description": "Select how you want to colour your animated tracks.",
+      "defaultValue": "one",
+      "type": "RADIOBUTTONS",
+      "options": [
+		{
+          "value": "one",
+          "displayText": "same colour (red) for all tracks"
+        },
+		        {
+          "value": "trackid",
+          "displayText": "coloured by track ID"
+        },
+				{
+          "value": "animalid",
+          "displayText": "coloured by animal ID"
+        },
+		        {
+          "value": "other",
+          "displayText": "coloured by other animal or track attribute (define below)"
+        }
+      ]
+	},
+		    {
+      "id": "other",
+      "name": "Other attribute for track colouring",
+      "description": "Insert the exact spelling of the other animal or track attribute by which you want to colour your animated tracks. Check the previous App's data overview for available attributes and their spelling. Note that the legend (if you select to show it) will still give the track IDs as names, but colour them by the selected attribute.",
+      "defaultValue": "",
+      "type": "STRING"
+    },
+	{
       "id": "show_legend",
       "name": "Track ID legend",
-      "description": "Select if you want to include a Track ID legend to your animation map.",
+      "description": "Select if you want to include a legend to your animation map.",
       "defaultValue": true,
       "type": "CHECKBOX"
     },
 	    {
       "id": "capt",
       "name": "Caption",
-      "description": "Insert caption text that will be displayed at the bottom of the visualisation window. Typically this is the data reference.",
+      "description": "Insert a caption text that will be displayed at the bottom of the visualisation window. Typically this is the data reference.",
       "defaultValue": " ",
       "type": "STRING"
     },
@@ -121,7 +153,8 @@
           "displayText": "ogg"
         }
       ]
-	},{
+	},
+	{
       "id": "ext_adap",
       "name": "Adaption factor for map extent",
       "description": "Insert the adaption factor by which to multiply the map extent. Anything between 0.1 and 1 decreases, above 1 increases the extent. By default, the extent of the data is used, i.e. 1.",
@@ -150,6 +183,7 @@
   "keywords": [
     "animation",
     "gif",
+	"mp4",
 	"moveVis"
   ],
   "people": [
