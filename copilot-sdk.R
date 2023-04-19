@@ -17,13 +17,13 @@ args <- list()
 #    args[["password"]] = "any-password"
 
 # Add your arguments of your r function here
-args[["reso"]] = 4 # 
+args[["reso"]] = 8 # 
 args[["uni"]] = "hours"
 #args[["maptype"]] = 	"terrain" #toner, (roads), (hydda), watercolor, topographic, terrain, streets
 args[["maptype"]] = 	"voyager" #"light", dark", "voyager"
 args[["mapres"]] = 0.5 # between 0 and 1
 args[["frames_per_sec"]] = 200
-args[["col_opt"]] = "other" # "one","trackid", "animalid", "other"
+args[["col_opt"]] = "one" # "one","trackid", "animalid", "other"
 args[["other"]] = "sex"
 args[["show_legend"]] = TRUE
 args[["capt"]] = "ABC et al. Paper about these data. 2022"

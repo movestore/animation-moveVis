@@ -44,7 +44,7 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="voyager",mapres=0.2,fr
   if (col_opt=="one")
   {
     logger.info("You have seleted to colour all your tracks in one colour (red).")
-    cols <- "red"
+    cols <- rep("red",length(data.split))
     legend_titl <- "all Tracks"
   } else if (col_opt=="trackid")
   {
