@@ -1,10 +1,19 @@
+library('move2')
 library('move')
 library('moveVis')
 library('fields')
 
+## The parameter "data" is reserved for the data object passed on from the previous app
+
+# to display messages to the user in the log file of the App in MoveApps
+# one can use the function from the logger.R file:
+# logger.fatal(), logger.error(), logger.warn(), logger.info(), logger.debug(), logger.trace()
+
 rFunction <- function(data,reso=NULL,uni="hours",maptype="voyager",mapres=0.2,frames_per_sec=25,col_opt="one",other="sex",show_legend=TRUE,capt="",file_format="mp4",ext_adap=1)
 {
-  Sys.setenv(tz="UTC")
+  data2 <- data
+  data <- to_move(data)
+  
   
   if (is.null(reso))
   {
@@ -22,7 +31,7 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="voyager",mapres=0.2,fr
     logger.info("Your map resolution value is outside of the required boundaries (between 0 and 1). Please go back and adapt. Here, the default value of 0.2 is used.")
     mapres <- 0.2
   }
-
+  
   #m.list <- move::split(m) # split m into list by individual
   #m.list <- mapply(x = m.list, y = cols, function(x, y){
   #  x$colour <- y
@@ -40,7 +49,7 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="voyager",mapres=0.2,fr
   #  add_progress(colour = "white")
   
   data.split <- move::split(data)
-
+  
   if (col_opt=="one")
   {
     logger.info("You have seleted to colour all your tracks in one colour (red).")
@@ -57,18 +66,18 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="voyager",mapres=0.2,fr
     iddata <- idData(data)
     names(iddata) <- make.names(names(iddata),allow_=FALSE)
     
-    if (any(names(iddata)=="individual.local.identifier")) {
+    if (any(names(iddata)=="individual_local_identifier")) {
       
       anims <- unlist(lapply(data.split,function(x) 
-        {
+      {
         iddatax <- idData(x)
         names(iddatax) <- make.names(names(iddatax),allow_=FALSE)
         iddatax$individual.local.identifier
-        }),use.names=FALSE)
-
+      }),use.names=FALSE)
+      
     } else if (any(names(iddata)=="local.identifier")) {
       anims <- unlist(lapply(data.split,function(x)
-        {
+      {
         iddatax <- idData(x)
         names(iddatax) <- make.names(names(iddatax),allow_=FALSE)
         iddatax$local.identifier
@@ -111,30 +120,23 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="voyager",mapres=0.2,fr
     legend_titl <- "all Tracks"
   }
   
+  #todo: here another option is "mapbox" (requires token), need to ask Jakob if possible to use OSM mirror
   frames <- frames_spatial(m, path_colours=cols, ext=ex ,path_legend=show_legend, path_legend_title= legend_titl, map_service = "carto", map_type = maptype, map_res=mapres, alpha = 0.5, equidistant = FALSE) %>%
     add_labels(x = "Longitude", y = "Latitude",caption=capt) %>% 
     add_northarrow() %>%
     add_scalebar() %>%
-    add_timestamps(m, type = "label") %>%
+    add_timestamps(type = "label") %>%
     add_progress(colour = "white")
   
   #frames[[100]]
   
   # animate frames
-  animate_frames(frames, out_file = paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"animation_moveVis.",file_format),overwrite=TRUE, fps=frames_per_sec)
+  animate_frames(frames, out_file = appArtifactPath(paste0("animation_moveVis.",file_format)),overwrite=TRUE, fps=frames_per_sec)
   #animate_frames(frames, out_file = "animation_moveVis.gif",overwrite=TRUE)
   
-  result <- data
+  result <- data2
   return(result)
 }
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+

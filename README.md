@@ -60,6 +60,10 @@ Please note that the example maps have been made with osm maps.
 #### Streets
 ![](streets_AniMove_map_CoarseScale.png)
 
+
+### Most common errors
+Background maps are not optimal, will be updated.
+
 ### Null or error handling:
 **Temporal resolution for alignment (`res`):** If nothing (NULL) is entered here, a fallback default is used, namely the mean resolution of the data set. Note that only numeric values can be entered, else will lead to an error.
 

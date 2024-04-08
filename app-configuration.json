@@ -1,0 +1,13 @@
+{
+    "reso" : null,
+    "uni" : "hours",
+    "maptype" : "voyager",
+    "mapres" : 0.2,
+    "frames_per_sec" : 25,
+    "col_opt" : "one",
+    "other" : "sex",
+    "show_legend" : true,
+    "capt" : "test",
+    "file_format" : "mp4",
+    "ext_adap" : 1
+}

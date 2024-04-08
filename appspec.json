@@ -1,4 +1,5 @@
 {
+    "version": "1.2",
   "settings": [
 	{
       "id": "reso",
@@ -168,6 +169,9 @@
         "name": "move"
       },
 	  {
+        "name": "move2"
+      },
+	  {
         "name": "moveVis"
       },
 	  {
@@ -200,8 +204,5 @@
       "affiliation": "Max-Planck-Institute of Animal Behavior",
       "affiliationRor": "https://ror.org/026stee22"
     }
-  ],
-  "documentation": {
-    "url": "https://github.com/movestore/animation-moveVis/blob/main/README.md"
-  }
+  ]
 }
