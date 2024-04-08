@@ -12,13 +12,13 @@ To generate an aligned animation of all tracks of the input data set, first all 
 There are several options how to colour your tracks in the animation. Note that regardless of the colouring attribute, in the legend the track IDs are shown, however with the correct colour. This should be improved.
 
 ### Input data
-moveStack in Movebank format
+move2 location object
 
 ### Output data
-moveStack in Movebank format
+move2 location object
 
 ### Artefacts
-`animation.moveVis.gif`: Animated gif file showing an animation of all tracked positions aligned by time.
+`animation.moveVis.***`: Animated file showing an animation of all tracked positions aligned by time.
 
 ### Settings 
 **Temporal resolution for alignment (`res`):** This parameter allows the user to define the time interval by which the tracks shall be thinned to align. One numeric value has to be entered. If no value is entered, this parameter defaults to the mean resolution of the data set. See unit below. 
