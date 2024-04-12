@@ -12,8 +12,7 @@ library('fields')
 rFunction <- function(data,reso=NULL,uni="hours",maptype="voyager",mapres=0.2,frames_per_sec=25,col_opt="one",other="sex",show_legend=TRUE,capt="",file_format="mp4",ext_adap=1)
 {
   data2 <- data
-  data <- to_move(data)
-  
+  data <- moveStack(to_move(data))
   
   if (is.null(reso))
   {
