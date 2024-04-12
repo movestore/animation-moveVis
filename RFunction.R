@@ -63,7 +63,7 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="voyager",mapres=0.2,fr
   {
     logger.info("You have selected animal ID for track colouring. Note that this is only possible if 'individual.local.identifier' or 'local.identifier' are availbe in your data set. Else track ID will be used here.")
     iddata <- idData(data)
-    names(iddata) <- make.names(names(iddata),allow_=FALSE)
+    #names(iddata) <- make.names(names(iddata),allow_=FALSE)
     
     if (any(names(iddata)=="individual_local_identifier")) {
       
@@ -74,7 +74,7 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="voyager",mapres=0.2,fr
         iddatax$individual.local.identifier
       }),use.names=FALSE)
       
-    } else if (any(names(iddata)=="local.identifier")) {
+    } else if (any(names(iddata)=="local_identifier")) {
       anims <- unlist(lapply(data.split,function(x)
       {
         iddatax <- idData(x)

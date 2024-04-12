@@ -1,10 +1,10 @@
 {
-    "reso" : null,
+    "reso" : 2,
     "uni" : "hours",
     "maptype" : "voyager",
     "mapres" : 0.2,
-    "frames_per_sec" : 25,
-    "col_opt" : "one",
+    "frames_per_sec" : 20,
+    "col_opt" : "trackid",
     "other" : "sex",
     "show_legend" : true,
     "capt" : "test",
