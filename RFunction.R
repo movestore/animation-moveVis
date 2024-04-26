@@ -2,6 +2,7 @@ library('move2')
 library('move')
 library('moveVis')
 library('fields')
+library('sf')
 
 ## The parameter "data" is reserved for the data object passed on from the previous app
 
@@ -9,7 +10,7 @@ library('fields')
 # one can use the function from the logger.R file:
 # logger.fatal(), logger.error(), logger.warn(), logger.info(), logger.debug(), logger.trace()
 
-rFunction <- function(data,reso=NULL,uni="hours",maptype="voyager",mapres=0.2,frames_per_sec=25,col_opt="one",other="sex",show_legend=TRUE,capt="",file_format="mp4",ext_adap=1)
+rFunction <- function(data,reso=NULL,uni="hours",maptype="topographic",mapres=1,frames_per_sec=25,col_opt="one",other="sex",show_legend=TRUE,capt="",file_format="mp4",ext_adap=1)
 {
   data2 <- data
   data <- moveStack(to_move(data))
@@ -25,10 +26,11 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="voyager",mapres=0.2,fr
     #m <- align_move(data,res=reso,unit=uni) 
   }
   
-  if (mapres<0 | mapres>1) 
+
+  if (mapres<0 | mapres>1) #somehow mapres leads to an error below, fix it to 1
   {
-    logger.info("Your map resolution value is outside of the required boundaries (between 0 and 1). Please go back and adapt. Here, the default value of 0.2 is used.")
-    mapres <- 0.2
+    logger.info("Your map resolution value is outside of the required boundaries (between 0 and 1). Please go back and adapt. Here, the default value of 1 is used.")
+    mapres <- 1
   }
   
   #m.list <- move::split(m) # split m into list by individual
@@ -38,7 +40,12 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="voyager",mapres=0.2,fr
   #})
   #m <- moveStack(m.list) 
   
-  ex <- extent(data)*ext_adap
+  #ex <- st_bbox(data)*ext_adap #use margin_factor instead, if using ext in frames_spatial an error is created
+  if (ext_adap <= 0)
+  {
+    ext_adap <- 1
+    logger.info("You extension adaption parameter is zero or a negative value. That is invalid. The parameter will be set to 1.")
+  }
   
   #frames <- frames_spatial(m, path_colours=tim.colors(n.indiv(data)), ext=ex ,path_legend=show_legend, path_legend_title= "Track IDs", map_service = "osm", map_type = maptype, map_res=mapres, alpha = 0.5, equidistant = FALSE) %>%
   #  add_labels(x = "Longitude", y = "Latitude",caption=capt) %>% 
@@ -119,13 +126,14 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="voyager",mapres=0.2,fr
     legend_titl <- "all Tracks"
   }
   
-  #todo: here another option is "mapbox" (requires token), need to ask Jakob if possible to use OSM mirror
-  frames <- frames_spatial(m, path_colours=cols, ext=ex ,path_legend=show_legend, path_legend_title= legend_titl, map_service = "carto", map_type = maptype, map_res=mapres, alpha = 0.5, equidistant = FALSE) %>%
+  #todo: update to OSM mirror, see Jakob's Email how that can be done
+  frames <- frames_spatial(m, path_colours=cols, margin_factor = ext_adap ,path_legend=show_legend, path_legend_title= legend_titl, map_service = "osm", map_type = maptype, map_res=mapres, path_alpha = 0.5, equidistant = NULL)  %>%
     add_labels(x = "Longitude", y = "Latitude",caption=capt) %>% 
     add_northarrow() %>%
     add_scalebar() %>%
     add_timestamps(type = "label") %>%
     add_progress(colour = "white")
+
   
   #frames[[100]]
   

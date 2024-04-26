@@ -43,29 +43,25 @@
 	{
       "id": "maptype",
       "name": "Map type",
-      "description": "Select the type of map that you want to use as your animation background. As Open Street meap (osm) is presently having problems, the map will be retreived from 'carto'.",
-      "defaultValue": "light",
+      "description": "Select the type of map that you want to use as your animation background. We try again using Open Street meap (osm). Presently, too many requests might lead to problems, we work on a local OSM mirror option.",
+      "defaultValue": "topographic",
       "type": "DROPDOWN",
       "options": [
         {
-          "value": "light",
-          "displayText": "light"
+          "value": "topographic",
+          "displayText": "topographic"
         },
 		{
-          "value": "dark",
-          "displayText": "dark"
-        },
-		{
-          "value": "voyager",
-          "displayText": "voyager"
+          "value": "streets",
+          "displayText": "streets"
         }
       ]
     },
 	{
       "id": "mapres",
       "name": "Resolution of background map",
-      "description": "Select the resolution for your background map in the range between 0 and 1. Take into account the extent of your data set (i.e. high resolution is not necessary for far ranging data.) Default 0.2.",
-      "defaultValue": 0.2,
+      "description": "Select the resolution for your background map in the range between 0 and 1. Take into account the extent of your data set (i.e. high resolution is not necessary for far ranging data). Note that selection of a too high or too low value might lead to different error. Please try out different values if in doubt. Default 1.",
+      "defaultValue": 1,
       "type": "DOUBLE"
     },
 	{

@@ -1,8 +1,8 @@
 {
     "reso" : 2,
     "uni" : "hours",
-    "maptype" : "voyager",
-    "mapres" : 0.2,
+    "maptype" : "topographic",
+    "mapres" : 1,
     "frames_per_sec" : 20,
     "col_opt" : "trackid",
     "other" : "sex",
