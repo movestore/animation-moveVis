@@ -1,6 +1,7 @@
 library('move2')
 library('move')
 library('moveVis')
+library('basemaps')
 library('fields')
 library('sf')
 
