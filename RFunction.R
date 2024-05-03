@@ -14,6 +14,25 @@ library('sf')
 rFunction <- function(data,reso=NULL,uni="hours",maptype="topographic",mapres=1,frames_per_sec=25,col_opt="one",other="sex",show_legend=TRUE,capt="",file_format="mp4",ext_adap=1)
 {
   data2 <- data
+  
+  ## making sure tracks are orderes, timestamps are ordered and duplicate timestamps are removed in order to be able to create a movestack (copy from move2 to movestack App)
+  if(!mt_is_track_id_cleaved(data)){
+    logger.info("Your data set was not grouped by individual/track. We regroup it for you.")
+    data <- data |> dplyr::arrange(mt_track_id(data))
+  }
+  if(!mt_is_time_ordered(data)){
+    logger.info("Your data is not time ordered (within the individual/track groups). We reorder the locations for you.")
+    data <- data |> dplyr::arrange(mt_track_id(data),mt_time(data))
+  }
+  if (!mt_has_unique_location_time_records(data)){
+    n_dupl <- length(which(duplicated(paste(mt_track_id(data),mt_time(data)))))
+    logger.info(paste("Your data has",n_dupl, "duplicated location-time records. We removed here those with less info and then select the first if still duplicated."))
+    ## this piece of code keeps the duplicated entry with least number of columns with NA values
+    data <- data %>%
+      mutate(n_na = rowSums(is.na(pick(everything())))) %>%
+      arrange(n_na) %>%
+      mt_filter_unique(criterion='first') # this always needs to be "first" because the duplicates get ordered according to the number of columns with NA. 
+  }
   data <- moveStack(to_move(data))
   
   if (is.null(reso))
@@ -41,12 +60,12 @@ rFunction <- function(data,reso=NULL,uni="hours",maptype="topographic",mapres=1,
   #})
   #m <- moveStack(m.list) 
   
-  #ex <- st_bbox(data)*ext_adap #use margin_factor instead, if using ext in frames_spatial an error is created
   if (ext_adap <= 0)
   {
     ext_adap <- 1
     logger.info("You extension adaption parameter is zero or a negative value. That is invalid. The parameter will be set to 1.")
   }
+  #ex <- st_bbox(data)*ext_adap #use margin_factor instead, if using ext in frames_spatial an error is created
   
   #frames <- frames_spatial(m, path_colours=tim.colors(n.indiv(data)), ext=ex ,path_legend=show_legend, path_legend_title= "Track IDs", map_service = "osm", map_type = maptype, map_res=mapres, alpha = 0.5, equidistant = FALSE) %>%
   #  add_labels(x = "Longitude", y = "Latitude",caption=capt) %>% 

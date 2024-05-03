@@ -1,9 +1,9 @@
 {
-    "reso" : 2,
+    "reso" : 12,
     "uni" : "hours",
-    "maptype" : "topographic",
-    "mapres" : 1,
-    "frames_per_sec" : 20,
+    "maptype" : "streets",
+    "mapres" : 0.2,
+    "frames_per_sec" : 25,
     "col_opt" : "trackid",
     "other" : "sex",
     "show_legend" : true,
