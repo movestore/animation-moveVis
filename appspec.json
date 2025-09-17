@@ -1,7 +1,7 @@
 {
-    "version": "1.2",
+  "version": "1.2",
   "settings": [
-	{
+    {
       "id": "res",
       "name": "Temporal resolution for alignment",
       "description": "Insert a numeric value to define the temporal resolution to which the movement data will be thinned for alignment. Default is the mean temporal resolution of the data set. Beware of errors by gaps in your data or unsuitable units. See below for possible time units. Also note that too large data sets can run very long or lead to (memorey limit) errors.",
@@ -15,32 +15,32 @@
       "defaultValue": "hours",
       "type": "RADIOBUTTONS",
       "options": [
-		{
+        {
           "value": "secs",
           "displayText": "seconds"
         },
-		        {
+        {
           "value": "mins",
           "displayText": "minutes"
         },
-		        {
+        {
           "value": "hours",
           "displayText": "hours"
         },
-		        {
+        {
           "value": "days",
           "displayText": "days"
         }
       ]
-	},
-	{
+    },
+    {
       "id": "fps",
       "name": "Speed of animation",
       "description": "Insert a numeric value to define the speed at which your animation shall be running. The unit is frames per second, i.e. relates to the data set. Defaults to 25.",
       "defaultValue": 25,
       "type": "DOUBLE"
     },
-	{
+    {
       "id": "map_type",
       "name": "Map type",
       "description": "Select the type of map that you want to use as your animation background. We try again using Open Street meap (osm). Presently, too many requests might lead to problems, we work on a local OSM mirror option.",
@@ -51,35 +51,35 @@
           "value": "topographic",
           "displayText": "topographic"
         },
-		{
+        {
           "value": "streets",
           "displayText": "streets"
         }
       ]
     },
-	{
+    {
       "id": "map_res",
       "name": "Resolution of background map",
       "description": "Select the resolution for your background map in the range between 0 and 1. Take into account the extent of your data set (i.e. high resolution is not necessary for far ranging data). Note that selection of a too high or too low value might lead to different error. Please try out different values if in doubt. Default 1.",
       "defaultValue": 1,
       "type": "DOUBLE"
     },
-	{
+    {
       "id": "col_opt",
       "name": "Track colour option",
       "description": "Select how you want to colour your animated tracks.",
       "defaultValue": "one",
       "type": "RADIOBUTTONS",
       "options": [
-		{
+        {
           "value": "one",
           "displayText": "Single colour (red) for all tracks"
         },
-		        {
+        {
           "value": "trackid",
           "displayText": "Coloured by track ID"
         },
-		        {
+        {
           "value": "other",
           "displayText": "Coloured by event or track attribute (define below)"
         }
@@ -92,62 +92,62 @@
       "defaultValue": "",
       "type": "STRING"
     },
-	{
+    {
       "id": "path_legend",
       "name": "Track ID legend",
       "description": "Select if you want to include a legend to your animation map.",
       "defaultValue": true,
       "type": "CHECKBOX"
     },
-	    {
+    {
       "id": "caption",
       "name": "Caption",
       "description": "Insert a caption text that will be displayed at the bottom of the visualisation window. Typically this is the data reference.",
       "defaultValue": " ",
       "type": "STRING"
     },
-	{
+    {
       "id": "file_format",
       "name": "Output file format",
       "description": "Select an output file format from the below options. The file extension must correspond to a file format known by the available renderers of the system on which the video will be run.",
       "defaultValue": "mp4",
       "type": "RADIOBUTTONS",
       "options": [
-		{
+        {
           "value": "mp4",
           "displayText": "mp4"
         },
-		        {
+        {
           "value": "gif",
           "displayText": "gif"
         },
-		        {
+        {
           "value": "mov",
           "displayText": "mov"
         },
-		        {
+        {
           "value": "flv",
           "displayText": "flv"
         },
-		        {
+        {
           "value": "avi",
           "displayText": "avi"
         },
-		        {
+        {
           "value": "mpeg",
           "displayText": "mpeg"
         },
-		        {
+        {
           "value": "3gp",
           "displayText": "3gp"
         },
-		        {
+        {
           "value": "ogg",
           "displayText": "ogg"
         }
       ]
-	},
-	{
+    },
+    {
       "id": "margin_factor",
       "name": "Adaption factor for map extent",
       "description": "Insert the adaption factor by which to multiply the map extent. Anything between 0.1 and 1 decreases, above 1 increases the extent. By default, the extent of the data is used, i.e. 1.",
@@ -160,16 +160,16 @@
       {
         "name": "move"
       },
-	  {
+      {
         "name": "move2"
       },
-	  {
+      {
         "name": "moveVis"
       },
-	  {
+      {
         "name": "fields"
       },
-	  {
+      {
         "name": "basemaps"
       }
     ]
@@ -182,12 +182,12 @@
   "keywords": [
     "animation",
     "gif",
-	"mp4",
-	"moveVis"
+    "mp4",
+    "moveVis"
   ],
   "people": [
     {
-     "firstName": "Andrea",
+      "firstName": "Andrea",
       "middleInitials": null,
       "lastName": "Kölzsch",
       "email": "akoelzsch@ab.mpg.de",
