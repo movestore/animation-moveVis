@@ -35,7 +35,7 @@ move2 location object
  
 **Other attribute for track colouring (`colour_paths_by`):** Animal or track attribute name if the user has selected `other` in the above setting. Will not be used else. 
  
-**Track ID legend (`path_legend`):** Should a legend containing the track IDs be shown? Default yes.
+**Include legend (`path_legend`):** Should a legend showing the track colours be shown? Default yes.
  
 **Caption (`caption`):** Text for a caption that will be added at the bottom of the animation window. Default empty.
  
