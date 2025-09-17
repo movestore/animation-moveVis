@@ -509,6 +509,18 @@
       "orcid": "0000-0003-0193-1563",
       "affiliation": "Max-Planck-Institute of Animal Behavior",
       "affiliationRor": "https://ror.org/026stee22"
+    },
+    {
+      "firstName": "Finn",
+      "middleInitials": null,
+      "lastName": "Roberts",
+      "email": "froberts@ab.mpg.de",
+      "roles": [
+        "contributor"
+      ],
+      "orcid": null,
+      "affiliation": "Max-Planck-Institute of Animal Behavior",
+      "affiliationRor": "https://ror.org/026stee22"
     }
   ]
 }
