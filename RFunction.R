@@ -11,17 +11,17 @@ library('sf')
 # logger.fatal(), logger.error(), logger.warn(), logger.info(), logger.debug(), logger.trace()
 
 rFunction <- function(data,
-                      reso = NULL,
-                      uni = "hours",
-                      maptype = "topographic",
-                      mapres = 1,
-                      frames_per_sec = 25,
+                      res = NULL,
+                      unit = "hours",
+                      map_type = "topographic",
+                      map_res = 1,
+                      fps = 25,
                       col_opt = "one",
-                      other = "sex",
-                      show_legend = TRUE,
-                      capt = "",
+                      colour_paths_by = "sex",
+                      path_legend = TRUE,
+                      caption = "",
                       file_format = "mp4",
-                      ext_adap = 1) {
+                      margin_factor = 1) {
   # Copy data so we can return a non-modified version
   data_orig <- data
   
@@ -56,32 +56,32 @@ rFunction <- function(data,
   
   # Parse resolution info, which can either be a string or a number with units
   # (which are specified with separate MoveApps inputs)
-  if (is.character(reso)) {
-    reso <- match.arg(reso, c("mean", "minimum", "maximum", "median"))
-    logger.info(paste0("Using resolution :", reso, "."))
-  } else if (is.numeric(reso)) {
-    reso <- units::set_units(reso, uni)
-    logger.info(paste0("Using resolution :", reso, " and units: ", uni, "."))
+  if (is.character(res)) {
+    res <- match.arg(res, c("mean", "minimum", "maximum", "median"))
+    logger.info(paste0("Using resolution :", res, "."))
+  } else if (is.numeric(res)) {
+    res <- units::set_units(res, unit)
+    logger.info(paste0("Using resolution :", res, " and units: ", unit, "."))
   } else {
-    logger.warn(paste0("Unrecognized resolution ", reso, ". Using resolution: mean."))
-    reso <- "mean"
+    logger.warn(paste0("Unrecognized resolution ", res, ". Using resolution: mean."))
+    res <- "mean"
   }
   
-  if (mapres < 0 | mapres > 1) {
+  if (map_res < 0 | map_res > 1) {
     logger.warn(
       "Map resolution must be between 0 and 1. Setting map resolution to 1."
     )
-    mapres <- 1
+    map_res <- 1
   }
   
-  if (ext_adap <= 0) {
+  if (margin_factor <= 0) {
     logger.warn(
       paste0(
         "Adaptation factor must be greater than 0. ",
         "Setting adaptation factor to 1."
       )
     )
-    ext_adap <- 1
+    margin_factor <- 1
   }
 
   if (col_opt == "one") {
@@ -89,16 +89,16 @@ rFunction <- function(data,
     path_colors <- "red"
     colour_paths_by <- move2::mt_track_id_column(data)
     legend_title <- "Track IDs"
-  } else if (col_opt=="trackid") {
+  } else if (col_opt == "trackid") {
     logger.info("Coloring tracks by track ID.")
     path_colors <- function(x) tim.colors(x)
     colour_paths_by <- move2::mt_track_id_column(data)
     legend_title <- "Track IDs"
-  } else if (col_opt=="other") {
-    logger.info(paste("Coloring tracks by attribute ", other, "."))
+  } else if (col_opt == "other") {
+    logger.info(paste("Coloring tracks by attribute ", colour_paths_by, "."))
     path_colors <- function(x) tim.colors(x)
-    colour_paths_by <- other
-    legend_title <- other
+    colour_paths_by <- colour_paths_by
+    legend_title <- colour_paths_by
   } else {
     logger.warn(
       "Unrecognized color option. Using single color (red) for all tracks."
@@ -108,25 +108,25 @@ rFunction <- function(data,
     legend_title <- "Track IDs"
   }
   
-  m <- align_move(data, res = reso)
+  m <- align_move(data, res = res)
   
   # Note: this is based on experimental moveVis version awaiting review and not
   # yet released to dev.
   frames <- frames_spatial(
     m,
-    path_colours = path_colours,
-    colour_paths_by = colour_paths_by,
-    margin_factor = ext_adap,
-    path_legend = show_legend,
+    path_colours = path_colours, # New handling in dev moveVis being used here
+    colour_paths_by = colour_paths_by, # New handling in dev moveVis being used here
+    margin_factor = margin_factor,
+    path_legend = path_legend,
     path_legend_title = legend_title,
     map_service = "osm",
-    map_type = maptype, 
-    map_res = mapres, 
+    map_type = map_type, 
+    map_res = map_res, 
     path_alpha = 0.5
   )
   
   frames <- frames |>
-    add_labels(x = "Longitude", y = "Latitude", caption = capt) |>
+    add_labels(x = "Longitude", y = "Latitude", caption = caption) |>
     add_northarrow() |>
     add_scalebar() |>
     add_timestamps(type = "label") |>
@@ -137,7 +137,7 @@ rFunction <- function(data,
     frames, 
     out_file = appArtifactPath(paste0("animation_moveVis.", file_format)),
     overwrite = TRUE, 
-    fps = frames_per_sec
+    fps = fps
   )
   
   data_orig

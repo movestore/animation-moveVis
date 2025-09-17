@@ -1,13 +1,13 @@
 {
-    "reso" : 12,
-    "uni" : "hours",
-    "maptype" : "streets",
-    "mapres" : 0.2,
-    "frames_per_sec" : 25,
+    "res" : 12,
+    "unit" : "hours",
+    "map_type" : "streets",
+    "map_res" : 0.2,
+    "fps" : 25,
     "col_opt" : "trackid",
-    "other" : "sex",
-    "show_legend" : true,
-    "capt" : "test",
+    "colour_paths_by" : "sex",
+    "path_legend" : true,
+    "caption" : "test",
     "file_format" : "mp4",
-    "ext_adap" : 1
+    "margin_factor" : 1
 }

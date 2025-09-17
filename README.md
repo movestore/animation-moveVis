@@ -23,25 +23,25 @@ move2 location object
 ### Settings 
 **Temporal resolution for alignment (`res`):** This parameter allows the user to define the time interval by which the tracks shall be thinned to align. One numeric value has to be entered. If no value is entered, this parameter defaults to the mean resolution of the data set. See unit below. 
 
-**Unit of your alignment resolution (`uni`):** Parameter to select a time unit for alignment resolution. Can only be 'seconds' up to 'days'. Default is 'hours'.
+**Unit of your alignment resolution (`unit`):** Parameter to select a time unit for alignment resolution. Can only be 'seconds' up to 'days'. Default is 'hours'.
 
-**Speed of animation (`frames_per_sec`):** Number of frames to be shown per second to alter the speed of the animation. Default is 25.
+**Speed of animation (`fps`):** Number of frames to be shown per second to alter the speed of the animation. Default is 25.
 
-**Map type (`maptype`):** Selection of map type for the animation background. The map will be downloaded from 'carto' (because Open Street Map does presently give errors). Default 'light'. Since the App can take a long time to run, see examples below of the available map types to help you make your decision (note that these examples were created using OSM maps).
+**Map type (`map_type`):** Selection of map type for the animation background. The map will be downloaded from 'carto' (because Open Street Map does presently give errors). Default 'light'. Since the App can take a long time to run, see examples below of the available map types to help you make your decision (note that these examples were created using OSM maps).
 
-**Resolution of background map (`mapres`):** Resolution of the background map. Can take values between 0 and 1. Default is 1. Note that, depending on the extent of your data set, too high or too low values here can lead to different errors. Please try out different values here.
+**Resolution of background map (`map_res`):** Resolution of the background map. Can take values between 0 and 1. Default is 1. Note that, depending on the extent of your data set, too high or too low values here can lead to different errors. Please try out different values here.
  
 **Track colour option (`col_opt`):** Options by which attributes to colour the tracks in the animation. Default is `one`, i.e. all tracks have the same colour (red). 
  
-**Other attribute for track colouring (`other`):** Animal or track attribute name if the user has selected `other` in the above setting. Will not be used else. 
+**Other attribute for track colouring (`colour_paths_by`):** Animal or track attribute name if the user has selected `other` in the above setting. Will not be used else. 
  
-**Track ID legend (`show_legend`):** Should a legend containing the track IDs be shown? Default yes.
+**Track ID legend (`path_legend`):** Should a legend containing the track IDs be shown? Default yes.
  
-**Caption (`capt`):** Text for a caption that will be added at the bottom of the animation window. Default empty.
+**Caption (`caption`):** Text for a caption that will be added at the bottom of the animation window. Default empty.
  
 **Output file format (`file_format`):** Any of the following video formats: 'mp4', 'gif', 'mov', 'flv', 'avi', 'mpeg', '3gp', 'ogg'. Compatibility depends on computer system. Default is 'mp4'.
  
-**Adaption factor for map extent (`ext_adapt`):** Adaption factor (multiplicative) for map extent. By default, the extent of the data is used. Default is 1.
+**Adaption factor for map extent (`margin_factor`):** Adaption factor (multiplicative) for map extent. By default, the extent of the data is used. Default is 1.
 
 #### Watercolor
 Please note that the example maps have been made with osm maps.
@@ -67,8 +67,8 @@ Background maps are not optimal, will be updated.
 ### Null or error handling:
 **Temporal resolution for alignment (`res`):** If nothing (NULL) is entered here, a fallback default is used, namely the mean resolution of the data set. Note that only numeric values can be entered, else will lead to an error.
 
-**Unit of your alignment resolution (`uni`):** This unit parameter defaults to 'hours', which might not fit to your data set or requirements; then you have to select a different unit.
+**Unit of your alignment resolution (`unit`):** This unit parameter defaults to 'hours', which might not fit to your data set or requirements; then you have to select a different unit.
 
-**Map type (`maptype`):** Since there is a dropdown list of possible values, no errors are expected.
+**Map type (`map_type`):** Since there is a dropdown list of possible values, no errors are expected.
 
 **Data:** The full input data set is returned for further use in a next App and cannot be empty.
