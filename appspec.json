@@ -469,13 +469,11 @@
   "dependencies": {
     "R": [
       {
-        "name": "move"
-      },
-      {
         "name": "move2"
       },
       {
-        "name": "moveVis"
+        "name": "moveVis",
+        "version": "1.0.1"
       },
       {
         "name": "fields"
