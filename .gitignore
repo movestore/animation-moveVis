@@ -7,3 +7,4 @@ move1_files
 data/output/**
 !data/output/.keep
 tests/testthat/plot.png
+pwd.env

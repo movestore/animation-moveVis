@@ -1,8 +1,9 @@
 {
     "res" : 12,
     "unit" : "hours",
-    "map_type" : "streets",
+    "map_type" : "osm_streets",
     "map_res" : 0.2,
+    "map_token": "secret",
     "fps" : 25,
     "col_opt" : "trackid",
     "colour_paths_by" : "sex",

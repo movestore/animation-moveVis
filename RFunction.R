@@ -13,7 +13,8 @@ library('sf')
 rFunction <- function(data,
                       res = NULL,
                       unit = "hours",
-                      map_type = "topographic",
+                      map_type = "osm_streets",
+                      map_token = NULL,
                       map_res = 1,
                       fps = 25,
                       col_opt = "one",
@@ -67,6 +68,9 @@ rFunction <- function(data,
     res <- "mean"
   }
   
+  map_service <- sub("_.*$", "", map_type)
+  map_type <- sub("^[^_]*_", "", map_type)
+  
   if (map_res < 0 | map_res > 1) {
     logger.warn(
       "Map resolution must be between 0 and 1. Setting map resolution to 1."
@@ -83,7 +87,7 @@ rFunction <- function(data,
     )
     margin_factor <- 1
   }
-
+  
   if (col_opt == "one") {
     logger.info("Using single color (red) for all tracks.")
     path_colors <- "red"
@@ -119,9 +123,10 @@ rFunction <- function(data,
     margin_factor = margin_factor,
     path_legend = path_legend,
     path_legend_title = legend_title,
-    map_service = "osm",
+    map_service = map_service,
+    map_token = map_token,
     map_type = map_type, 
-    map_res = map_res, 
+    map_res = map_res,
     path_alpha = 0.5
   )
   
