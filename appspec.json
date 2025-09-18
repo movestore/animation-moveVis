@@ -48,315 +48,315 @@
       "type": "DROPDOWN",
       "options": [
         {
-          "value": "osm_topographic",
+          "value": "osm:topographic",
           "displayText": "OSM Topographic"
         },
         {
-          "value": "osm_streets",
+          "value": "osm:streets",
           "displayText": "OSM Streets"
         },
         {
-          "value": "osm_streets_de",
+          "value": "osm:streets_de",
           "displayText": "OSM Streets DE"
         },
         {
-          "value": "osm_stamen_toner",
+          "value": "osm_stamen:toner",
           "displayText": "Stamen Toner"
         },
         {
-          "value": "osm_stamen_toner_bg",
+          "value": "osm_stamen:toner_bg",
           "displayText": "Stamen Toner BG"
         },
         {
-          "value": "osm_stamen_terrain",
+          "value": "osm_stamen:terrain",
           "displayText": "Stamen Terrain"
         },
         {
-          "value": "osm_stamen_terrain_bg",
+          "value": "osm_stamen:terrain_bg",
           "displayText": "Stamen Terrain BG"
         },
         {
-          "value": "osm_stamen_watercolor",
+          "value": "osm_stamen:watercolor",
           "displayText": "Stamen Watercolor"
         },
         {
-          "value": "osm_stadia_alidade_smooth",
+          "value": "osm_stadia:alidade_smooth",
           "displayText": "Stadia Alidade Smooth"
         },
         {
-          "value": "osm_stadia_alidade_smooth_dark",
+          "value": "osm_stadia:alidade_smooth_dark",
           "displayText": "Stadia Alidade Smooth Dark"
         },
         {
-          "value": "osm_stadia_outdoors",
+          "value": "osm_stadia:outdoors",
           "displayText": "Stadia Outdoors"
         },
         {
-          "value": "osm_stadia_osm_bright",
+          "value": "osm_stadia:osm_bright",
           "displayText": "Stadia OSM Bright"
         },
         {
-          "value": "osm_thunderforest_cycle",
+          "value": "osm_thunderforest:cycle",
           "displayText": "Thunderforest Cycle"
         },
         {
-          "value": "osm_thunderforest_transport",
+          "value": "osm_thunderforest:transport",
           "displayText": "Thunderforest Transport"
         },
         {
-          "value": "osm_thunderforest_landscape",
+          "value": "osm_thunderforest:landscape",
           "displayText": "Thunderforest Landscape"
         },
         {
-          "value": "osm_thunderforest_outdoors",
+          "value": "osm_thunderforest:outdoors",
           "displayText": "Thunderforest Outdoors"
         },
         {
-          "value": "osm_thunderforest_transport_dark",
+          "value": "osm_thunderforest:transport_dark",
           "displayText": "Thunderforest Transport Dark"
         },
         {
-          "value": "osm_thunderforest_spinal",
+          "value": "osm_thunderforest:spinal",
           "displayText": "Thunderforest Spinal"
         },
         {
-          "value": "osm_thunderforest_pioneer",
+          "value": "osm_thunderforest:pioneer",
           "displayText": "Thunderforest Pioneer"
         },
         {
-          "value": "osm_thunderforest_mobile_atlas",
+          "value": "osm_thunderforest:mobile_atlas",
           "displayText": "Thunderforest Mobile Atlas"
         },
         {
-          "value": "osm_thunderforest_neighbourhood",
+          "value": "osm_thunderforest:neighbourhood",
           "displayText": "Thunderforest Neighborhood"
         },
         {
-          "value": "osm_thunderforest_atlas",
+          "value": "osm_thunderforest:atlas",
           "displayText": "Thunderforest Atlas"
         },
         {
-          "value": "carto_light",
+          "value": "carto:light",
           "displayText": "Carto Light"
         },
         {
-          "value": "carto_light_no_labels",
+          "value": "carto:light_no_labels",
           "displayText": "Carto Light No Labels"
         },
         {
-          "value": "carto_light_only_labels",
+          "value": "carto:light_only_labels",
           "displayText": "Carto Light Only Labels"
         },
         {
-          "value": "carto_dark",
+          "value": "carto:dark",
           "displayText": "Carto Dark"
         },
         {
-          "value": "carto_dark_no_labels",
+          "value": "carto:dark_no_labels",
           "displayText": "Carto Dark No Labels"
         },
         {
-          "value": "carto_dark_only_labels",
+          "value": "carto:dark_only_labels",
           "displayText": "Carto Dark Only Labels"
         },
         {
-          "value": "carto_voyager",
+          "value": "carto:voyager",
           "displayText": "Carto Voyager"
         },
         {
-          "value": "carto_voyager_no_labels",
+          "value": "carto:voyager_no_labels",
           "displayText": "Carto Voyager No Labels"
         },
         {
-          "value": "carto_voyager_only_labels",
+          "value": "carto:voyager_only_labels",
           "displayText": "Carto Voyager Only Labels"
         },
         {
-          "value": "carto_voyager_labels_under",
+          "value": "carto:voyager_labels_under",
           "displayText": "Carto Voyager Labels Under"
         },
         {
-          "value": "mapbox_streets",
+          "value": "mapbox:streets",
           "displayText": "Mapbox Streets"
         },
         {
-          "value": "mapbox_outdoors",
+          "value": "mapbox:outdoors",
           "displayText": "Mapbox Outdoors"
         },
         {
-          "value": "mapbox_light",
+          "value": "mapbox:light",
           "displayText": "Mapbox Light"
         },
         {
-          "value": "mapbox_dark",
+          "value": "mapbox:dark",
           "displayText": "Mapbox Dark"
         },
         {
-          "value": "mapbox_satellite",
+          "value": "mapbox:satellite",
           "displayText": "Mapbox Satellite"
         },
         {
-          "value": "mapbox_hybrid",
+          "value": "mapbox:hybrid",
           "displayText": "Mapbox Hybrid"
         },
         {
-          "value": "mapbox_terrain",
+          "value": "mapbox:terrain",
           "displayText": "Mapbox Terrain"
         },
         {
-          "value": "esri_natgeo_world_map",
+          "value": "esri:natgeo_world_map",
           "displayText": "ESRI NatGeo World Map"
         },
         {
-          "value": "esri_usa_topo_maps",
+          "value": "esri:usa_topo_maps",
           "displayText": "ESRI USA Topo Maps"
         },
         {
-          "value": "esri_world_imagery",
+          "value": "esri:world_imagery",
           "displayText": "ESRI World Imagery"
         },
         {
-          "value": "esri_world_physical_map",
+          "value": "esri:world_physical_map",
           "displayText": "ESRI World Physical Map"
         },
         {
-          "value": "esri_world_shaded_relief",
+          "value": "esri:world_shaded_relief",
           "displayText": "ESRI World Shaded Relief"
         },
         {
-          "value": "esri_world_street_map",
+          "value": "esri:world_street_map",
           "displayText": "ESRI World Street Map"
         },
         {
-          "value": "esri_world_terrain_base",
+          "value": "esri:world_terrain_base",
           "displayText": "ESRI World Terrain Base"
         },
         {
-          "value": "esri_world_topo_map",
+          "value": "esri:world_topo_map",
           "displayText": "ESRI World Topo Map"
         },
         {
-          "value": "esri_world_dark_gray_base",
+          "value": "esri:world_dark_gray_base",
           "displayText": "ESRI World Dark Gray Base"
         },
         {
-          "value": "esri_world_dark_gray_reference",
+          "value": "esri:world_dark_gray_reference",
           "displayText": "ESRI World Dark Gray Reference"
         },
         {
-          "value": "esri_world_light_gray_base",
+          "value": "esri:world_light_gray_base",
           "displayText": "ESRI World Light Gray Base"
         },
         {
-          "value": "esri_world_light_gray_reference",
+          "value": "esri:world_light_gray_reference",
           "displayText": "ESRI World Light Gray Reference"
         },
         {
-          "value": "esri_world_hillshade_dark",
+          "value": "esri:world_hillshade_dark",
           "displayText": "ESRI World Hillshade Dark"
         },
         {
-          "value": "esri_world_hillshade",
+          "value": "esri:world_hillshade",
           "displayText": "ESRI World Hillshade"
         },
         {
-          "value": "esri_world_ocean_base",
+          "value": "esri:world_ocean_base",
           "displayText": "ESRI World Ocean Base"
         },
         {
-          "value": "esri_world_ocean_reference",
+          "value": "esri:world_ocean_reference",
           "displayText": "ESRI World Ocean Reference"
         },
         {
-          "value": "esri_antarctic_imagery",
+          "value": "esri:antarctic_imagery",
           "displayText": "ESRI Antarctic Imagery"
         },
         {
-          "value": "esri_arctic_imagery",
+          "value": "esri:arctic_imagery",
           "displayText": "ESRI Arctic Imagery"
         },
         {
-          "value": "esri_arctic_ocean_base",
+          "value": "esri:arctic_ocean_base",
           "displayText": "ESRI Arctic Ocean Base"
         },
         {
-          "value": "esri_arctic_ocean_reference",
+          "value": "esri:arctic_ocean_reference",
           "displayText": "ESRI Arctic Ocean Reference"
         },
         {
-          "value": "esri_world_boundaries_and_places_alternate",
+          "value": "esri:world_boundaries_and_places_alternate",
           "displayText": "ESRI World Boundaries and Places Alternative"
         },
         {
-          "value": "esri_world_boundaries_and_places",
+          "value": "esri:world_boundaries_and_places",
           "displayText": "ESRI World Boundaries and Places"
         },
         {
-          "value": "esri_world_reference_overlay",
+          "value": "esri:world_reference_overlay",
           "displayText": "ESRI World Reference Overlay"
         },
         {
-          "value": "esri_world_transportation",
+          "value": "esri:world_transportation",
           "displayText": "ESRI World Transportation"
         },
         {
-          "value": "esri_delorme_world_base_map",
+          "value": "esri:delorme_world_base_map",
           "displayText": "ESRI Delorme World Base Map"
         },
         {
-          "value": "esri_world_navigation_charts",
+          "value": "esri:world_navigation_charts",
           "displayText": "ESRI World Navigation Charts"
         },
         {
-          "value": "maptiler_aquarelle",
+          "value": "maptiler:aquarelle",
           "displayText": "MapTiler Aquarelle"
         },
         {
-          "value": "maptiler_backdrop",
+          "value": "maptiler:backdrop",
           "displayText": "MapTiler Backdrop"
         },
         {
-          "value": "maptiler_basic",
+          "value": "maptiler:basic",
           "displayText": "MapTiler Basic"
         },
         {
-          "value": "maptiler_bright",
+          "value": "maptiler:bright",
           "displayText": "MapTiler Bright"
         },
         {
-          "value": "maptiler_dataviz",
+          "value": "maptiler:dataviz",
           "displayText": "MapTiler Dataviz"
         },
         {
-          "value": "maptiler_landscape",
+          "value": "maptiler:landscape",
           "displayText": "MapTiler Landscape"
         },
         {
-          "value": "maptiler_ocean",
+          "value": "maptiler:ocean",
           "displayText": "MapTiler Ocean"
         },
         {
-          "value": "maptiler_outdoor",
+          "value": "maptiler:outdoor",
           "displayText": "MapTiler Outdoor"
         },
         {
-          "value": "maptiler_satellite",
+          "value": "maptiler:satellite",
           "displayText": "MapTiler Satellite"
         },
         {
-          "value": "maptiler_streets",
+          "value": "maptiler:streets",
           "displayText": "MapTiler Streets"
         },
         {
-          "value": "maptiler_toner",
+          "value": "maptiler:toner",
           "displayText": "MapTiler Toner"
         },
         {
-          "value": "maptiler_topo",
+          "value": "maptiler:topo",
           "displayText": "MapTiler Topo"
         },
         {
-          "value": "maptiler_winter",
+          "value": "maptiler:winter",
           "displayText": "MapTiler Winter"
         }
       ]
@@ -473,7 +473,7 @@
       },
       {
         "name": "moveVis",
-        "version": "1.0.1"
+        "version": "1.0.1.9000"
       },
       {
         "name": "fields"

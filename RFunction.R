@@ -13,7 +13,7 @@ library('sf')
 rFunction <- function(data,
                       res = "mean",
                       unit = "hours",
-                      map_type = "osm_streets",
+                      map_type = "osm:streets",
                       map_token = NULL,
                       map_res = 1,
                       fps = 25,
@@ -75,8 +75,10 @@ rFunction <- function(data,
     res
   })
   
-  map_service <- sub("_.*$", "", map_type)
-  map_type <- sub("^[^_]*_", "", map_type)
+  # Service and type are contained in a single setting and concatenated with `:`
+  # Extract each element here for use in `frames_spatial()`
+  map_service <- sub(":.*$", "", map_type)
+  map_type <- sub("^[^:]*:", "", map_type)
   
   if (map_res < 0 | map_res > 1) {
     logger.warn(
