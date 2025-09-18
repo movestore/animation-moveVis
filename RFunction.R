@@ -57,16 +57,24 @@ rFunction <- function(data,
   
   # Parse resolution info, which can either be a string or a number with units
   # (which are specified with separate MoveApps inputs)
-  if (is.character(res)) {
+  res <- tryCatch({
     res <- match.arg(res, c("mean", "minimum", "maximum", "median"))
-    logger.info(paste0("Using resolution :", res, "."))
-  } else if (is.numeric(res)) {
-    res <- units::set_units(res, unit)
-    logger.info(paste0("Using resolution :", res, " and units: ", unit, "."))
-  } else {
-    logger.warn(paste0("Unrecognized resolution ", res, ". Using resolution: mean."))
-    res <- "mean"
-  }
+    logger.info(paste0("Using resolution: ", res))
+    res
+  },
+  error = function(cnd) {
+    res <- suppressWarnings(as.numeric(res))
+    
+    if (is.na(res)) {
+      logger.warn("Unrecognized resolution. Using resolution: mean")
+      res <- "mean"
+    } else {
+      logger.info(paste0("Using resolution: ", res, " (", unit, ")"))
+      res <- units::set_units(res, unit)
+    }
+    
+    res
+  })
   
   map_service <- sub("_.*$", "", map_type)
   map_type <- sub("^[^_]*_", "", map_type)
