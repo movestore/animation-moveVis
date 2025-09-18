@@ -69,7 +69,7 @@ rFunction <- function(data,
       res <- "mean"
     } else {
       logger.info(paste0("Using resolution: ", res, " (", unit, ")"))
-      res <- units::set_units(res, unit)
+      res <- units::as_units(res, unit)
     }
     
     res
