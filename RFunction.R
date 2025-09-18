@@ -98,23 +98,23 @@ rFunction <- function(data,
   }
   
   if (col_opt == "one") {
-    logger.info("Using single color (red) for all tracks.")
-    path_colors <- "red"
+    logger.info("Using single colour (red) for all tracks.")
+    path_colours <- "red"
     colour_paths_by <- move2::mt_track_id_column(data)
     legend_title <- "Track IDs"
   } else if (col_opt == "trackid") {
-    logger.info("Coloring tracks by track ID.")
-    path_colors <- function(x) tim.colors(x)
+    logger.info("Colouring tracks by track ID.")
+    path_colours <- function(x) tim.colors(x)
     colour_paths_by <- move2::mt_track_id_column(data)
     legend_title <- "Track IDs"
   } else if (col_opt == "other") {
-    logger.info(paste("Coloring tracks by attribute ", colour_paths_by, "."))
-    path_colors <- function(x) tim.colors(x)
+    logger.info(paste0("Colouring tracks by attribute \"", colour_paths_by, "\"."))
+    path_colours <- function(x) tim.colors(x)
     colour_paths_by <- colour_paths_by
     legend_title <- colour_paths_by
   } else {
     logger.warn(
-      "Unrecognized color option. Using single color (red) for all tracks."
+      "Unrecognized colour option. Using single colour (red) for all tracks."
     )
     path_colors <- "red"
     colour_paths_by <- move2::mt_track_id_column(data)
