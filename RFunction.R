@@ -11,7 +11,7 @@ library('sf')
 # logger.fatal(), logger.error(), logger.warn(), logger.info(), logger.debug(), logger.trace()
 
 rFunction <- function(data,
-                      res = NULL,
+                      res = "mean",
                       unit = "hours",
                       map_type = "osm_streets",
                       map_token = NULL,
@@ -28,12 +28,12 @@ rFunction <- function(data,
   
   # Ensure move2 object is ordered correctly before aligning
   if(!mt_is_track_id_cleaved(data)){
-    logger.info("Your data set was not grouped by individual/track. We regroup it for you.") # Is this confusing as we return the original, ungrouped data?
+    logger.info("Regrouping data by individual/track.")
     data <- dplyr::arrange(data, mt_track_id(data))
   }
   
   if(!mt_is_time_ordered(data)){
-    logger.info("Your data is not time ordered (within the individual/track groups). We reorder the locations for you.")
+    logger.info("Ordering track data chronologically.")
     data <- dplyr::arrange(data, mt_track_id(data), mt_time(data))
   }
   
@@ -43,8 +43,7 @@ rFunction <- function(data,
     logger.info(
       paste0(
         "Your data has ", n_dupl, " duplicated location-time records. ",
-        "We removed here those with less info and then select the", 
-        " first if still duplicated."
+        "Removing duplicates by selecting the most complete records."
       )
     )
     

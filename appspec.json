@@ -5,13 +5,13 @@
       "id": "res",
       "name": "Temporal resolution for alignment",
       "description": "This setting defines the temporal resolution to which the movement data will be thinned for alignment. To calculate the resolution from the input data, provide \"mean\", \"minimum\", \"maximum\", or \"median\". Alternatively, provide a numeric value which will be combined with the selected unit (See \"Unit of your alignment resolution\" below) to define the alignment resolution. By default, uses the mean temporal resolution of the data set. Note that temporal gaps in your data can lead to errors when using units that are unsuitable for the temporal reoslution of your data. Also note that large data sets can take a long time to process or lead to (memory limit) errors at fine-grained resolutions.",
-      "defaultValue": null,
+      "defaultValue": "mean",
       "type": "STRING"
     },
     {
       "id": "unit",
       "name": "Unit of your alignment resolution",
-      "description": "Select the time unit of your selected alignment resolution. This will also be used for average alignment resolution if you do not provide a value above. Default is hours. Note that your data have to encompass at least 10-20 times the duration of the unit. Also large time gaps within or between individual tracks can lead to errors or unexpected behaviour.",
+      "description": "Select the time unit of your selected alignment resolution if you provided a numeric resolution value. Note that your data have to encompass at least 10-20 times the duration of the unit. Further, large time gaps within or between tracks can lead to errors or unexpected behaviour.",
       "defaultValue": "hours",
       "type": "RADIOBUTTONS",
       "options": [
@@ -399,7 +399,7 @@
     {
       "id": "colour_paths_by",
       "name": "Attribute for track colouring",
-      "description": "Insert the exact spelling of the event or track attribute by which you want to colour your animated tracks. Check the previous App's data overview for available attributes and their spelling. If included, the legend will show the values of the attribute that correspond to each color",
+      "description": "Insert the exact spelling of the event or track attribute that you want to use to colour your animated tracks. Check the previous App's data overview for available attributes and their spelling. If you opt to include a legend, it will show the values of the attribute that correspond to each colour.",
       "defaultValue": "",
       "type": "STRING"
     },
