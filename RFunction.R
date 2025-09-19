@@ -79,6 +79,23 @@ rFunction <- function(data,
   map_service <- sub(":.*$", "", map_type)
   map_type <- sub("^[^:]*:", "", map_type)
   
+  key_req <- c("osm_stamen", "osm_stadia", 
+               "osm_thunderforest", "mapbox", "maptiler")
+  
+  if (map_service %in% key_req && map_token == "") {
+    logger.warn(
+      paste0(
+        "Map service ", map_service, 
+        " requires API authorization, but no key was provided. ",
+        "You can obtain a key at the map service's website. ",
+        "Using OSM topographic basemap."
+      )
+    )
+  
+    map_service <- "osm"
+    map_type <- "topographic"
+  }
+  
   if (map_res < 0 | map_res > 1) {
     logger.warn(
       "Map resolution must be between 0 and 1. Setting map resolution to 1."
