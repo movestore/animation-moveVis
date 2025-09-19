@@ -404,6 +404,475 @@
       "type": "STRING"
     },
     {
+      "id": "path_pal",
+      "name": "Colour palette for track colouring",
+      "description": "Name of the colour palette to use when colouring tracks. Palettes are labeled with the type of data they are designed to represent (qualitative, sequential, or diverging). Ignored if all tracks are being coloured the same (see 'Track colour option' above). Note that in this app, integer attributes are treated as qualitative as they often represent ID values.",
+      "defaultValue": "Set 2",
+      "type": "DROPDOWN",
+      "options": [
+        {
+          "value": "Set 2",
+          "displayText": "Set 2 (Qualitative)"
+        },
+        {
+          "value": "Pastel 1",
+          "displayText": "Pastel 1 (Qualitative)"
+        },
+        {
+          "value": "Dark 2",
+          "displayText": "Dark 2 (Qualitative)"
+        },
+        {
+          "value": "Dark 3",
+          "displayText": "Dark 3 (Qualitative)"
+        },
+        {
+          "value": "Set 3",
+          "displayText": "Set 3 (Qualitative)"
+        },
+        {
+          "value": "Warm",
+          "displayText": "Warm (Qualitative)"
+        },
+        {
+          "value": "Cold",
+          "displayText": "Cold (Qualitative)"
+        },
+        {
+          "value": "Harmonic",
+          "displayText": "Harmonic (Qualitative)"
+        },
+        {
+          "value": "Dynamic",
+          "displayText": "Dynamic (Qualitative)"
+        },
+        {
+          "value": "Grays",
+          "displayText": "Grays (Sequential)"
+        },
+        {
+          "value": "Light Grays",
+          "displayText": "Light Grays (Sequential)"
+        },
+        {
+          "value": "Blues 2",
+          "displayText": "Blues 2 (Sequential)"
+        },
+        {
+          "value": "Blues 3",
+          "displayText": "Blues 3 (Sequential)"
+        },
+        {
+          "value": "Purples 2",
+          "displayText": "Purples 2 (Sequential)"
+        },
+        {
+          "value": "Purples 3",
+          "displayText": "Purples 3 (Sequential)"
+        },
+        {
+          "value": "Reds 2",
+          "displayText": "Reds 2 (Sequential)"
+        },
+        {
+          "value": "Reds 3",
+          "displayText": "Reds 3 (Sequential)"
+        },
+        {
+          "value": "Greens 2",
+          "displayText": "Greens 2 (Sequential)"
+        },
+        {
+          "value": "Greens 3",
+          "displayText": "Greens 3 (Sequential)"
+        },
+        {
+          "value": "Oslo",
+          "displayText": "Oslo (Sequential)"
+        },
+        {
+          "value": "Purple-Blue",
+          "displayText": "Purple-Blue (Sequential)"
+        },
+        {
+          "value": "Red-Purple",
+          "displayText": "Red-Purple (Sequential)"
+        },
+        {
+          "value": "Red-Blue",
+          "displayText": "Red-Blue (Sequential)"
+        },
+        {
+          "value": "Purple-Orange",
+          "displayText": "Purple-Orange (Sequential)"
+        },
+        {
+          "value": "Purple-Yellow",
+          "displayText": "Purple-Yellow (Sequential)"
+        },
+        {
+          "value": "Blue-Yellow",
+          "displayText": "Blue-Yellow (Sequential)"
+        },
+        {
+          "value": "Green-Yellow",
+          "displayText": "Green-Yellow (Sequential)"
+        },
+        {
+          "value": "Red-Yellow",
+          "displayText": "Red-Yellow (Sequential)"
+        },
+        {
+          "value": "Heat",
+          "displayText": "Heat (Sequential)"
+        },
+        {
+          "value": "Heat 2",
+          "displayText": "Heat 2 (Sequential)"
+        },
+        {
+          "value": "Terrain",
+          "displayText": "Terrain (Sequential)"
+        },
+        {
+          "value": "Terrain 2",
+          "displayText": "Terrain 2 (Sequential)"
+        },
+        {
+          "value": "Viridis",
+          "displayText": "Viridis (Sequential)"
+        },
+        {
+          "value": "Plasma",
+          "displayText": "Plasma (Sequential)"
+        },
+        {
+          "value": "Inferno",
+          "displayText": "Inferno (Sequential)"
+        },
+        {
+          "value": "Rocket",
+          "displayText": "Rocket (Sequential)"
+        },
+        {
+          "value": "Mako",
+          "displayText": "Mako (Sequential)"
+        },
+        {
+          "value": "Dark Mint",
+          "displayText": "Dark Mint (Sequential)"
+        },
+        {
+          "value": "Mint",
+          "displayText": "Mint (Sequential)"
+        },
+        {
+          "value": "BluGrn",
+          "displayText": "BluGrn (Sequential)"
+        },
+        {
+          "value": "Teal",
+          "displayText": "Teal (Sequential)"
+        },
+        {
+          "value": "TealGrn",
+          "displayText": "TealGrn (Sequential)"
+        },
+        {
+          "value": "Emrld",
+          "displayText": "Emrld (Sequential)"
+        },
+        {
+          "value": "BluYl",
+          "displayText": "BluYl (Sequential)"
+        },
+        {
+          "value": "ag_GrnYl",
+          "displayText": "ag_GrnYl (Sequential)"
+        },
+        {
+          "value": "Peach",
+          "displayText": "Peach (Sequential)"
+        },
+        {
+          "value": "PinkYl",
+          "displayText": "PinkYl (Sequential)"
+        },
+        {
+          "value": "Burg",
+          "displayText": "Burg (Sequential)"
+        },
+        {
+          "value": "BurgYl",
+          "displayText": "BurgYl (Sequential)"
+        },
+        {
+          "value": "RedOr",
+          "displayText": "RedOr (Sequential)"
+        },
+        {
+          "value": "OrYel",
+          "displayText": "OrYel (Sequential)"
+        },
+        {
+          "value": "Purp",
+          "displayText": "Purp (Sequential)"
+        },
+        {
+          "value": "PurpOr",
+          "displayText": "PurpOr (Sequential)"
+        },
+        {
+          "value": "Sunset",
+          "displayText": "Sunset (Sequential)"
+        },
+        {
+          "value": "Magenta",
+          "displayText": "Magenta (Sequential)"
+        },
+        {
+          "value": "SunsetDark",
+          "displayText": "SunsetDark (Sequential)"
+        },
+        {
+          "value": "ag_Sunset",
+          "displayText": "ag_Sunset (Sequential)"
+        },
+        {
+          "value": "BrwnYl",
+          "displayText": "BrwnYl (Sequential)"
+        },
+        {
+          "value": "YlOrRd",
+          "displayText": "YlOrRd (Sequential)"
+        },
+        {
+          "value": "YlOrBr",
+          "displayText": "YlOrBr (Sequential)"
+        },
+        {
+          "value": "OrRd",
+          "displayText": "OrRd (Sequential)"
+        },
+        {
+          "value": "Oranges",
+          "displayText": "Oranges (Sequential)"
+        },
+        {
+          "value": "YlGn",
+          "displayText": "YlGn (Sequential)"
+        },
+        {
+          "value": "YlGnBu",
+          "displayText": "YlGnBu (Sequential)"
+        },
+        {
+          "value": "Reds",
+          "displayText": "Reds (Sequential)"
+        },
+        {
+          "value": "RdPu",
+          "displayText": "RdPu (Sequential)"
+        },
+        {
+          "value": "PuRd",
+          "displayText": "PuRd (Sequential)"
+        },
+        {
+          "value": "Purples",
+          "displayText": "Purples (Sequential)"
+        },
+        {
+          "value": "PuBuGn",
+          "displayText": "PuBuGn (Sequential)"
+        },
+        {
+          "value": "PuBu",
+          "displayText": "PuBu (Sequential)"
+        },
+        {
+          "value": "Greens",
+          "displayText": "Greens (Sequential)"
+        },
+        {
+          "value": "BuGn",
+          "displayText": "BuGn (Sequential)"
+        },
+        {
+          "value": "GnBu",
+          "displayText": "GnBu (Sequential)"
+        },
+        {
+          "value": "BuPu",
+          "displayText": "BuPu (Sequential)"
+        },
+        {
+          "value": "Blues",
+          "displayText": "Blues (Sequential)"
+        },
+        {
+          "value": "Lajolla",
+          "displayText": "Lajolla (Sequential)"
+        },
+        {
+          "value": "Turku",
+          "displayText": "Turku (Sequential)"
+        },
+        {
+          "value": "Hawaii",
+          "displayText": "Hawaii (Sequential)"
+        },
+        {
+          "value": "Batlow",
+          "displayText": "Batlow (Sequential)"
+        },
+        {
+          "value": "Blue-Red",
+          "displayText": "Blue-Red (Diverging)"
+        },
+        {
+          "value": "Blue-Red 2",
+          "displayText": "Blue-Red 2 (Diverging)"
+        },
+        {
+          "value": "Blue-Red 3",
+          "displayText": "Blue-Red 3 (Diverging)"
+        },
+        {
+          "value": "Red-Green",
+          "displayText": "Red-Green (Diverging)"
+        },
+        {
+          "value": "Purple-Green",
+          "displayText": "Purple-Green (Diverging)"
+        },
+        {
+          "value": "Purple-Brown",
+          "displayText": "Purple-Brown (Diverging)"
+        },
+        {
+          "value": "Green-Brown",
+          "displayText": "Green-Brown (Diverging)"
+        },
+        {
+          "value": "Blue-Yellow 2",
+          "displayText": "Blue-Yellow 2 (Diverging)"
+        },
+        {
+          "value": "Blue-Yellow 3",
+          "displayText": "Blue-Yellow 3 (Diverging)"
+        },
+        {
+          "value": "Green-Orange",
+          "displayText": "Green-Orange (Diverging)"
+        },
+        {
+          "value": "Cyan-Magenta",
+          "displayText": "Cyan-Magenta (Diverging)"
+        },
+        {
+          "value": "Tropic",
+          "displayText": "Tropic (Diverging)"
+        },
+        {
+          "value": "Broc",
+          "displayText": "Broc (Diverging)"
+        },
+        {
+          "value": "Cork",
+          "displayText": "Cork (Diverging)"
+        },
+        {
+          "value": "Vik",
+          "displayText": "Vik (Diverging)"
+        },
+        {
+          "value": "Berlin",
+          "displayText": "Berlin (Diverging)"
+        },
+        {
+          "value": "Lisbon",
+          "displayText": "Lisbon (Diverging)"
+        },
+        {
+          "value": "Tofino",
+          "displayText": "Tofino (Diverging)"
+        },
+        {
+          "value": "ArmyRose",
+          "displayText": "ArmyRose (Diverging)"
+        },
+        {
+          "value": "Earth",
+          "displayText": "Earth (Diverging)"
+        },
+        {
+          "value": "Fall",
+          "displayText": "Fall (Diverging)"
+        },
+        {
+          "value": "Geyser",
+          "displayText": "Geyser (Diverging)"
+        },
+        {
+          "value": "TealRose",
+          "displayText": "TealRose (Diverging)"
+        },
+        {
+          "value": "Temps",
+          "displayText": "Temps (Diverging)"
+        },
+        {
+          "value": "PuOr",
+          "displayText": "PuOr (Diverging)"
+        },
+        {
+          "value": "RdBu",
+          "displayText": "RdBu (Diverging)"
+        },
+        {
+          "value": "RdGy",
+          "displayText": "RdGy (Diverging)"
+        },
+        {
+          "value": "PiYG",
+          "displayText": "PiYG (Diverging)"
+        },
+        {
+          "value": "PRGn",
+          "displayText": "PRGn (Diverging)"
+        },
+        {
+          "value": "BrBG",
+          "displayText": "BrBG (Diverging)"
+        },
+        {
+          "value": "RdYlBu",
+          "displayText": "RdYlBu (Diverging)"
+        },
+        {
+          "value": "RdYlGn",
+          "displayText": "RdYlGn (Diverging)"
+        },
+        {
+          "value": "Spectral",
+          "displayText": "Spectral (Diverging)"
+        },
+        {
+          "value": "Zissou 1",
+          "displayText": "Zissou 1 (Diverging)"
+        },
+        {
+          "value": "Cividis",
+          "displayText": "Cividis (Diverging)"
+        },
+        {
+          "value": "Roma",
+          "displayText": "Roma (Diverging)"
+        }
+      ]
+    },
+    {
       "id": "path_legend",
       "name": "Include legend",
       "description": "Indicate if a legend identifying the track colours should be included in the output map.",

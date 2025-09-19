@@ -1,8 +1,6 @@
 library('move2')
 library('moveVis')
 library('basemaps')
-library('fields')
-library('sf')
 
 ## The parameter "data" is reserved for the data object passed on from the previous app
 
@@ -18,6 +16,7 @@ rFunction <- function(data,
                       map_res = 1,
                       fps = 25,
                       col_opt = "one",
+                      path_pal = "Set 2",
                       colour_paths_by = "",
                       path_legend = TRUE,
                       caption = "",
@@ -104,13 +103,12 @@ rFunction <- function(data,
     legend_title <- "Track IDs"
   } else if (col_opt == "trackid") {
     logger.info("Colouring tracks by track ID.")
-    path_colours <- function(x) tim.colors(x)
+    path_colours <- function(x) grDevices::hcl.colors(x, path_pal)
     colour_paths_by <- move2::mt_track_id_column(data)
     legend_title <- "Track IDs"
   } else if (col_opt == "other") {
     logger.info(paste0("Colouring tracks by attribute \"", colour_paths_by, "\"."))
-    path_colours <- function(x) tim.colors(x)
-    colour_paths_by <- colour_paths_by
+    path_colours <- function(x) grDevices::hcl.colors(x, path_pal)
     legend_title <- colour_paths_by
   } else {
     logger.warn(
