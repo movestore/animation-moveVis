@@ -3,15 +3,15 @@
   "settings": [
     {
       "id": "res",
-      "name": "Temporal resolution for alignment",
-      "description": "This setting defines the temporal resolution to which the movement data will be thinned for alignment. To calculate the resolution from the input data, provide \"mean\", \"minimum\", \"maximum\", or \"median\". Alternatively, provide a numeric value which will be combined with the selected unit (See \"Unit of your alignment resolution\" below) to define the alignment resolution. By default, uses the mean temporal resolution of the data set. Note that temporal gaps in your data can lead to errors when using units that are unsuitable for the temporal reoslution of your data. Also note that large data sets can take a long time to process or lead to (memory limit) errors at fine-grained resolutions.",
+      "name": "Temporal resolution for track alignment",
+      "description": "This setting defines the temporal resolution to which the movement data will be thinned for alignment. To calculate the resolution from the input data, provide \"mean\", \"minimum\", \"maximum\", or \"median\". Alternatively, provide a numeric value which will be combined with the selected unit (see \"Unit of your alignment resolution\" below) to define the alignment resolution. By default, uses the mean temporal resolution of the data set. Note that temporal gaps in your data can lead to errors when using units that are unsuitable for the temporal reoslution of your data. Also note that large data sets can take a long time to process or lead to memory limit errors at fine-grained resolutions.",
       "defaultValue": "mean",
       "type": "STRING"
     },
     {
       "id": "unit",
       "name": "Unit of your alignment resolution",
-      "description": "Select the time unit of your selected alignment resolution if you provided a numeric resolution value. Note that your data have to encompass at least 10-20 times the duration of the unit. Further, large time gaps within or between tracks can lead to errors or unexpected behaviour.",
+      "description": "Select the time unit of your selected alignment resolution if you provided a numeric resolution value above. Note that your data have to encompass at least 10-20 times the duration of the unit. Further, large time gaps within or between tracks can lead to errors or unexpected behaviour.",
       "defaultValue": "hours",
       "type": "RADIOBUTTONS",
       "options": [
@@ -36,7 +36,7 @@
     {
       "id": "fps",
       "name": "Speed of animation",
-      "description": "Insert a numeric value to define the speed at which your animation shall be running. The unit is frames per second, i.e. relates to the data set. Defaults to 25.",
+      "description": "Insert a numeric value to define the speed at which your animation will run in frames per second.",
       "defaultValue": 25,
       "type": "DOUBLE"
     },
@@ -44,7 +44,7 @@
       "id": "map_type",
       "name": "Map type",
       "description": "Select the type of map that you want to use as your animation background. Note that some map providers may require the specification of an API key (see 'Map Service API Key' below)",
-      "defaultValue": "osm_topographic",
+      "defaultValue": "osm:topographic",
       "type": "DROPDOWN",
       "options": [
         {
@@ -364,14 +364,21 @@
     {
       "id": "map_token",
       "name": "Map service API key",
-      "description": "API Key for your account with the given map service provider. The following services require API authorization: Stamen, Stadia, Thunderforest, Mapbox, MapTiler. If requesting a basemap from one of these providers, you must provide your API token here.",
+      "description": "API Key for your account with the given map service provider. The following services require API authorization: Stamen, Stadia, Thunderforest, Mapbox, MapTiler. If requesting a basemap from one of these providers, you must provide your API token here. See the map provider's website for more information about creating an API key.",
       "defaultValue": null,
       "type": "SECRET"
     },
     {
       "id": "map_res",
       "name": "Resolution of background map",
-      "description": "Select the resolution for your background map in the range between 0 and 1. Take into account the extent of your data set (i.e. high resolution is not necessary for far ranging data). Note that selection of a too high or too low value might lead to different error. Please try out different values if in doubt. Default 1.",
+      "description": "Select the resolution for your background map. This value must be between 0 and 1. Take into account the extent of your data set (i.e. high resolution is not necessary for far ranging data). Note that selection of a too high or too low value might lead to different error. Please try out different values if in doubt.",
+      "defaultValue": 1,
+      "type": "DOUBLE"
+    },
+    {
+      "id": "margin_factor",
+      "name": "Adaption factor for map extent",
+      "description": "Insert the adaption factor by which to multiply the map extent. Anything between 0.1 and 1 decreases, above 1 increases the extent. By default, the extent of the data is used, i.e. 1.",
       "defaultValue": 1,
       "type": "DOUBLE"
     },
@@ -399,7 +406,7 @@
     {
       "id": "colour_paths_by",
       "name": "Attribute for track colouring",
-      "description": "Insert the exact spelling of the event or track attribute that you want to use to colour your animated tracks. Check the previous App's data overview for available attributes and their spelling. If you opt to include a legend, it will show the values of the attribute that correspond to each colour.",
+      "description": "Provide the name of the event or track attribute that you want to use to colour your animated tracks. This must exactly match the name of the attribute in the input data. Check the previous app's data overview for available attributes and their spelling. If you opt to include a legend, it will show the values of the attribute that correspond to each colour.",
       "defaultValue": "",
       "type": "STRING"
     },
@@ -875,21 +882,21 @@
     {
       "id": "path_legend",
       "name": "Include legend",
-      "description": "Indicate if a legend identifying the track colours should be included in the output map.",
+      "description": "Indicate if a legend identifying the track colours should be included in the output map. Note that the legend may be very large if colouring by an attribute that has many levels. In these cases, you may want to suppress the legend.",
       "defaultValue": true,
       "type": "CHECKBOX"
     },
     {
       "id": "caption",
       "name": "Caption",
-      "description": "Insert a caption text that will be displayed at the bottom of the visualisation window. Typically this is the data reference.",
+      "description": "Insert any caption text to be displayed at the bottom of the output map. Typically this is the data reference.",
       "defaultValue": " ",
       "type": "STRING"
     },
     {
       "id": "file_format",
       "name": "Output file format",
-      "description": "Select an output file format from the below options. The file extension must correspond to a file format known by the available renderers of the system on which the video will be run.",
+      "description": "Select a file format for your output animation file. The file extension must correspond to a file format known by the available renderers of the system on which the video will be run.",
       "defaultValue": "mp4",
       "type": "RADIOBUTTONS",
       "options": [
@@ -926,13 +933,6 @@
           "displayText": "ogg"
         }
       ]
-    },
-    {
-      "id": "margin_factor",
-      "name": "Adaption factor for map extent",
-      "description": "Insert the adaption factor by which to multiply the map extent. Anything between 0.1 and 1 decreases, above 1 increases the extent. By default, the extent of the data is used, i.e. 1.",
-      "defaultValue": 1,
-      "type": "DOUBLE"
     }
   ],
   "dependencies": {
