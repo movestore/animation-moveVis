@@ -383,6 +383,13 @@
       "type": "DOUBLE"
     },
     {
+      "id": "equidistant",
+      "name": "Make plot margins equidistant",
+      "description": "Enable this option to make the output map extent (approximately) equidistant in the x- and y-dimensions. This can be useful when visualizing data that are highly skewed along one axis. Note that enabling this option may lead to strong distortions for maps that cover polar regions.",
+      "defaultValue": false,
+      "type": "CHECKBOX"
+    },
+    {
       "id": "col_opt",
       "name": "Track colour option",
       "description": "Select how you want to colour your animated tracks.",

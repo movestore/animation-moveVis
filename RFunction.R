@@ -21,7 +21,8 @@ rFunction <- function(data,
                       path_legend = TRUE,
                       caption = "",
                       file_format = "mp4",
-                      margin_factor = 1) {
+                      margin_factor = 1.1,
+                      equidistant = FALSE) {
   # Copy data so we can return a non-modified version
   data_orig <- data
   
@@ -151,7 +152,8 @@ rFunction <- function(data,
     map_token = map_token,
     map_type = map_type, 
     map_res = map_res,
-    path_alpha = 0.5
+    path_alpha = 0.5,
+    equidistant = equidistant
   )
   
   frames <- frames |>
