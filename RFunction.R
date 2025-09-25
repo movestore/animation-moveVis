@@ -108,10 +108,10 @@ rFunction <- function(data,
     logger.warn(
       paste0(
         "Adaptation factor must be greater than 0. ",
-        "Setting adaptation factor to 1."
+        "Setting adaptation factor to 1.1"
       )
     )
-    margin_factor <- 1
+    margin_factor <- 1.1
   }
   
   if (col_opt == "one") {

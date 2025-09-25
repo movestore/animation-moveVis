@@ -378,8 +378,8 @@
     {
       "id": "margin_factor",
       "name": "Adaption factor for map extent",
-      "description": "Insert the adaption factor by which to multiply the map extent. Anything between 0.1 and 1 decreases, above 1 increases the extent. By default, the extent of the data is used, i.e. 1.",
-      "defaultValue": 1,
+      "description": "Insert the adaption factor by which to multiply the map extent. Relative to the geographic extent of the data, values between 0 and 1 decrease the extent (\"zoom in\"), while values above 1 increase the extent (\"zoom out\"). Defaults to 1.1, which adds a small margin around the data extent.",
+      "defaultValue": 1.1,
       "type": "DOUBLE"
     },
     {
