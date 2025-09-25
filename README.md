@@ -70,17 +70,25 @@ that, depending on the extent of your data set, too high or too low
 values here can lead to different errors. Please try out different
 values here.
 
+**Adaption factor for map extent (`margin_factor`):** Adaption factor
+(multiplicative) for map extent. By default, uses an extent slightly larger
+than the extent of the data.
+
+**Make plot margins equidistant (`equidistant`):** If `TRUE`, makes
+the output map extent (approximately) equidistant in the x- and y-dimensions.
+Defaults to `FALSE`.
+
 **Track colour option (`col_opt`):** Options by which attributes to
 colour the tracks in the animation. Default is `one`, i.e. all tracks
 have the same colour (red).
-
-**Palette (`path_pal`)** Name of the colour palette used to colour the
-tracks in the output map. Ignored if `col_opt` is set to `"one"`.
 
 **Other attribute for track colouring (`colour_paths_by`):** Name of the
 event or track attribute to use when colouring tracks in the output map.
 This must exactly match the name of the attribute in the input data.
 Only used if `col_opt` is set to `"other"`.
+
+**Palette (`path_pal`)** Name of the colour palette used to colour the
+tracks in the output map. Ignored if `col_opt` is set to `"one"`.
 
 **Include legend (`path_legend`):** Should a legend showing the track
 colours be shown? Default yes.
@@ -91,10 +99,6 @@ bottom of the animation window. Default empty.
 **Output file format (`file_format`):** Any of the following video
 formats: 'mp4', 'gif', 'mov', 'flv', 'avi', 'mpeg', '3gp', 'ogg'.
 Compatibility depends on computer system. Default is 'mp4'.
-
-**Adaption factor for map extent (`margin_factor`):** Adaption factor
-(multiplicative) for map extent. By default, the extent of the data is
-used.
 
 ### Example maps
 
@@ -123,17 +127,36 @@ further examples for other map providers on their associated websites.
 
 ### Most common errors
 
+Selecting the "Make plot margins equidistant" option can lead to unexpected
+behavior or errors for different adaptation factor values.
+
 ### Null or error handling:
+
+**Data:** The full input data set is returned for further use in a next
+App and cannot be empty.
 
 **Unit of your alignment resolution (`unit`):** This unit parameter
 defaults to `"hours"`, which might not be appropriate given the temporal
 resolution of your input data. In this case, you may need to select a
 different unit or use a data-driven input for `res`.
 
-**Map type (`map_type`):** If you select a map type from a provider that
-requires an API key, you will receive an error if you fail to provide a
-key or provide an invalid key. You can learn more about getting an API
+**Map service API key (`map_token`):** If you select a map 
+type from a provider that requires an API key, you must provide an API key
+to `map_token`. If left NULL, the default basemap (OSM Topographic)
+will be used instead. Map providers that require an API key are: Stamen, Stadia,
+Thunderforest, Mapbox, and MapTiler. You can learn more about getting an API 
 key on the map provider's website.
 
-**Data:** The full input data set is returned for further use in a next
-App and cannot be empty.
+**Adaptation factor for map extent (`margin_factor`):** There is a known issue
+in the moveVis package that causes incorrect margin behavior if `margin_factor`
+is less than 0. This only occurs when the "Make plot margins equidistant" option
+is checked. If you select this option, we suggest using an adaptation factor
+of 1 or higher.
+
+**Attribute for track coloring (`colour_paths_by`):** If the track color option
+is set to color by event or track attribute, the attribute must be provided
+here. If NULL or if the entered attribute does not exist in the input data,
+an error will be thrown indicating that the column was not found.
+
+**Make plot margins equidistant (`equidistant`):** See note for `margin_factor`
+above.
