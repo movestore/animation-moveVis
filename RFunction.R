@@ -51,15 +51,30 @@ rFunction <- function(data,
     out_file <- appArtifactPath(paste0("animation_moveVis.", file_format))
   }
   
-  # animate frames
-  animate_frames(
-    frames, 
-    out_file = out_file, 
-    overwrite = TRUE, 
-    fps = fps,
-    display = FALSE,
-    verbose = verbose
-  )
+  if (file_format %in% c("3gp", "mpeg")) {
+    logger.info("Using codec libx264 for file format: ", file_format)
+    # For these formats, force a codec that is available on MoveApps system
+    # Note that MPEG file should work but the animation quality is poor under
+    # current settings.
+    animate_frames(
+      frames, 
+      out_file = out_file,
+      codec = "libx264",
+      overwrite = TRUE, 
+      fps = fps,
+      display = FALSE,
+      verbose = verbose
+    )
+  } else {
+    animate_frames(
+      frames, 
+      out_file = out_file, 
+      overwrite = TRUE, 
+      fps = fps,
+      display = FALSE,
+      verbose = verbose
+    )
+  }
   
   data_orig
 }
@@ -156,6 +171,9 @@ parse_map_spec <- function(map_type, map_token) {
   list(map_service = map_service, map_type = map_type)
 }
 
+# Wrapper for preprocessing, alignment, and static frame generation
+# Bundling these features together makes it easier to write unit tests for
+# frame behavior as the app itself produces only an animated file output.
 generate_frames <- function(data,
                             res = "mean",
                             unit = "hours",
