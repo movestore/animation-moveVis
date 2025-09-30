@@ -43,7 +43,7 @@
     {
       "id": "map_type",
       "name": "Map type",
-      "description": "Select the type of map that you want to use as your animation background. Note that some map providers may require the specification of an API key (see 'Map Service API Key' below)",
+      "description": "Select the type of map that you want to use as your animation background. Note that some map providers may require the specification of an API key (see 'Map Service API Key' below). Some map types may not have full global coverage—if you encounter a `Base map download failed` error, try a different map type.",
       "defaultValue": "osm:topographic",
       "type": "DROPDOWN",
       "options": [
@@ -144,10 +144,6 @@
           "displayText": "Carto Light No Labels"
         },
         {
-          "value": "carto:light_only_labels",
-          "displayText": "Carto Light Only Labels"
-        },
-        {
           "value": "carto:dark",
           "displayText": "Carto Dark"
         },
@@ -156,20 +152,12 @@
           "displayText": "Carto Dark No Labels"
         },
         {
-          "value": "carto:dark_only_labels",
-          "displayText": "Carto Dark Only Labels"
-        },
-        {
           "value": "carto:voyager",
           "displayText": "Carto Voyager"
         },
         {
           "value": "carto:voyager_no_labels",
           "displayText": "Carto Voyager No Labels"
-        },
-        {
-          "value": "carto:voyager_only_labels",
-          "displayText": "Carto Voyager Only Labels"
         },
         {
           "value": "carto:voyager_labels_under",
@@ -240,16 +228,8 @@
           "displayText": "ESRI World Dark Gray Base"
         },
         {
-          "value": "esri:world_dark_gray_reference",
-          "displayText": "ESRI World Dark Gray Reference"
-        },
-        {
           "value": "esri:world_light_gray_base",
           "displayText": "ESRI World Light Gray Base"
-        },
-        {
-          "value": "esri:world_light_gray_reference",
-          "displayText": "ESRI World Light Gray Reference"
         },
         {
           "value": "esri:world_hillshade_dark",
@@ -264,44 +244,12 @@
           "displayText": "ESRI World Ocean Base"
         },
         {
-          "value": "esri:world_ocean_reference",
-          "displayText": "ESRI World Ocean Reference"
-        },
-        {
           "value": "esri:antarctic_imagery",
           "displayText": "ESRI Antarctic Imagery"
         },
         {
-          "value": "esri:arctic_imagery",
-          "displayText": "ESRI Arctic Imagery"
-        },
-        {
           "value": "esri:arctic_ocean_base",
           "displayText": "ESRI Arctic Ocean Base"
-        },
-        {
-          "value": "esri:arctic_ocean_reference",
-          "displayText": "ESRI Arctic Ocean Reference"
-        },
-        {
-          "value": "esri:world_boundaries_and_places_alternate",
-          "displayText": "ESRI World Boundaries and Places Alternative"
-        },
-        {
-          "value": "esri:world_boundaries_and_places",
-          "displayText": "ESRI World Boundaries and Places"
-        },
-        {
-          "value": "esri:world_reference_overlay",
-          "displayText": "ESRI World Reference Overlay"
-        },
-        {
-          "value": "esri:world_transportation",
-          "displayText": "ESRI World Transportation"
-        },
-        {
-          "value": "esri:delorme_world_base_map",
-          "displayText": "ESRI Delorme World Base Map"
         },
         {
           "value": "esri:world_navigation_charts",
