@@ -23,6 +23,7 @@ rFunction <- function(data,
                       file_format = "mp4",
                       margin_factor = 1.1,
                       equidistant = FALSE,
+                      hide_attribution = FALSE,
                       verbose = !testthat::is_testing()) {
   # Copy data so we can return a non-modified version
   data_orig <- data
@@ -41,6 +42,7 @@ rFunction <- function(data,
     caption = caption,
     margin_factor = margin_factor,
     equidistant = equidistant,
+    hide_attribution = hide_attribution,
     verbose = verbose
   )
   
@@ -187,6 +189,7 @@ generate_frames <- function(data,
                             caption = "",
                             margin_factor = 1.1,
                             equidistant = FALSE,
+                            hide_attribution = FALSE,
                             verbose = !testthat::is_testing()) {
   # Reorganize data as needed
   data <- deduplicate(time_order_data(group_data(data)))
@@ -196,6 +199,8 @@ generate_frames <- function(data,
   
   # Split map provider from map type and check API access
   map_spec <- parse_map_spec(map_type, map_token)
+  map_service <- map_spec[["map_service"]]
+  map_type <- map_spec[["map_type"]]
   
   if (map_res < 0 | map_res > 1) {
     logger.warn(
@@ -248,13 +253,20 @@ generate_frames <- function(data,
     margin_factor = margin_factor,
     path_legend = path_legend,
     path_legend_title = legend_title,
-    map_service = map_spec[["map_service"]],
+    map_service = map_service,
     map_token = map_token,
-    map_type = map_spec[["map_type"]], 
+    map_type = map_type,
     map_res = map_res,
     path_alpha = 0.5,
     equidistant = equidistant,
     verbose = verbose
+  )
+  
+  logger.info(
+    paste0(
+      "Citation/sources for basemap '", map_type, "' from map service '", 
+      map_service, "': ", get_attribution(map_service, map_type)
+    )
   )
   
   frames <- frames |>
@@ -264,5 +276,146 @@ generate_frames <- function(data,
     add_timestamps(type = "label") |>
     add_progress(colour = "white")
   
+  if (!hide_attribution) {
+    frames <- add_attribution(
+      frames,
+      map_service,
+      map_type,
+      alpha = 0.8, 
+      linewidth = 0, 
+      size = 3
+    )
+  }
+  
   frames
+}
+
+# Helpers to generate correct basemap attributions
+# (This should probably be incorporated into basemaps package in some way
+# but for now this will at least mean that the app itself is not in
+# violation of user agreements)
+osm_attribution <- function() {
+  "\u00A9 OpenStreetMap contributors, ODbL"
+}
+
+stadia_attribution <- function(stamen = FALSE) {
+  if (stamen) {
+    paste0(
+      "\u00A9 Stadia Maps \u00A9 Stamen Design \u00A9 OpenMapTiles ",
+      osm_attribution()
+    )
+  } else {
+    paste0(
+      "\u00A9 Stadia Maps \u00A9 OpenMapTiles ",
+      osm_attribution()
+    )
+  }
+}
+
+thunderforest_attribution <- function() {
+  paste0("\u00A9 Thunderforest ", osm_attribution())
+}
+
+carto_attribution <- function() {
+  paste0(osm_attribution(), " \u00A9 CARTO")
+}
+
+mapbox_attribution <- function() {
+  paste0("\u00A9 Mapbox, ", osm_attribution())
+}
+
+maptiler_attribution <- function() {
+  paste0("\u00A9 MapTiler ", osm_attribution())
+}
+
+# These come from the ESRI API endpoints for each of these maptypes.
+esri_attribution <- function(map_type) {
+  switch(
+    map_type,
+    "natgeo_world_map" = "National Geographic, ESRI, Garmin, HERE, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, increment P Corp.",
+    "usa_topo_maps" = "\u00A9 2013 National Geographic Society, i-cubed",
+    "world_imagery" = "Source: ESRI, Maxar, Earthstar Geographics, and the GIS User Community",
+    "world_physical_map" = "Source: US National Park Service",
+    "world_shaded_relief" = "\u00A9 2014 ESRI",
+    "world_street_map" = "Sources: ESRI, HERE, Garmin, USGS, Intermap, INCREMENT P, NRCan, ESRI Japan, METI, ESRI China (Hong Kong), ESRI Korea, ESRI (Thailand), NGCC, \u00A9 OpenStreetMap contributors, and the GIS User Community",
+    "world_terrain_base" = "Sources: ESRI, USGS, NOAA",
+    "world_topo_map" = "Sources: ESRI, HERE, Garmin, Intermap, increment P Corp., GEBCO, USGS, FAO, NPS, NRCAN, GeoBase, IGN, Kadaster NL, Ordnance Survey, ESRI Japan, METI, ESRI China (Hong Kong), \u00A9 OpenStreetMap contributors, and the GIS User Community",
+    "world_dark_gray_base" = "ESRI, HERE, Garmin, \u00A9 OpenStreetMap contributors, and the GIS user community",
+    "world_dark_gray_reference" = "ESRI, HERE, Garmin, \u00A9 OpenStreetMap contributors, and the GIS user community",
+    "world_light_gray_base" = "ESRI, HERE, Garmin, \u00A9 OpenStreetMap contributors, and the GIS user community",
+    "world_light_gray_reference" = "ESRI, HERE, Garmin, \u00A9 OpenStreetMap contributors, and the GIS user community",
+    "world_hillshade_dark" = "Sources: ESRI, Maxar, Airbus DS, USGS, NGA, NASA, CGIAR, N Robinson, NCEAS, NLS, OS, NMA, Geodatastyrelsen, Rijkswaterstaat, GSA, Geoland, FEMA, Intermap, and the GIS user community",
+    "world_hillshade" = "Sources: ESRI, Maxar, Airbus DS, USGS, NGA, NASA, CGIAR, N Robinson, NCEAS, NLS, OS, NMA, Geodatastyrelsen, Rijkswaterstaat, GSA, Geoland, FEMA, Intermap, and the GIS user community",
+    "world_ocean_base" = "ESRI, Garmin, GEBCO, NOAA NGDC, and other contributors",
+    "world_ocean_reference" = "Sources: ESRI, GEBCO, NOAA, National Geographic, Garmin, HERE, Geonames.org, and other contributors",
+    "antarctic_imagery" = "Source: Earthstar Geographics",
+    "arctic_imagery" = "Source: Earthstar Geographics",
+    "arctic_ocean_base" = "ESRI, Garmin, GEBCO, NOAA NGDC, and other contributors",
+    "arctic_ocean_reference" = "Sources: ESRI, GEBCO, NOAA, National Geographic, Garmin, HERE, Geonames.org, and other contributors",
+    "world_boundaries_and_places_alternate" = "ESRI, HERE, Garmin, \u00A9 OpenStreetMap contributors, and the GIS user community",
+    "world_boundaries_and_places" = "ESRI, HERE, Garmin, \u00A9 OpenStreetMap contributors, and the GIS user community",
+    "world_reference_overlay" = "Sources: ESRI, Garmin, USGS, NPS",
+    "world_transportation" = "ESRI, HERE, Garmin, \u00A9 OpenStreetMap contributors",
+    "world_navigation_charts" = "\u00A9 2013 East View Cartographic"
+  )
+}
+
+attribution_config <- function() {
+  list(
+    osm = list(
+      attribution = function(x) osm_attribution()
+    ),
+    osm_stamen = list(
+      attribution = function(x) stadia_attribution(stamen = TRUE)
+    ),
+    osm_stadia = list(
+      attribution = function(x) stadia_attribution()
+    ),
+    osm_thunderforest = list(
+      attribution = function(x) thunderforest_attribution()
+    ),
+    carto = list(
+      attribution = function(x) carto_attribution()
+    ),
+    mapbox = list(
+      attribution = function(x) mapbox_attribution()
+    ),
+    esri = list(
+      attribution = function(x) esri_attribution(x)
+    ),
+    maptiler = list(
+      attribution = function(x) maptiler_attribution()
+    )
+  )
+}
+
+get_attribution <- function(map_service, map_type) {
+  config <- attribution_config()
+  config[[map_service]]$attribution(map_type)
+}
+
+add_attribution <- function(frames, 
+                            map_service, 
+                            map_type, 
+                            hjust = 1,
+                            vjust = 0, 
+                            ...) {
+  map_attr <- get_attribution(map_service, map_type)
+  extra_args <- list(...)
+  
+  moveVis::add_gg(
+    frames, 
+    gg = ggplot2::expr(
+      ggplot2::geom_label(
+        aes(
+          x = frames$aesthetics$gg.ext[3], 
+          y = frames$aesthetics$gg.ext[2],
+          label = !!map_attr
+        ),
+        hjust = !!hjust,
+        vjust = !!vjust,
+        !!!extra_args
+      )
+    )
+  )
 }

@@ -11,5 +11,6 @@
     "path_legend" : true,
     "caption" : "test",
     "file_format" : "mp4",
-    "margin_factor" : 1
+    "margin_factor" : 1,
+    "hide_attribution": false
 }
