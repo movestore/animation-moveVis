@@ -1,7 +1,3 @@
-library('move2')
-library('moveVis')
-library('basemaps')
-
 ## The parameter "data" is reserved for the data object passed on from the previous app
 
 # to display messages to the user in the log file of the App in MoveApps
@@ -58,7 +54,7 @@ rFunction <- function(data,
     # For these formats, force a codec that is available on MoveApps system
     # Note that MPEG file should work but the animation quality is poor under
     # current settings.
-    animate_frames(
+    moveVis::animate_frames(
       frames, 
       out_file = out_file,
       codec = "libx264",
@@ -68,7 +64,7 @@ rFunction <- function(data,
       verbose = verbose
     )
   } else {
-    animate_frames(
+    moveVis::animate_frames(
       frames, 
       out_file = out_file, 
       overwrite = TRUE, 
@@ -83,26 +79,28 @@ rFunction <- function(data,
 
 group_data <- function(x) {
   # Ensure move2 object is ordered correctly before aligning
-  if(!mt_is_track_id_cleaved(x)){
+  if(!move2::mt_is_track_id_cleaved(x)){
     logger.info("Regrouping data by individual/track.")
-    x <- dplyr::arrange(x, mt_track_id(x))
+    x <- dplyr::arrange(x, move2::mt_track_id(x))
   }
   
   x
 }
 
 time_order_data <- function(x) {
-  if(!mt_is_time_ordered(x)){
+  if(!move2::mt_is_time_ordered(x)){
     logger.info("Ordering track data chronologically.")
-    x <- dplyr::arrange(x, mt_track_id(x), mt_time(x))
+    x <- dplyr::arrange(x, move2::mt_track_id(x), move2::mt_time(x))
   }
   
   x
 }
 
 deduplicate <- function(x) {
-  if (!mt_has_unique_location_time_records(x)){
-    n_dupl <- length(which(duplicated(paste(mt_track_id(x), mt_time(x)))))
+  if (!move2::mt_has_unique_location_time_records(x)){
+    n_dupl <- length(
+      which(duplicated(paste(move2::mt_track_id(x), move2::mt_time(x))))
+    )
     
     logger.info(
       paste0(
@@ -112,9 +110,9 @@ deduplicate <- function(x) {
     )
     
     # In case of duplicates, keep the entry with fewest missing values
-    x <- mutate(x, n_na = rowSums(is.na(pick(everything()))))
-    x <- arrange(x, "n_na") # TODO: Does this not disrupt chronological ordering?
-    x <- mt_filter_unique(x, criterion = "first")
+    x <- dplyr::mutate(x, n_na = rowSums(is.na(pick(dplyr::everything()))))
+    x <- dplyr::arrange(x, "n_na") # TODO: Does this not disrupt chronological ordering?
+    x <- move2::mt_filter_unique(x, criterion = "first")
   }
   
   x
@@ -242,11 +240,11 @@ generate_frames <- function(data,
     legend_title <- "Track IDs"
   }
   
-  m <- align_move(data, res = res, verbose = verbose)
+  m <- moveVis::align_move(data, res = res, verbose = verbose)
   
   # Note: this is based on experimental moveVis version awaiting review and not
   # yet released to dev.
-  frames <- frames_spatial(
+  frames <- moveVis::frames_spatial(
     m,
     path_colours = path_colours, # New handling in dev moveVis being used here
     colour_paths_by = colour_paths_by, # New handling in dev moveVis being used here
@@ -270,11 +268,11 @@ generate_frames <- function(data,
   )
   
   frames <- frames |>
-    add_labels(x = "Longitude", y = "Latitude", caption = caption) |>
-    add_northarrow() |>
-    add_scalebar() |>
-    add_timestamps(type = "label") |>
-    add_progress(colour = "white")
+    moveVis::add_labels(x = "Longitude", y = "Latitude", caption = caption) |>
+    moveVis::add_northarrow() |>
+    moveVis::add_scalebar() |>
+    moveVis::add_timestamps(type = "label") |>
+    moveVis::add_progress(colour = "white")
   
   if (!hide_attribution) {
     frames <- add_attribution(
@@ -454,7 +452,7 @@ add_attribution <- function(frames,
     frames, 
     gg = ggplot2::expr(
       ggplot2::geom_label(
-        aes(
+        ggplot2::aes(
           x = frames$aesthetics$gg.ext[3], 
           y = frames$aesthetics$gg.ext[2],
           label = !!map_attr
