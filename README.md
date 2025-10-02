@@ -6,9 +6,9 @@ MoveApps
 
 ## Description
 
-Generate an animation of your tracks using the moveVis R package. The
-animation is saved as an artefact that can be downloaded to your device.
-(Note: depending on the size of your data set this App may take a while
+Generate an animation of your tracks using the [moveVis](https://movevis.org/) 
+R package. The animation is saved as an artefact that can be downloaded to your
+device. (Note: depending on the size of your data set this app may take a while
 to run [30+ min, see logs].)
 
 ## Documentation
@@ -16,12 +16,11 @@ to run [30+ min, see logs].)
 To generate an aligned animation of all tracks of the input data set,
 first all individual tracks are aligned by time and subsampled to a
 defined resolution (see settings below). Then all tracks are plotted as
-moving dots on a common map (beware that too frequent calls might lead
-to empty background for OSM maps). Tracks can optionally be coloured by
+moving dots on a common map. Tracks can optionally be coloured by
 their IDs or by their values for another attribute present in the input
 data. The frames of all individual tracks are finally combined and
 written as an animated file to download as MoveApps output artefact. The
-original data set is also passed on as output to a possible next App.
+original data set is also passed on as output to a possible next app.
 
 ### Input data
 
@@ -33,7 +32,7 @@ move2 location object
 
 ### Artefacts
 
-`animation.moveVis.***`: Animated file showing an animation of all
+`animation_moveVis.***`: Animated file showing an animation of all
 tracked positions aligned by time.
 
 ### Settings
@@ -41,8 +40,8 @@ tracked positions aligned by time.
 **Temporal resolution for alignment (`res`):** This parameter allows the
 user to define the time interval by which the tracks will be thinned for
 alignment. This can either be one of "mean", "minimum", "maximum", or
-"median" to calculate the alignment resolution from the temporal
-information in the data or it can be a numeric value. If a numeric
+"median" (to calculate the alignment resolution from the temporal
+information in the data) or it can be a numeric value. If a numeric
 value, it is used as the alignment resolution directly along with an
 associated unit provided below (see `unit`).
 
@@ -57,18 +56,18 @@ in the output animation. Default is 25.
 background. Several map providers are available. Some providers (Stamen,
 Stadia, Thunderforest, Mapbox, MapTiler) require an associated API key,
 which you must have obtained from the map provider website prior to
-running the app (see `map_token` below). Since the App can take a long
-time to run, we have included some example maptypes below to guide your
-decision (note that these examples were created using OSM maps).
+running the app (see `map_token` below). Since the app can take a long
+time to run, we have included some example map types below to guide your
+decision. Demos for many of the available map types can also be found
+at the map provider's website or [here](https://leaflet-extras.github.io/leaflet-providers/preview/).
 
 **API Key for the given map provider (`map_token`)** API key used to
 access maps from providers that require API authorization.
 
 **Resolution of background map (`map_res`):** Resolution of the
 background map. Can take values between 0 and 1. Default is 1. Note
-that, depending on the extent of your data set, too high or too low
-values here can lead to different errors. Please try out different
-values here.
+that depending on the extent of your data set, excessively high or low
+values may produce errors.
 
 **Adaption factor for map extent (`margin_factor`):** Adaption factor
 (multiplicative) for map extent. By default, uses an extent slightly larger
@@ -78,9 +77,11 @@ than the extent of the data.
 the output map extent (approximately) equidistant in the x- and y-dimensions.
 Defaults to `FALSE`.
 
-**Track colour option (`col_opt`):** Options by which attributes to
-colour the tracks in the animation. Default is `one`, i.e. all tracks
-have the same colour (red).
+**Track colour option (`col_opt`):** Method to use when selecting colours for
+the tracks in the animation. Default is `one` (i.e. all tracks
+have the same colour). If `"trackid"`, colours each track ID differently.
+If `"other"`, colours based on another attribute in the data (see 
+`colour_paths_by` below).
 
 **Other attribute for track colouring (`colour_paths_by`):** Name of the
 event or track attribute to use when colouring tracks in the output map.
@@ -88,22 +89,33 @@ This must exactly match the name of the attribute in the input data.
 Only used if `col_opt` is set to `"other"`.
 
 **Palette (`path_pal`)** Name of the colour palette used to colour the
-tracks in the output map. Ignored if `col_opt` is set to `"one"`.
+tracks in the output map. Ignored if `col_opt` is set to `"one"`. Examples
+of many available palettes can be found 
+[here](https://colorspace.r-forge.r-project.org/articles/hcl_palettes.html).
 
 **Include legend (`path_legend`):** Should a legend showing the track
-colours be shown? Default yes.
+colours be shown? By default, a legend is included.
 
 **Caption (`caption`):** Text for a caption that will be added at the
-bottom of the animation window. Default empty.
+bottom of the animation window. By default, no caption is included.
 
-**Output file format (`file_format`):** Any of the following video
-formats: 'mp4', 'gif', 'mov', 'flv', 'avi', 'mpeg', '3gp', 'ogg'.
-Compatibility depends on computer system. Default is 'mp4'.
+**Output file format (`file_format`):** File format for the output animation
+file. The following video formats are available: "mp4", "gif", "mov", "flv", 
+"avi", "mpeg", "3gp", "ogg". Compatibility depends on computer system. Note 
+that the MoveApps system may not render mpeg animations smoothly. We suggest 
+using other formats where possible. Default is "mp4".
+
+**Hide attribution (`hide_attribution`):** Toggle to remove the basemap tile
+attribution label included by default in the output map. Note that if you elect
+to remove this label it is your responsibility to ensure the map tiles are 
+cited appropriately (e.g. in the map caption). The app logs will include a 
+line with the basemap tile citation information, if needed.
 
 ### Example maps
 
-Please note that the example maps have been made with osm maps. You can find
-further examples for other map providers on their associated websites.
+This is not an exhaustive list of basemaps that can be used in the app. For
+examples of other map options, see the websites for the individual map
+provider of interest.
 
 #### Stamen Watercolor
 
@@ -128,12 +140,12 @@ further examples for other map providers on their associated websites.
 ### Most common errors
 
 Selecting the "Make plot margins equidistant" option can lead to unexpected
-behavior or errors for different adaptation factor values.
+behavior or errors when used alongside certain adaptation factor values.
 
 ### Null or error handling:
 
 **Data:** The full input data set is returned for further use in a next
-App and cannot be empty.
+app and cannot be empty.
 
 **Unit of your alignment resolution (`unit`):** This unit parameter
 defaults to `"hours"`, which might not be appropriate given the temporal
@@ -153,8 +165,8 @@ is less than 0. This only occurs when the "Make plot margins equidistant" option
 is checked. If you select this option, we suggest using an adaptation factor
 of 1 or higher.
 
-**Attribute for track coloring (`colour_paths_by`):** If the track color option
-is set to color by event or track attribute, the attribute must be provided
+**Attribute for track colouring (`colour_paths_by`):** If the track colour option
+is set to colour by event or track attribute, the attribute must be provided
 here. If NULL or if the entered attribute does not exist in the input data,
 an error will be thrown indicating that the column was not found.
 
