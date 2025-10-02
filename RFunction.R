@@ -265,7 +265,7 @@ generate_frames <- function(data,
   logger.info(
     paste0(
       "Citation/sources for basemap '", map_type, "' from map service '", 
-      map_service, "': ", get_attribution(map_service, map_type)
+      map_service, "': ", get_attribution(map_service, map_type, url = TRUE)
     )
   )
   
@@ -294,38 +294,85 @@ generate_frames <- function(data,
 # (This should probably be incorporated into basemaps package in some way
 # but for now this will at least mean that the app itself is not in
 # violation of user agreements)
-osm_attribution <- function() {
-  "\u00A9 OpenStreetMap contributors, ODbL"
+osm_attribution <- function(url = FALSE) {
+  x <- "\u00A9 OpenStreetMap contributors, under ODbL"
+  
+  if (url) {
+    x <- paste0(x, " (https://www.openstreetmap.org/copyright)")
+  }
+  
+  x
 }
 
-stadia_attribution <- function(stamen = FALSE) {
+stadia_attribution <- function(stamen = FALSE, url = FALSE) {
+  stadia_text <- "\u00A9 Stadia Maps"
+  stamen_text <- "\u00A9 Stamen Design"
+  omt_text <- "\u00A9 OpenMapTiles"
+  
+  if (url) {
+    stadia_text <- paste0(stadia_text, " (https://stadiamaps.com/)")
+    stamen_text <- paste0(stamen_text, " (https://stamen.com/)")
+    omt_text <- paste0(omt_text, " (https://openmaptiles.org/)")
+  }
+  
   if (stamen) {
-    paste0(
-      "\u00A9 Stadia Maps \u00A9 Stamen Design \u00A9 OpenMapTiles ",
-      osm_attribution()
+    x <- paste0(
+      stadia_text, " ", 
+      stamen_text, " ", 
+      omt_text, " ", 
+      osm_attribution(url)
     )
   } else {
-    paste0(
-      "\u00A9 Stadia Maps \u00A9 OpenMapTiles ",
-      osm_attribution()
+    x <- paste0(
+      stadia_text, " ",
+      omt_text, " ", 
+      osm_attribution(url)
     )
   }
+  
+  x
 }
 
-thunderforest_attribution <- function() {
-  paste0("\u00A9 Thunderforest ", osm_attribution())
+thunderforest_attribution <- function(url = FALSE) {
+  x <- "\u00A9 Thunderforest"
+  
+  if (url) {
+    x <- paste0(x, " (http://www.thunderforest.com/)")
+  }
+  
+  paste0(x, " ", osm_attribution(url))
 }
 
-carto_attribution <- function() {
-  paste0(osm_attribution(), " \u00A9 CARTO")
+carto_attribution <- function(url = FALSE) {
+  x <- "\u00A9 CARTO"
+  
+  if (url) {
+    x <- paste0(x, " (http://www.carto.com/attributions/)")
+  }
+  
+  paste0(x, " ", osm_attribution(url))
 }
 
-mapbox_attribution <- function() {
-  paste0("\u00A9 Mapbox, ", osm_attribution())
+mapbox_attribution <- function(url = FALSE) {
+  x <- "\u00A9 Mapbox"
+  
+  
+  if (url) {
+    x <- paste0(x, " (https://www.mapbox.com/about/maps/)")
+  }
+  
+  paste0(x, " ", osm_attribution(url))
 }
 
-maptiler_attribution <- function() {
-  paste0("\u00A9 MapTiler ", osm_attribution())
+maptiler_attribution <- function(url = FALSE) {
+  x <- "\u00A9 MapTiler"
+  
+  
+  if (url) {
+    x <- paste0(x, " (https://www.maptiler.com/copyright/)")
+  }
+  
+  paste0(x, " ", osm_attribution(url))
 }
 
 # These come from the ESRI API endpoints for each of these maptypes.
@@ -363,35 +410,35 @@ esri_attribution <- function(map_type) {
 attribution_config <- function() {
   list(
     osm = list(
-      attribution = function(x) osm_attribution()
+      attribution = function(x, url = FALSE) osm_attribution(url = url)
     ),
     osm_stamen = list(
-      attribution = function(x) stadia_attribution(stamen = TRUE)
+      attribution = function(x, url = FALSE) stadia_attribution(stamen = TRUE, url = url)
     ),
     osm_stadia = list(
-      attribution = function(x) stadia_attribution()
+      attribution = function(x, url = FALSE) stadia_attribution(url = url)
     ),
     osm_thunderforest = list(
-      attribution = function(x) thunderforest_attribution()
+      attribution = function(x, url = FALSE) thunderforest_attribution(url = url)
     ),
     carto = list(
-      attribution = function(x) carto_attribution()
+      attribution = function(x, url = FALSE) carto_attribution(url = url)
     ),
     mapbox = list(
-      attribution = function(x) mapbox_attribution()
+      attribution = function(x, url = FALSE) mapbox_attribution(url = url)
     ),
     esri = list(
       attribution = function(x) esri_attribution(x)
     ),
     maptiler = list(
-      attribution = function(x) maptiler_attribution()
+      attribution = function(x, url = FALSE) maptiler_attribution(url = url)
     )
   )
 }
 
-get_attribution <- function(map_service, map_type) {
+get_attribution <- function(map_service, map_type, url = FALSE) {
   config <- attribution_config()
-  config[[map_service]]$attribution(map_type)
+  config[[map_service]]$attribution(map_type, url)
 }
 
 add_attribution <- function(frames, 
@@ -400,7 +447,7 @@ add_attribution <- function(frames,
                             hjust = 1,
                             vjust = 0, 
                             ...) {
-  map_attr <- get_attribution(map_service, map_type)
+  map_attr <- get_attribution(map_service, map_type, url = FALSE)
   extra_args <- list(...)
   
   moveVis::add_gg(

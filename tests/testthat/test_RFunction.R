@@ -64,6 +64,20 @@ test_that("Warn if no API token", {
   expect_equal(frames$aesthetics$map_type, "topographic")
 })
 
+test_that("Produce correct map tile citation", {
+  expect_output(
+    frames <- generate_frames(d, map_type = "carto:dark"),
+    paste0(
+      "\\[INFO\\].+Citation.+for basemap 'dark' from map service 'carto': ",
+      "\u00A9 CARTO \\(http://www.carto.com/attributions/\\) ",
+      "\u00A9 OpenStreetMap contributors, under ODbL ",
+      "\\(https://www.openstreetmap.org/copyright\\)"
+    )
+  )
+  
+  vdiffr::expect_doppelganger("frames-5-carto", frames[[5]])
+})
+
 test_that("`margin_factor` works", {
   capture.output(
     frames <- generate_frames(d, margin_factor = 0.6, map_res = 0.1)
