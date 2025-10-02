@@ -240,6 +240,11 @@ generate_frames <- function(data,
     legend_title <- "Track IDs"
   }
   
+  # If path colour var was originally integer, convert to factor to force
+  # qualitative color palette (usually what we want). Needs to happen before
+  # alignment as `align_move` coerces some event data column types
+  data <- int_to_factor(data, colour_paths_by)
+  
   m <- moveVis::align_move(data, res = res, verbose = verbose)
   
   # Note: this is based on experimental moveVis version awaiting review and not
@@ -271,7 +276,7 @@ generate_frames <- function(data,
     moveVis::add_labels(x = "Longitude", y = "Latitude", caption = caption) |>
     moveVis::add_northarrow() |>
     moveVis::add_scalebar() |>
-    moveVis::add_timestamps(type = "label") |>
+    moveVis::add_timestamps(type = "label") |> 
     moveVis::add_progress(colour = "white")
   
   if (!hide_attribution) {
@@ -286,6 +291,32 @@ generate_frames <- function(data,
   }
   
   frames
+}
+
+int_to_factor <- function(m, colour_paths_by) {
+  is_track_var <- colour_paths_by %in% colnames(move2::mt_track_data(m))
+  is_event_var <- colour_paths_by %in% colnames(m)
+  
+  if (is_track_var) {
+    m <- move2::mutate_track_data(
+      m, 
+      "{colour_paths_by}" := int_as_factor(.data[[colour_paths_by]])
+    )
+  } else if (is_event_var) {
+    m[[colour_paths_by]] <- int_as_factor(m[[colour_paths_by]])
+  } else {
+    stop("`colour_paths_by` not found in input data.")
+  }
+  
+  m
+}
+
+int_as_factor <- function(x) {
+  if (any(class(x) %in% c("integer", "integer64"))) {
+    x <- as.factor(x)
+  }
+  
+  x
 }
 
 # Helpers to generate correct basemap attributions

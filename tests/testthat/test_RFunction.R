@@ -37,7 +37,6 @@ test_that("Can color by track ID", {
 
 # Int handling is not yet in the latest moveVis dev package so this will fail
 test_that("Can color by attribute", {
-  skip("Not on moveVis GitHub yet")
   capture.output(
     frames <- generate_frames(
       d,
@@ -47,6 +46,7 @@ test_that("Can color by attribute", {
       map_res = 0.1
     )
   )
+  
   vdiffr::expect_doppelganger("frames-5-tagid", frames[[5]])
 })
 
