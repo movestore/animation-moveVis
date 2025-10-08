@@ -476,7 +476,7 @@ attribution_config <- function() {
       attribution = function(x, url = FALSE) mapbox_attribution(url = url)
     ),
     esri = list(
-      attribution = function(x) esri_attribution(x)
+      attribution = function(x, url = FALSE) esri_attribution(x)
     ),
     maptiler = list(
       attribution = function(x, url = FALSE) maptiler_attribution(url = url)
