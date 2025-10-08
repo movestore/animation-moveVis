@@ -78,16 +78,90 @@ test_that("Produce correct map tile citation", {
   vdiffr::expect_doppelganger("frames-5-carto", frames[[5]])
 })
 
-test_that("`margin_factor` works", {
-  capture.output(
-    frames <- generate_frames(d, margin_factor = 0.6, map_res = 0.1)
-  )
-  vdiffr::expect_doppelganger("frames-5-mf-low", frames[[5]])
+test_that("Can provide custom map extent", {
+  bbox <- sf::st_bbox(d)
+  crs <- sf::st_crs(d)
   
   capture.output(
-    frames <- generate_frames(d, margin_factor = 1.5, map_res = 0.1)
+    frames <- generate_frames(
+      d, 
+      map_res = 0.1,
+      lat_ext = "[69;  70",
+      lon_ext = "(47, 50)"
+    )
   )
-  vdiffr::expect_doppelganger("frames-5-mf-high", frames[[5]])
+
+  expect_equal(
+    sf::st_transform(frames$aesthetics$gg.ext, crs),
+    sf::st_bbox(
+      c(xmin = 47, ymin = 69, xmax = 50, ymax = 70), 
+      crs = crs
+    )
+  )
+  
+  expect_output(
+    frames <- generate_frames(
+      d, 
+      map_res = 0.1,
+      lat_ext = "[69;  70",
+      lon_ext = "(47"
+    ),
+    "Invalid longitude extent.+Using background map extent"
+  )
+  
+  expect_equal(
+    sf::st_transform(frames$aesthetics$gg.ext, crs),
+    sf::st_bbox(
+      c(xmin = bbox[[1]], ymin = 69, xmax = bbox[[3]], ymax = 70), 
+      crs = crs
+    )
+  )
+  
+  expect_output(
+    frames <- generate_frames(
+      d, 
+      map_res = 0.1,
+      lat_ext = "[69;  69",
+      lon_ext = "(48, 49"
+    ),
+    "Invalid latitude extent.+Using background map extent"
+  )
+  
+  expect_equal(
+    sf::st_transform(frames$aesthetics$gg.ext, crs),
+    sf::st_bbox(
+      c(xmin = 48, ymin = bbox[[2]], xmax = 49, ymax = bbox[[4]]), 
+      crs = crs
+    )
+  )
+  
+  # Should be no "Invalid" log if nothing is provided for that extent dimension
+  expect_output(
+    frames <- generate_frames(
+      d, 
+      map_res = 0.1,
+      lat_ext = "[69;  70"
+    ),
+    "\\[INFO\\] Using background map extent"
+  )
+  
+  # Check handling of decimals and negatives
+  capture.output(
+    frames <- generate_frames(
+      d, 
+      map_res = 0.1,
+      lat_ext = "[69.1ab70.)",
+      lon_ext = "(.-1, 49"
+    )
+  )
+  
+  expect_equal(
+    sf::st_transform(frames$aesthetics$gg.ext, crs),
+    sf::st_bbox(
+      c(xmin = -1, ymin = 69.1, xmax = 49, ymax = 70), 
+      crs = crs
+    )
+  )
 })
 
 test_that("Can provide res as text or numeric", {

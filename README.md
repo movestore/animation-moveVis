@@ -69,13 +69,15 @@ background map. Can take values between 0 and 1. Default is 1. Note
 that depending on the extent of your data set, excessively high or low
 values may produce errors.
 
-**Adaption factor for map extent (`margin_factor`):** Adaption factor
-(multiplicative) for map extent. By default, uses an extent slightly larger
-than the extent of the data.
-
-**Make plot margins equidistant (`equidistant`):** If `TRUE`, makes
-the output map extent (approximately) equidistant in the x- and y-dimensions.
-Defaults to `FALSE`.
+**Background map extent (`lat_ext`, `lon_ext`):** Geographic extent of the
+background map used in the animation. `lat_ext` controls the latitudinal
+extent while `lon_ext` controls the longitudinal extent. If either (or both)
+are left NULL, the geographic extent of the track data will be used for 
+that dimension. Note that if the
+provided extent is very large relative to the extent of the track data, 
+spherical geometry calculations may indicate that the extents
+do not overlap. If this occurs, you will need to provide a smaller extent.
+This is more likely for data in polar latitudes.
 
 **Track colour option (`col_opt`):** Method to use when selecting colours for
 the tracks in the animation. Default is `one` (i.e. all tracks
@@ -159,16 +161,15 @@ will be used instead. Map providers that require an API key are: Stamen, Stadia,
 Thunderforest, Mapbox, and MapTiler. You can learn more about getting an API 
 key on the map provider's website.
 
-**Adaptation factor for map extent (`margin_factor`):** There is a known issue
-in the moveVis package that causes incorrect margin behavior if `margin_factor`
-is less than 0. This only occurs when the "Make plot margins equidistant" option
-is checked. If you select this option, we suggest using an adaptation factor
-of 1 or higher.
+**Background map extent (`lat_ext`, `lon_ext`):** If either `lat_ext`,
+`lon_ext`, or both are left NULL, the geographic extent of the track data 
+will be used as the extent for the empty dimension. Note that if the
+provided extent is very large relative to the extent of the track data, 
+spherical geometry calculations may indicate that the extents
+do not overlap. If this occurs, you will need to provide a smaller extent.
+This is more likely for data in polar latitudes.
 
 **Attribute for track colouring (`colour_paths_by`):** If the track colour option
 is set to colour by event or track attribute, the attribute must be provided
 here. If NULL or if the entered attribute does not exist in the input data,
 an error will be thrown indicating that the column was not found.
-
-**Make plot margins equidistant (`equidistant`):** See note for `margin_factor`
-above.

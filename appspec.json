@@ -324,18 +324,18 @@
       "type": "DOUBLE"
     },
     {
-      "id": "margin_factor",
-      "name": "Adaption factor for map extent",
-      "description": "Insert the adaption factor by which to multiply the map extent. Relative to the geographic extent of the data, values between 0 and 1 decrease the extent (\"zoom in\"), while values above 1 increase the extent (\"zoom out\"). Defaults to 1.1, which adds a small margin around the data extent.",
-      "defaultValue": 1.1,
-      "type": "DOUBLE"
+      "id": "lat_ext",
+      "name": "Latitude extent of background map",
+      "description": "Optionally provide two numeric values that define the minimum and maximum latitude for the background map extent. The digits should be separated by a space or comma (e.g. '45, 50') and the values should be in the same CRS as the input data. If left blank, the latitude extent of the animal track data will be used. Avoid setting an extent that is very large relative to the extent of the track data, as this may produce invalid geometry calculations and cause the app to fail.",
+      "defaultValue": null,
+      "type": "STRING"
     },
     {
-      "id": "equidistant",
-      "name": "Make plot margins equidistant",
-      "description": "Enable this option to make the output map extent (approximately) equidistant in the x- and y-dimensions. This can be useful when visualizing data that are highly skewed along one axis. Note that enabling this option may lead to strong distortions for maps that cover polar regions.",
-      "defaultValue": false,
-      "type": "CHECKBOX"
+      "id": "lon_ext",
+      "name": "Longitude extent of background map",
+      "description": "Optionally provide two numeric values that define the minimum and maximum longitude for the background map extent. The digits should be separated by a space or comma (e.g. '45, 50') and the values should be in the same CRS as the input data. If left blank, the longitude extent of the animal track data will be used. Avoid setting an extent that is very large relative to the extent of the track data, as this may produce invalid geometry calculations and cause the app to fail.",
+      "defaultValue": null,
+      "type": "STRING"
     },
     {
       "id": "col_opt",

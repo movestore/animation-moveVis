@@ -10,6 +10,8 @@ rFunction <- function(data,
                       map_type = "osm:streets",
                       map_token = NULL,
                       map_res = 1,
+                      lat_ext = NULL,
+                      lon_ext = NULL,
                       fps = 25,
                       col_opt = "one",
                       path_pal = "Set 2",
@@ -17,13 +19,12 @@ rFunction <- function(data,
                       path_legend = TRUE,
                       caption = "",
                       file_format = "mp4",
-                      margin_factor = 1.1,
-                      equidistant = FALSE,
                       hide_attribution = FALSE,
                       verbose = !testthat::is_testing()) {
   # Copy data so we can return a non-modified version
   data_orig <- data
-  
+
+  # Wrapper to interpret default settings and generate frames
   frames <- generate_frames(
     data = data,
     res = res,
@@ -31,13 +32,13 @@ rFunction <- function(data,
     map_type = map_type,
     map_token = map_token,
     map_res = map_res,
+    lat_ext = lat_ext,
+    lon_ext = lon_ext,
     col_opt = col_opt,
     path_pal = path_pal,
     colour_paths_by = colour_paths_by,
     path_legend = path_legend,
     caption = caption,
-    margin_factor = margin_factor,
-    equidistant = equidistant,
     hide_attribution = hide_attribution,
     verbose = verbose
   )
@@ -180,13 +181,13 @@ generate_frames <- function(data,
                             map_type = "osm:streets",
                             map_token = "",
                             map_res = 1,
+                            lat_ext = NULL,
+                            lon_ext = NULL,
                             col_opt = "one",
                             path_pal = "Set 2",
                             colour_paths_by = "",
                             path_legend = TRUE,
                             caption = "",
-                            margin_factor = 1.1,
-                            equidistant = FALSE,
                             hide_attribution = FALSE,
                             verbose = !testthat::is_testing()) {
   # Reorganize data as needed
@@ -207,14 +208,34 @@ generate_frames <- function(data,
     map_res <- 1
   }
   
-  if (margin_factor <= 0) {
-    logger.warn(
+  # If either lat or lon extent is provided, build custom bbox
+  if (!is.null(lat_ext) || !is.null(lon_ext)) {
+    bbox <- sf::st_bbox(data)
+    
+    # If one of the axes is not provided, use the bbox extent as a default
+    lat_ext <- lat_ext %||% paste(bbox[2], bbox[4])
+    lon_ext <- lon_ext %||% paste(bbox[1], bbox[3])
+    
+    # Construct geog extent for the output map. Should be provided in same CRS
+    # as the input data, even though output will be in Web Mercator.
+    map_ext <- get_map_ext(
+      lat_ext, 
+      lon_ext, 
+      crs = sf::st_crs(data), 
+      default_bbox = sf::st_bbox(data)
+    )
+    
+    logger.info(
       paste0(
-        "Adaptation factor must be greater than 0. ",
-        "Setting adaptation factor to 1.1"
+        "Using background map extent: ",
+        "lat: (", map_ext$ymin, ", ", map_ext$ymax, ") ",
+        "lon: (", map_ext$xmin, ", ", map_ext$xmax, ") "
       )
     )
-    margin_factor <- 1.1
+  } else {
+    # Otherwise use moveVis default extent
+    map_ext <- NULL
+    logger.info("Using default extent for background map.")
   }
   
   if (col_opt == "one") {
@@ -247,21 +268,19 @@ generate_frames <- function(data,
   
   m <- moveVis::align_move(data, res = res, verbose = verbose)
   
-  # Note: this is based on experimental moveVis version awaiting review and not
-  # yet released to dev.
   frames <- moveVis::frames_spatial(
     m,
-    path_colours = path_colours, # New handling in dev moveVis being used here
-    colour_paths_by = colour_paths_by, # New handling in dev moveVis being used here
-    margin_factor = margin_factor,
-    path_legend = path_legend,
-    path_legend_title = legend_title,
     map_service = map_service,
     map_token = map_token,
     map_type = map_type,
     map_res = map_res,
+    ext = map_ext,
+    path_colours = path_colours,
+    colour_paths_by = colour_paths_by,
+    path_legend = path_legend,
+    path_legend_title = legend_title,
     path_alpha = 0.5,
-    equidistant = equidistant,
+    equidistant = FALSE,
     verbose = verbose
   )
   
@@ -494,4 +513,74 @@ add_attribution <- function(frames,
       )
     )
   )
+}
+
+# This identifies and separates all numbers from an arbitrary string
+# while preserving negative signs and decimals where appropriate.
+split_coords <- function(x) {
+  x <- regmatches(x, gregexpr("-?\\d*\\.?\\d+", x))
+  suppressWarnings(as.numeric(x[[1]]))
+}
+
+# Basic check that parsed lat/lon coordinates from user input string are
+# valid
+coords_valid <- function(x) {
+  length(x) == 2 && all(!is.na(x)) && all(is.numeric(x)) && x[1] != x[2]
+}
+
+# Wrapper to parse user input coordinates
+parse_coords <- function(x) {
+  x <- split_coords(x)
+  valid <- coords_valid(x)
+  
+  if (!valid) {
+    stop("Invalid extent coordinates provided.")
+  }
+  
+  x
+}
+
+# Construct map extent from a set of input lat/lon coordinates, using
+# a given bounding box as a default fallback in the event of malformed
+# user input
+get_map_ext <- function(lat_ext, lon_ext, crs, default_bbox) {
+  # Try to parse input coords
+  lat_ext <- try(parse_coords(lat_ext), silent = TRUE)
+  lon_ext <- try(parse_coords(lon_ext), silent = TRUE)
+  
+  # If they both fail, use moveVis default map extent
+  # Otherwise use backup bbox extent for the failed dimension
+  if (inherits(lat_ext, "try-error") && inherits(lon_ext, "try-error")) {
+    logger.warn("Invalid map extent. Using default extent for background map.")
+    map_ext <- NULL
+  } else {
+    if (inherits(lat_ext, "try-error")) {
+      logger.warn("Invalid latitude extent. Using latitude extent of track data.")
+      lat_ext <- c(default_bbox[2], default_bbox[4])
+    } else if (inherits(lon_ext, "try-error")) {
+      logger.warn("Invalid longitude extent. Using longitude extent of track data.")
+      lon_ext <- c(default_bbox[1], default_bbox[3])
+    }
+    
+    # Construct extent
+    map_ext <- sf::st_bbox(
+      c(
+        xmin = min(lon_ext), 
+        ymin = min(lat_ext), 
+        xmax = max(lon_ext), 
+        ymax = max(lat_ext)
+      ),
+      crs = crs
+    )
+  }
+  
+  map_ext
+}
+
+`%||%` <- function(x, y) {
+  if (is.null(x)) {
+    y 
+  } else {
+    x
+  }
 }
