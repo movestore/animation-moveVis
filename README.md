@@ -2,13 +2,13 @@
 
 MoveApps
 
-[App GitHub repository](https://www.github.com/movestore/animation-moveVis)
+Github repository: *https://www.github.com/movestore/animation-moveVis*
 
 ## Description
 
 Generate an animation of your tracks using the [moveVis](https://movevis.org/) 
 R package. The animation is saved as an artefact that can be downloaded to your
-device. (Note: depending on the size of your data set this app may take a while
+device. (Note: depending on the size of your data set this App may take a while
 to run [30+ min, see logs].)
 
 ## Documentation
@@ -20,7 +20,7 @@ moving dots on a common map. Tracks can optionally be coloured by
 their IDs or by their values for another attribute present in the input
 data. The frames of all individual tracks are finally combined and
 written as an animated file to download as MoveApps output artefact. The
-original data set is also passed on as output to a possible next app.
+original data set is also passed on as output to a possible next App.
 
 ### Input data
 
@@ -56,10 +56,18 @@ in the output animation. Default is 25.
 background. Several map providers are available. Some providers (Stamen,
 Stadia, Thunderforest, Mapbox, MapTiler) require an associated API key,
 which you must have obtained from the map provider website prior to
-running the app (see `map_token` below). Since the app can take a long
-time to run, we have included some example map types below to guide your
-decision. Demos for many of the available map types can also be found
-at the map provider's website or [here](https://leaflet-extras.github.io/leaflet-providers/preview/).
+running the App (see `map_token` below). Examples of available basemaps can
+be found on the following pages:
+
+- [Stamen and Stadia](https://stadiamaps.com/explore-the-map/#map=7/52.3/0)
+- [Thunderforest](https://www.thunderforest.com/maps/)
+- [Mapbox](https://www.mapbox.com/maps#map-styling)
+- [MapTiler](https://www.maptiler.com/maps/#style=streets-v2&lang=auto&mode=2d&position=5.86/51.328/10.454)
+
+Examples can also be found on the 
+[leaflet-extras demo page](https://leaflet-extras.github.io/leaflet-providers/preview/).
+Note that not all of the styles provided by a given map service are
+supported in this App.
 
 **API Key for the given map provider (`map_token`)** API key used to
 access maps from providers that require API authorization.
@@ -110,7 +118,7 @@ using other formats where possible. Default is "mp4".
 **Hide attribution (`hide_attribution`):** Toggle to remove the basemap tile
 attribution label included by default in the output map. Note that if you elect
 to remove this label it is your responsibility to ensure the map tiles are 
-cited appropriately (e.g. in the map caption). The app logs will include a 
+cited appropriately (e.g. in the map caption). The App logs will include a 
 line with the basemap tile citation information, if needed.
 
 ### Example maps
@@ -141,13 +149,25 @@ provider of interest.
 
 ### Most common errors
 
-Selecting the "Make plot margins equidistant" option can lead to unexpected
-behavior or errors when used alongside certain adaptation factor values.
+The alignment resolution `res` must be compatible with the temporal
+characteristics of the input data. For instance, attempting to align 
+using a resolution that approaches (or exceeds) the overall length of an 
+individual track will reduce certain tracks to a single point, producing an
+error.
+
+If using a basemap from Stamen, Stadia, Thunderforest, Mapbox, or MapTiler,
+you must also provide an API key to `map_token`. If you do not provide a key
+or provide an invalid key, the App will fail.
+
+If colouring by an attribute in the input data (`col_opt = "other"`), the name
+of the attribute to use for colouring (`colour_paths_by`) must match the 
+column name for that attribute in the input data exactly. Any misspellings 
+will prevent the attribute from being located in the data and the App will fail.
 
 ### Null or error handling:
 
 **Data:** The full input data set is returned for further use in a next
-app and cannot be empty.
+App and cannot be empty.
 
 **Unit of your alignment resolution (`unit`):** This unit parameter
 defaults to `"hours"`, which might not be appropriate given the temporal
