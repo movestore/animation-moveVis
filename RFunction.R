@@ -81,7 +81,9 @@ rFunction <- function(data,
 group_data <- function(x) {
   # Ensure move2 object is ordered correctly before aligning
   if(!move2::mt_is_track_id_cleaved(x)){
-    logger.info("Regrouping data by individual/track.")
+    logger.info(
+      "Data not grouped by track. Regrouping data by individual/track."
+    )
     x <- dplyr::arrange(x, move2::mt_track_id(x))
   }
   
@@ -90,7 +92,12 @@ group_data <- function(x) {
 
 time_order_data <- function(x) {
   if(!move2::mt_is_time_ordered(x)){
-    logger.info("Ordering track data chronologically.")
+    logger.info(
+      paste0(
+        "Input data not in chronological order. ",
+        "Ordering data chronologically within tracks."
+      )
+    )
     x <- dplyr::arrange(x, move2::mt_track_id(x), move2::mt_time(x))
   }
   
@@ -105,7 +112,7 @@ deduplicate <- function(x) {
     
     logger.info(
       paste0(
-        "Your data has ", n_dupl, " duplicated location-time records. ",
+        "Detected ", n_dupl, " duplicated location-time records. ",
         "Removing duplicates by selecting the most complete records."
       )
     )
@@ -126,17 +133,17 @@ parse_resolution <- function(res, unit) {
   
   res <- tryCatch({
     res <- match.arg(res, res_options)
-    logger.info(paste0("Using resolution: ", res))
+    logger.info(paste0("Aligning tracks with temporal resolution: ", res))
     res
   },
   error = function(cnd) {
     res <- suppressWarnings(as.numeric(res))
     
     if (is.na(res)) {
-      logger.warn("Unrecognized resolution. Using resolution: mean")
+      logger.warn("Unrecognized resolution. Aligning tracks with temporal resolution: mean")
       res <- "mean"
     } else {
-      logger.info(paste0("Using resolution: ", res, " (", unit, ")"))
+      logger.info(paste0("Aligning tracks with temporal resolution: ", res, " (", unit, ")"))
       res <- units::as_units(res, unit)
     }
     
@@ -286,7 +293,7 @@ generate_frames <- function(data,
   
   logger.info(
     paste0(
-      "Citation/sources for basemap '", map_type, "' from map service '", 
+      "Citation info for basemap '", map_type, "' from map service '", 
       map_service, "': ", get_attribution(map_service, map_type, url = TRUE)
     )
   )

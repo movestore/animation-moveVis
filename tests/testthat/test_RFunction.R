@@ -170,14 +170,14 @@ test_that("Can provide res as text or numeric", {
   # `align_move()`
   expect_output(
     frames <- generate_frames(d, res = "max"),
-    "\\[INFO\\] Using resolution: maximum"
+    "\\[INFO\\] Aligning tracks with temporal resolution: maximum"
   )
   expect_output(
     frames <- generate_frames(d, res = 1, unit = "days"),
-    "\\[INFO\\] Using resolution: 1 \\(days\\)"
+    "\\[INFO\\] Aligning tracks with temporal resolution: 1 \\(days\\)"
   )
   expect_output(
     frames <- generate_frames(d, res = "foobar"),
-    "\\[WARN\\] Unrecognized resolution. Using resolution: mean"
+    "\\[WARN\\] Unrecognized resolution. Aligning tracks with temporal resolution: mean"
   )
 })
