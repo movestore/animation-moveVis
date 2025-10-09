@@ -1,7 +1,7 @@
 {
     "res" : 12,
     "unit" : "hours",
-    "map_type" : "osm_stadia:alidade_smooth",
+    "map_type" : "carto:light",
     "map_res" : 0.2,
     "map_token": "secret",
     "fps" : 25,
