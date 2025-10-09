@@ -53,8 +53,12 @@ time unit for alignment resolution. One of "seconds", "minutes",
 in the output animation. Default is 25.
 
 **Map type (`map_type`):** Selection of map type for the animation
-background. Several map providers are available. Some providers (Stamen,
-Stadia, Thunderforest, Mapbox, MapTiler) require an associated API key,
+background. Several map providers are available. Some providers 
+([Stamen](https://maps.stamen.com/#terrain/12/37.7706/-122.3782),
+[Stadia](https://stadiamaps.com/), 
+[Thunderforest](https://www.thunderforest.com/), 
+[Mapbox](https://www.mapbox.com/), and 
+[MapTiler](https://www.maptiler.com/)) require an associated API key,
 which you must have obtained from the map provider website prior to
 running the App (see `map_token` below). Examples of available basemaps can
 be found on the following pages:
@@ -120,32 +124,6 @@ attribution label included by default in the output map. Note that if you elect
 to remove this label it is your responsibility to ensure the map tiles are 
 cited appropriately (e.g. in the map caption). The App logs will include a 
 line with the basemap tile citation information, if needed.
-
-### Example maps
-
-This is not an exhaustive list of basemaps that can be used in the app. For
-examples of other map options, see the websites for the individual map
-provider of interest.
-
-#### Stamen Watercolor
-
-![](watercolor_AniMove_map.png)
-
-#### OSM Topographic
-
-![](topographic_AniMove_map.png)
-
-#### Stamen Toner
-
-![](toner_AniMove_map.png)
-
-#### Stamen Terrain
-
-![](terrain_AniMove_map.png)
-
-#### OSM Streets
-
-![](streets_AniMove_map_CoarseScale.png)
 
 ### Most common errors
 
