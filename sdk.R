@@ -12,9 +12,6 @@ clearRecentOutput()
 # the app run. Per default the file `/app-configuration.json` will be parsed.
 args <- configuration()
 
-load_dot_env(file = "pwd.env")
-args[["map_token"]] = Sys.getenv("STADIA_API_KEY")
-
 # Lets simulate running your app on MoveApps
 source("src/moveapps.R")
 simulateMoveAppsRun(args)
