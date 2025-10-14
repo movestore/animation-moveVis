@@ -900,16 +900,22 @@
   "dependencies": {
     "R": [
       {
+        "name": "dplyr"
+      }
+      {
         "name": "move2"
       },
       {
         "name": "moveVis"
       },
       {
-        "name": "fields"
+        "name": "ggplot2"
       },
       {
-        "name": "basemaps"
+        "name": "sf"
+      },
+      {
+        "name": "units"
       }
     ]
   },
