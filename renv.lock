@@ -1898,8 +1898,8 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "robe2037",
       "RemoteRepo": "moveVis",
-      "RemoteRef": "color-by-var",
-      "RemoteSha": "a46c2f935ff4258c4a3d53f15ac5b60e87d1d70c"
+      "RemoteRef": "moveapps",
+      "RemoteSha": "5e2291fbf9da33e539a1c4cc41dcdf4c039e6847"
     },
     "openssl": {
       "Package": "openssl",
