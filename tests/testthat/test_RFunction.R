@@ -86,13 +86,16 @@ test_that("Can provide custom map extent", {
     frames <- generate_frames(
       d, 
       map_res = 0.1,
-      lat_ext = "[69;  70",
-      lon_ext = "(47, 50)"
+      y_ext = "[69;  70",
+      x_ext = "(47, 50)"
     )
   )
-
+  
+  # Output CRS should match map
+  expect_equal(frames$crs, crs)
+  
   expect_equal(
-    sf::st_transform(frames$aesthetics$gg.ext, crs),
+    frames$aesthetics$gg.ext,
     sf::st_bbox(
       c(xmin = 47, ymin = 69, xmax = 50, ymax = 70), 
       crs = crs
@@ -103,14 +106,14 @@ test_that("Can provide custom map extent", {
     frames <- generate_frames(
       d, 
       map_res = 0.1,
-      lat_ext = "[69;  70",
-      lon_ext = "(47"
+      y_ext = "[69;  70",
+      x_ext = "(47"
     ),
-    "Invalid longitude extent.+Using background map extent"
+    "Invalid X extent.+Using background map extent"
   )
   
   expect_equal(
-    sf::st_transform(frames$aesthetics$gg.ext, crs),
+    frames$aesthetics$gg.ext,
     sf::st_bbox(
       c(xmin = bbox[[1]], ymin = 69, xmax = bbox[[3]], ymax = 70), 
       crs = crs
@@ -121,14 +124,14 @@ test_that("Can provide custom map extent", {
     frames <- generate_frames(
       d, 
       map_res = 0.1,
-      lat_ext = "[69;  69",
-      lon_ext = "(48, 49"
+      y_ext = "[69;  69",
+      x_ext = "(48, 49"
     ),
-    "Invalid latitude extent.+Using background map extent"
+    "Invalid Y extent.+Using background map extent"
   )
   
   expect_equal(
-    sf::st_transform(frames$aesthetics$gg.ext, crs),
+    frames$aesthetics$gg.ext,
     sf::st_bbox(
       c(xmin = 48, ymin = bbox[[2]], xmax = 49, ymax = bbox[[4]]), 
       crs = crs
@@ -140,7 +143,7 @@ test_that("Can provide custom map extent", {
     frames <- generate_frames(
       d, 
       map_res = 0.1,
-      lat_ext = "[69;  70"
+      y_ext = "[69;  70"
     ),
     "\\[INFO\\] Using background map extent"
   )
@@ -150,18 +153,34 @@ test_that("Can provide custom map extent", {
     frames <- generate_frames(
       d, 
       map_res = 0.1,
-      lat_ext = "[69.1ab70.)",
-      lon_ext = "(.-1, 49"
+      y_ext = "[69.1ab70.)",
+      x_ext = "(.-1, 49"
     )
   )
   
   expect_equal(
-    sf::st_transform(frames$aesthetics$gg.ext, crs),
+    frames$aesthetics$gg.ext,
     sf::st_bbox(
       c(xmin = -1, ymin = 69.1, xmax = 49, ymax = 70), 
       crs = crs
     )
   )
+  
+  expect_error(
+    capture.output(
+      generate_frames(d, map_res = 0.1, y_ext = "[-5;  5", x_ext = "(47, 50)")
+    ),
+    "Argument 'ext' does not overlap"
+  )
+})
+
+test_that("Render map in data CRS", {
+  capture.output(
+    frames <- generate_frames(sf::st_transform(d, "epsg:32637"), map_res = 0.1)
+  )
+  
+  expect_equal(frames$crs, sf::st_crs("epsg:32637"))
+  vdiffr::expect_doppelganger("frames-5-crs", frames[[5]])
 })
 
 test_that("Can provide res as text or numeric", {

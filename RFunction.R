@@ -10,8 +10,8 @@ rFunction <- function(data,
                       map_type = "osm:streets",
                       map_token = NULL,
                       map_res = 1,
-                      lat_ext = NULL,
-                      lon_ext = NULL,
+                      y_ext = NULL,
+                      x_ext = NULL,
                       fps = 25,
                       col_opt = "one",
                       path_pal = "Set 2",
@@ -32,8 +32,8 @@ rFunction <- function(data,
     map_type = map_type,
     map_token = map_token,
     map_res = map_res,
-    lat_ext = lat_ext,
-    lon_ext = lon_ext,
+    y_ext = y_ext,
+    x_ext = x_ext,
     col_opt = col_opt,
     path_pal = path_pal,
     colour_paths_by = colour_paths_by,
@@ -188,8 +188,8 @@ generate_frames <- function(data,
                             map_type = "osm:streets",
                             map_token = "",
                             map_res = 1,
-                            lat_ext = NULL,
-                            lon_ext = NULL,
+                            y_ext = NULL,
+                            x_ext = NULL,
                             col_opt = "one",
                             path_pal = "Set 2",
                             colour_paths_by = "",
@@ -215,34 +215,37 @@ generate_frames <- function(data,
     map_res <- 1
   }
   
-  # If either lat or lon extent is provided, build custom bbox
-  if (!is.null(lat_ext) || !is.null(lon_ext)) {
+  # If either y or x extent is provided, build custom bbox
+  if (!is.null(y_ext) || !is.null(x_ext)) {
     bbox <- sf::st_bbox(data)
     
     # If one of the axes is not provided, use the bbox extent as a default
-    lat_ext <- lat_ext %||% paste(bbox[2], bbox[4])
-    lon_ext <- lon_ext %||% paste(bbox[1], bbox[3])
+    y_ext <- y_ext %||% paste(bbox[2], bbox[4])
+    x_ext <- x_ext %||% paste(bbox[1], bbox[3])
     
     # Construct geog extent for the output map. Should be provided in same CRS
-    # as the input data, even though output will be in Web Mercator.
+    # as the input data.
     map_ext <- get_map_ext(
-      lat_ext, 
-      lon_ext, 
+      y_ext, 
+      x_ext, 
       crs = sf::st_crs(data), 
       default_bbox = sf::st_bbox(data)
-    )
-    
-    logger.info(
-      paste0(
-        "Using background map extent: ",
-        "lat: (", map_ext$ymin, ", ", map_ext$ymax, ") ",
-        "lon: (", map_ext$xmin, ", ", map_ext$xmax, ") "
-      )
     )
   } else {
     # Otherwise use moveVis default extent
     map_ext <- NULL
     logger.info("Using default extent for background map.")
+  }
+  
+  if (!is.null(map_ext)) {
+    logger.info(
+      paste0(
+        "Using background map extent: ",
+        "Y: (", map_ext$ymin, ", ", map_ext$ymax, ") ",
+        "X: (", map_ext$xmin, ", ", map_ext$xmax, ") ",
+        "(CRS: ", sf::st_crs(data)$input, ")"
+      )
+    )
   }
   
   if (col_opt == "one") {
@@ -282,6 +285,8 @@ generate_frames <- function(data,
     map_type = map_type,
     map_res = map_res,
     ext = map_ext,
+    crs = sf::st_crs(m),
+    crs_graticule = sf::st_crs(m),
     path_colours = path_colours,
     colour_paths_by = colour_paths_by,
     path_legend = path_legend,
@@ -299,7 +304,7 @@ generate_frames <- function(data,
   )
   
   frames <- frames |>
-    moveVis::add_labels(x = "Longitude", y = "Latitude", caption = caption) |>
+    moveVis::add_labels(x = "X", y = "Y", caption = caption) |>
     moveVis::add_northarrow() |>
     moveVis::add_scalebar() |>
     moveVis::add_timestamps(type = "label") |> 
@@ -550,35 +555,45 @@ parse_coords <- function(x) {
 # Construct map extent from a set of input lat/lon coordinates, using
 # a given bounding box as a default fallback in the event of malformed
 # user input
-get_map_ext <- function(lat_ext, lon_ext, crs, default_bbox) {
+get_map_ext <- function(y_ext, x_ext, crs, default_bbox) {
   # Try to parse input coords
-  lat_ext <- try(parse_coords(lat_ext), silent = TRUE)
-  lon_ext <- try(parse_coords(lon_ext), silent = TRUE)
+  y_ext <- try(parse_coords(y_ext), silent = TRUE)
+  x_ext <- try(parse_coords(x_ext), silent = TRUE)
   
   # If they both fail, use moveVis default map extent
   # Otherwise use backup bbox extent for the failed dimension
-  if (inherits(lat_ext, "try-error") && inherits(lon_ext, "try-error")) {
+  if (inherits(y_ext, "try-error") && inherits(x_ext, "try-error")) {
     logger.warn("Invalid map extent. Using default extent for background map.")
     map_ext <- NULL
   } else {
-    if (inherits(lat_ext, "try-error")) {
-      logger.warn("Invalid latitude extent. Using latitude extent of track data.")
-      lat_ext <- c(default_bbox[2], default_bbox[4])
-    } else if (inherits(lon_ext, "try-error")) {
-      logger.warn("Invalid longitude extent. Using longitude extent of track data.")
-      lon_ext <- c(default_bbox[1], default_bbox[3])
+    if (inherits(y_ext, "try-error")) {
+      logger.warn("Invalid Y extent. Using Y extent of track data.")
+      y_ext <- c(default_bbox[2], default_bbox[4])
+    } else if (inherits(x_ext, "try-error")) {
+      logger.warn("Invalid X extent. Using X extent of track data.")
+      x_ext <- c(default_bbox[1], default_bbox[3])
     }
     
     # Construct extent
     map_ext <- sf::st_bbox(
       c(
-        xmin = min(lon_ext), 
-        ymin = min(lat_ext), 
-        xmax = max(lon_ext), 
-        ymax = max(lat_ext)
+        xmin = min(x_ext), 
+        ymin = min(y_ext), 
+        xmax = max(x_ext), 
+        ymax = max(y_ext)
       ),
       crs = crs
     )
+  }
+  
+  if (!sf::st_is_valid(sf::st_as_sfc(map_ext))) {
+    logger.warn(paste0(
+      "Input extent produced invalid geometries. ",
+      "Check that your provided map extent is in the same CRS as the input data. ",
+      "Using default extent for background map."
+    ))
+    
+    map_ext <- NULL
   }
   
   map_ext

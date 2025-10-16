@@ -324,16 +324,16 @@
       "type": "DOUBLE"
     },
     {
-      "id": "lat_ext",
-      "name": "Latitude extent of background map",
-      "description": "Optionally provide two numeric values that define the minimum and maximum latitude for the background map extent. The digits should be separated by a space or comma (e.g. '45, 50') and the values should be in the same CRS as the input data. If left blank, the latitude extent of the animal track data will be used. Avoid setting an extent that is very large relative to the extent of the track data, as this may produce invalid geometry calculations and cause the app to fail.",
+      "id": "x_ext",
+      "name": "X extent of background map",
+      "description": "Optionally provide two numeric values that define the minimum and maximum x bounds for the background map extent. (For latitude/longitude data, this corresponds to the longitude.) The digits should be separated by a space or comma (e.g. '45, 50') and the values should be in the same CRS as the input data. If left blank, the extent of the animal track data will be used. For latitude/longitude data, enter degrees West of the Prime Meridian as negative numbers (e.g. 5 degrees West would be provided as -5). Avoid setting an extent that is very large relative to the extent of the track data, as this may produce invalid geometry calculations and cause the app to fail.",
       "defaultValue": null,
       "type": "STRING"
     },
     {
-      "id": "lon_ext",
-      "name": "Longitude extent of background map",
-      "description": "Optionally provide two numeric values that define the minimum and maximum longitude for the background map extent. The digits should be separated by a space or comma (e.g. '45, 50') and the values should be in the same CRS as the input data. If left blank, the longitude extent of the animal track data will be used. Avoid setting an extent that is very large relative to the extent of the track data, as this may produce invalid geometry calculations and cause the app to fail.",
+      "id": "y_ext",
+      "name": "Y extent of background map",
+      "description": "Optionally provide two numeric values that define the minimum and maximum y bounds for the background map extent. (For latitude/longitude data, this corresponds to the latitude.) The digits should be separated by a space or comma (e.g. '45, 50') and the values should be in the same CRS as the input data. If left blank, the extent of the animal track data will be used. For latitude/longitude data, enter degrees South of the equator as negative numbers (e.g. 5 degrees South would be provided as -5). Avoid setting an extent that is very large relative to the extent of the track data, as this may produce invalid geometry calculations and cause the app to fail.",
       "defaultValue": null,
       "type": "STRING"
     },

@@ -81,15 +81,14 @@ background map. Can take values between 0 and 1. Default is 1. Note
 that depending on the extent of your data set, excessively high or low
 values may produce errors.
 
-**Background map extent (`lat_ext`, `lon_ext`):** Geographic extent of the
-background map used in the animation. `lat_ext` controls the latitudinal
-extent while `lon_ext` controls the longitudinal extent. If either (or both)
+**Background map extent (`x_ext`, `y_ext`):** Geographic extent of the
+background map used in the animation. `x_ext` controls the 
+extent of the bounding box in the x dimension, while `y_ext` controls the 
+extent in the y dimension. (In a geographic coordinate system, these correspond
+to longitude and latitude, respectively.) If either (or both)
 are left NULL, the geographic extent of the track data will be used for 
-that dimension. Note that if the
-provided extent is very large relative to the extent of the track data, 
-spherical geometry calculations may indicate that the extents
-do not overlap. If this occurs, you will need to provide a smaller extent.
-This is more likely for data in polar latitudes.
+that dimension. These must be in the same CRS as the input data, which
+will also be the output CRS for the map.
 
 **Track colour option (`col_opt`):** Method to use when selecting colours for
 the tracks in the animation. Default is `one` (i.e. all tracks
@@ -142,6 +141,13 @@ of the attribute to use for colouring (`colour_paths_by`) must match the
 column name for that attribute in the input data exactly. Any misspellings 
 will prevent the attribute from being located in the data and the App will fail.
 
+If providing a custom geographic extent for the output map (`x_ext`, `y_ext`),
+the units of that extent must be relative to the CRS of the input data.
+Providing values relative to a different coordinate system can produce
+geometries that are invalid or fail to overlap with the extent of the input 
+data. If you want your animation to have a different output CRS, use the 
+'Project CRS' app in your workflow to reproject the input data first.
+
 ### Null or error handling:
 
 **Data:** The full input data set is returned for further use in a next
@@ -159,13 +165,14 @@ will be used instead. Map providers that require an API key are: Stamen, Stadia,
 Thunderforest, Mapbox, and MapTiler. You can learn more about getting an API 
 key on the map provider's website.
 
-**Background map extent (`lat_ext`, `lon_ext`):** If either `lat_ext`,
-`lon_ext`, or both are left NULL, the geographic extent of the track data 
-will be used as the extent for the empty dimension. Note that if the
-provided extent is very large relative to the extent of the track data, 
-spherical geometry calculations may indicate that the extents
-do not overlap. If this occurs, you will need to provide a smaller extent.
-This is more likely for data in polar latitudes.
+**Background map extent (`x_ext`, `y_ext`):** If either `x_ext`,
+`y_ext`, or both are left NULL, the geographic extent of the track data 
+will be used as the extent for the empty dimension. Further, providing these
+values in a different CRS than the CRS of the input data can easily produce
+invalid geometric calculations and cause errors. In some cases, invalid
+extent geometries will be caught and the default map extent will be used.
+In other cases (e.g. if the provided extent does not overlap with the extent
+of the input data), the app will fail.
 
 **Attribute for track colouring (`colour_paths_by`):** If the track colour option
 is set to colour by event or track attribute, the attribute must be provided
