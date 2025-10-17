@@ -584,16 +584,16 @@ get_map_ext <- function(y_ext, x_ext, crs, default_bbox) {
       ),
       crs = crs
     )
-  }
-  
-  if (!sf::st_is_valid(sf::st_as_sfc(map_ext))) {
-    logger.warn(paste0(
-      "Input extent produced invalid geometries. ",
-      "Check that your provided map extent is in the same CRS as the input data. ",
-      "Using default extent for background map."
-    ))
     
-    map_ext <- NULL
+    if (!sf::st_is_valid(sf::st_as_sfc(map_ext))) {
+      logger.warn(paste0(
+        "Input extent produced invalid geometries. ",
+        "Check that your provided map extent is in the same CRS as the input data. ",
+        "Using default extent for background map."
+      ))
+      
+      map_ext <- NULL
+    }
   }
   
   map_ext
