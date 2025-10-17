@@ -916,6 +916,9 @@
       },
       {
         "name": "units"
+      },
+      {
+        "name": "testthat"
       }
     ]
   },
