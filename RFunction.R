@@ -336,7 +336,13 @@ int_to_factor <- function(m, colour_paths_by) {
   } else if (is_event_var) {
     m[[colour_paths_by]] <- int_as_factor(m[[colour_paths_by]])
   } else {
-    stop("`colour_paths_by` not found in input data.")
+    logger.error(
+      paste0(
+        "Unrecognized colouring attribute: \"", colour_paths_by, 
+        "\". Make sure this attribute exists in your input data."
+      )
+    )
+    stop("Attribute \"", colour_paths_by, "\" not found in input data.")
   }
   
   m
