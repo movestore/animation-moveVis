@@ -19,8 +19,9 @@ rFunction <- function(data,
                       path_legend = TRUE,
                       caption = "",
                       file_format = "mp4",
+                      out_file = NULL,
                       hide_attribution = FALSE,
-                      verbose = !testthat::is_testing()) {
+                      verbose = TRUE) {
   # Copy data so we can return a non-modified version
   data_orig <- data
 
@@ -43,12 +44,7 @@ rFunction <- function(data,
     verbose = verbose
   )
   
-  # Allow for unit testing on frames output
-  if (testthat::is_testing()) {
-    out_file <- file.path(tempdir(), paste0("animation_moveVis.", file_format))
-  } else {
-    out_file <- appArtifactPath(paste0("animation_moveVis.", file_format))
-  }
+  out_file <- out_file %||% appArtifactPath(paste0("animation_moveVis.", file_format))
   
   if (file_format %in% c("3gp", "mpeg")) {
     logger.info("Using codec libx264 for file format: ", file_format)
@@ -196,7 +192,7 @@ generate_frames <- function(data,
                             path_legend = TRUE,
                             caption = "",
                             hide_attribution = FALSE,
-                            verbose = !testthat::is_testing()) {
+                            verbose = TRUE) {
   # Reorganize data as needed
   data <- deduplicate(time_order_data(group_data(data)))
   

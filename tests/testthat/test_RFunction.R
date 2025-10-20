@@ -11,7 +11,11 @@ d <- test_data()
 
 test_that("Can animate frames with default values", {
   capture.output(
-    rFunction(d)
+    rFunction(
+      d, 
+      out_file = file.path(tempdir(), paste0("animation_moveVis.mp4")), 
+      verbose = FALSE
+    )
   )
   expect_true("animation_moveVis.mp4" %in% list.files(tempdir()))
 })
