@@ -4,7 +4,7 @@
     {
       "id": "res",
       "name": "Temporal resolution for track alignment",
-      "description": "This setting defines the temporal resolution to which the movement data will be thinned for alignment. To calculate the resolution from the input data, provide \"mean\", \"minimum\", \"maximum\", or \"median\". Alternatively, provide a numeric value which will be combined with the selected unit (see \"Unit of your alignment resolution\" below) to define the alignment resolution. By default, uses the mean temporal resolution of the data set. Note that temporal gaps in your data can lead to errors when using units that are unsuitable for the temporal reoslution of your data. Also note that large data sets can take a long time to process or lead to memory limit errors at fine-grained resolutions.",
+      "description": "This setting defines the temporal resolution to which the movement data will be thinned for alignment. To calculate the resolution from the input data, provide \"mean\", \"minimum\", \"maximum\", or \"median\". Alternatively, provide a numeric value which will be combined with the selected unit (see \"Unit of your alignment resolution\" below) to define the alignment resolution. Note that temporal gaps in your data can lead to errors when using units that are unsuitable for the temporal reoslution of your data. Also note that large data sets can take a long time to process or lead to memory limit errors at fine-grained resolutions. By default, uses the mean temporal resolution of the data set (but this may not always be the most appropriate alignment resolution).",
       "defaultValue": "mean",
       "type": "STRING"
     },

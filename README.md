@@ -130,7 +130,11 @@ The alignment resolution `res` must be compatible with the temporal
 characteristics of the input data. For instance, attempting to align 
 using a resolution that approaches (or exceeds) the overall length of an 
 individual track will reduce certain tracks to a single point, producing an
-error.
+error. On the other hand, fine-grained alignment resolutions may lead to 
+memory limit errors given the large number of frames required 
+to render the animation. Note that the default resolution may not be appropriate
+for all data sets; you may need to experiment with different values to determine
+the ideal temporal resolution for your data.
 
 If using a basemap from Stamen, Stadia, Thunderforest, Mapbox, or MapTiler,
 you must also provide an API key to `map_token`. If you do not provide a key
