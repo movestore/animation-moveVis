@@ -22,13 +22,25 @@ data. The frames of all individual tracks are finally combined and
 written as an animated file to download as MoveApps output artefact. The
 original data set is also passed on as output to a possible next App.
 
-### Input data
+### Application scope
 
-move2 location object
+#### Generality of App usability
 
-### Output data
+This app was designed to support any point-location movement data.
 
-move2 location object
+#### Required data properties
+
+This app is applicable for data that contain multiple point locations that
+can be linked by individual, deployment, or tag. Each individual, deployment,
+or tag being animated should have at least 2 (preferably more) fixes.
+
+### Input type
+
+`move2::move2_loc`
+
+### Output type
+
+`move2::move2_loc`
 
 ### Artefacts
 
@@ -123,6 +135,10 @@ attribution label included by default in the output map. Note that if you elect
 to remove this label it is your responsibility to ensure the map tiles are 
 cited appropriately (e.g. in the map caption). The App logs will include a 
 line with the basemap tile citation information, if needed.
+
+### Changes in output data
+
+The input data remain unchanged.
 
 ### Most common errors
 
