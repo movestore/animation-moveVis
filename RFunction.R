@@ -267,12 +267,14 @@ generate_frames <- function(data,
     legend_title <- "Track IDs"
   }
   
-  # If path colour var was originally integer, convert to factor to force
-  # qualitative color palette (usually what we want). Needs to happen before
-  # alignment as `align_move` coerces some event data column types
-  data <- int_to_factor(data, colour_paths_by)
-  
-  m <- moveVis::align_move(data, res = res, verbose = verbose)
+  # Custom alignment function to set smarter defaults based on colouring 
+  # variable and improve moveVis::align_move() processing time
+  m <- align_move_(
+    data, 
+    res = res, 
+    colour_paths_by = colour_paths_by, 
+    verbose = verbose
+  )
   
   frames <- moveVis::frames_spatial(
     m,
@@ -320,17 +322,45 @@ generate_frames <- function(data,
   frames
 }
 
-int_to_factor <- function(m, colour_paths_by) {
-  is_track_var <- colour_paths_by %in% colnames(move2::mt_track_data(m))
-  is_event_var <- colour_paths_by %in% colnames(m)
+# Wrapper of moveVis::align_move() to improve speed based on app input.
+# 
+# By default, `fill_na_values = TRUE`, which with large data sets can take 
+# a long time and cause memory issues in MoveApps.
+#
+# This function subsets the input move2 object
+# to only include the essential columns for animation, converts integers
+# to factors (typically integers represent ID values in move2 objects)
+# and sets `fill_na_values` for `align_move()` based on whether we need
+# to interpolate attribute values for colouring or not. These steps
+# help speed up `align_move()` significantly. 
+align_move_ <- function(data, res, colour_paths_by, verbose) {
+  is_track_var <- colour_paths_by %in% colnames(move2::mt_track_data(data))
+  is_event_var <- colour_paths_by %in% colnames(data)
   
   if (is_track_var) {
-    m <- move2::mutate_track_data(
-      m, 
+    data <- dplyr::select(data)
+    data <- move2::select_track_data(data, dplyr::all_of(colour_paths_by))
+    
+    # Convert integer to factor
+    data <- move2::mutate_track_data(
+      data, 
       "{colour_paths_by}" := int_as_factor(.data[[colour_paths_by]])
     )
+    
+    # No need to interpolate event vars if coloring by a track attribute
+    fill_na_values <- FALSE
   } else if (is_event_var) {
-    m[[colour_paths_by]] <- int_as_factor(m[[colour_paths_by]])
+    # Retain only necessary columns to improve speed of `align_move()`
+    data <- dplyr::select(data, dplyr::all_of(colour_paths_by))
+    data <- move2::select_track_data(data)
+    
+    # If path colour var was originally integer, convert to factor to force
+    # qualitative color palette (usually what we want). Needs to happen before
+    # alignment as `align_move()` coerces some event data column types
+    data[[colour_paths_by]] <- int_as_factor(data[[colour_paths_by]])
+    
+    # Need to interpolate event variable values as we are colouring by one.
+    fill_na_values <- TRUE
   } else {
     logger.error(
       paste0(
@@ -341,7 +371,12 @@ int_to_factor <- function(m, colour_paths_by) {
     stop("Attribute \"", colour_paths_by, "\" not found in input data.")
   }
   
-  m
+  moveVis::align_move(
+    data, 
+    res = res, 
+    verbose = verbose,
+    fill_na_values = fill_na_values
+  )
 }
 
 int_as_factor <- function(x) {

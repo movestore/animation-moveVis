@@ -111,7 +111,9 @@ If `"other"`, colours based on another attribute in the data (see
 **Other attribute for track colouring (`colour_paths_by`):** Name of the
 event or track attribute to use when colouring tracks in the output map.
 This must exactly match the name of the attribute in the input data.
-Only used if `col_opt` is set to `"other"`.
+Only used if `col_opt` is set to `"other"`. If an attribute of the same
+name exists in both the event and track data, the values in the track 
+data are used.
 
 **Palette (`path_pal`)** Name of the colour palette used to colour the
 tracks in the output map. Ignored if `col_opt` is set to `"one"`. Examples
