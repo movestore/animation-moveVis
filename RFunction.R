@@ -289,7 +289,6 @@ generate_frames <- function(data,
     colour_paths_by = colour_paths_by,
     path_legend = path_legend,
     path_legend_title = legend_title,
-    path_alpha = 0.5,
     equidistant = FALSE,
     verbose = verbose
   )
