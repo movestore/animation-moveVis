@@ -46,6 +46,9 @@ rFunction <- function(data,
   
   out_file <- out_file %||% appArtifactPath(paste0("animation_moveVis.", file_format))
   
+  # Write frames to disk to save memory space
+  moveVis::use_disk()
+  
   if (file_format %in% c("3gp", "mpeg")) {
     logger.info("Using codec libx264 for file format: ", file_format)
     # For these formats, force a codec that is available on MoveApps system
