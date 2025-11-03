@@ -12,7 +12,7 @@
       "id": "unit",
       "name": "Unit of your alignment resolution",
       "description": "Select the time unit of your selected alignment resolution if you provided a numeric resolution value above. Note that your data have to encompass at least 10-20 times the duration of the unit. Further, large time gaps within or between tracks can lead to errors or unexpected behaviour.",
-      "defaultValue": "hours",
+      "defaultValue": "hour",
       "type": "RADIOBUTTONS",
       "options": [
         {
