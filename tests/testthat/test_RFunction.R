@@ -84,7 +84,8 @@ test_that("Produce correct map tile citation", {
 
 test_that("Can provide custom map extent", {
   bbox <- sf::st_bbox(d)
-  crs <- sf::st_crs(d)
+  crs <- sf::st_crs("epsg:4326")
+  out_crs <- sf::st_crs("epsg:3857")
   
   capture.output(
     frames <- generate_frames(
@@ -96,13 +97,16 @@ test_that("Can provide custom map extent", {
   )
   
   # Output CRS should match map
-  expect_equal(frames$crs, crs)
+  expect_equal(frames$crs, out_crs)
   
   expect_equal(
     frames$aesthetics$gg.ext,
-    sf::st_bbox(
-      c(xmin = 47, ymin = 69, xmax = 50, ymax = 70), 
-      crs = crs
+    sf::st_transform(
+      sf::st_bbox(
+        c(xmin = 47, ymin = 69, xmax = 50, ymax = 70), 
+        crs = crs
+      ),
+      crs = out_crs
     )
   )
   
@@ -118,9 +122,12 @@ test_that("Can provide custom map extent", {
   
   expect_equal(
     frames$aesthetics$gg.ext,
-    sf::st_bbox(
-      c(xmin = bbox[[1]], ymin = 69, xmax = bbox[[3]], ymax = 70), 
-      crs = crs
+    sf::st_transform(
+      sf::st_bbox(
+        c(xmin = bbox[[1]], ymin = 69, xmax = bbox[[3]], ymax = 70), 
+        crs = crs
+      ),
+      crs = out_crs
     )
   )
   
@@ -136,9 +143,12 @@ test_that("Can provide custom map extent", {
   
   expect_equal(
     frames$aesthetics$gg.ext,
-    sf::st_bbox(
-      c(xmin = 48, ymin = bbox[[2]], xmax = 49, ymax = bbox[[4]]), 
-      crs = crs
+    sf::st_transform(
+      sf::st_bbox(
+        c(xmin = 48, ymin = bbox[[2]], xmax = 49, ymax = bbox[[4]]), 
+        crs = crs
+      ),
+      crs = out_crs
     )
   )
   
@@ -164,9 +174,12 @@ test_that("Can provide custom map extent", {
   
   expect_equal(
     frames$aesthetics$gg.ext,
-    sf::st_bbox(
-      c(xmin = -1, ymin = 69.1, xmax = 49, ymax = 70), 
-      crs = crs
+    sf::st_transform(
+      sf::st_bbox(
+        c(xmin = -1, ymin = 69.1, xmax = 49, ymax = 70), 
+        crs = crs
+      ),
+      crs = out_crs
     )
   )
   
@@ -178,12 +191,12 @@ test_that("Can provide custom map extent", {
   )
 })
 
-test_that("Render map in data CRS", {
+test_that("Render map in web mercator despite input CRS", {
   capture.output(
     frames <- generate_frames(sf::st_transform(d, "epsg:32637"), map_res = 0.1)
   )
   
-  expect_equal(frames$crs, sf::st_crs("epsg:32637"))
+  expect_equal(frames$crs, sf::st_crs("epsg:3857"))
   vdiffr::expect_doppelganger("frames-5-crs", frames[[5]])
 })
 

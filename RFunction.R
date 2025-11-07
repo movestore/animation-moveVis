@@ -213,7 +213,7 @@ generate_frames <- function(data,
   
   # If either y or x extent is provided, build custom bbox
   if (!is.null(y_ext) || !is.null(x_ext)) {
-    bbox <- sf::st_bbox(data)
+    bbox <- sf::st_bbox(sf::st_transform(data, "epsg:4326"))
     
     # If one of the axes is not provided, use the bbox extent as a default
     y_ext <- y_ext %||% paste(bbox[2], bbox[4])
@@ -224,8 +224,14 @@ generate_frames <- function(data,
     map_ext <- get_map_ext(
       y_ext, 
       x_ext, 
-      crs = sf::st_crs(data), 
-      default_bbox = sf::st_bbox(data)
+      crs = sf::st_crs("epsg:4326"), 
+      default_bbox = bbox
+    )
+    
+    # Input extent is in 4326, but map output will be in Web Mercator,
+    # so we transform the extent to Web Mercator
+    map_ext <- sf::st_bbox(
+      sf::st_transform(sf::st_as_sfc(map_ext), "epsg:3857")
     )
   } else {
     # Otherwise use moveVis default extent
@@ -283,8 +289,8 @@ generate_frames <- function(data,
     map_type = map_type,
     map_res = map_res,
     ext = map_ext,
-    crs = sf::st_crs(m),
-    crs_graticule = sf::st_crs(m),
+    crs = sf::st_crs("epsg:3857"),
+    crs_graticule = sf::st_crs("epsg:4326"),
     path_colours = path_colours,
     colour_paths_by = colour_paths_by,
     path_legend = path_legend,
