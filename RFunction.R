@@ -290,7 +290,8 @@ generate_frames <- function(data,
     path_legend = path_legend,
     path_legend_title = legend_title,
     equidistant = FALSE,
-    verbose = verbose
+    verbose = verbose,
+    interpolate = TRUE
   )
   
   logger.info(
