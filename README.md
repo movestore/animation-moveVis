@@ -88,11 +88,6 @@ supported in this App.
 **API Key for the given map provider (`map_token`)** API key used to
 access maps from providers that require API authorization.
 
-**Resolution of background map (`map_res`):** Resolution of the
-background map. Can take values between 0 and 1. Default is 1. Note
-that depending on the extent of your data set, excessively high or low
-values may produce errors.
-
 **Background map extent (`x_ext`, `y_ext`):** Geographic extent of the
 background map used in the animation. `x_ext` controls the 
 extent of the bounding box in the x dimension, while `y_ext` controls the 

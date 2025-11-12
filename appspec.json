@@ -317,13 +317,6 @@
       "type": "SECRET"
     },
     {
-      "id": "map_res",
-      "name": "Resolution of background map",
-      "description": "Select the resolution for your background map. This value must be between 0 and 1. Take into account the extent of your data set (i.e. high resolution is not necessary for far ranging data). Note that selection of a too high or too low value might lead to different error. Please try out different values if in doubt.",
-      "defaultValue": 1,
-      "type": "DOUBLE"
-    },
-    {
       "id": "x_ext",
       "name": "X extent of background map",
       "description": "Optionally provide two numeric values that define the minimum and maximum x bounds for the background map extent. (For latitude/longitude data, this corresponds to the longitude.) The digits should be separated by a space or comma (e.g. '45, 50') and the values should be in the same CRS as the input data. If left blank, the extent of the animal track data will be used. For latitude/longitude data, enter degrees West of the Prime Meridian as negative numbers (e.g. 5 degrees West would be provided as -5). Avoid setting an extent that is very large relative to the extent of the track data, as this may produce invalid geometry calculations and cause the app to fail.",
