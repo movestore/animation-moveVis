@@ -50,7 +50,7 @@
     {
       "id": "map_type",
       "name": "Map type",
-      "description": "Select the type of map that you want to use as your animation background. Note that some map providers may require the specification of an API key (see 'Map Service API Key' below). Some map types may not have full global coverage—if you encounter a `Base map download failed` error, try a different map type.",
+      "description": "Select the type of map that you want to use as your animation background. Note that some map providers may require the specification of an API key (see 'Map Service API Key' below). Some map types may not have full global coverage—if you encounter a `Base map download failed` error, try a different map type. See Documentation for links to preview these maps.",
       "defaultValue": "osm:topographic",
       "type": "DROPDOWN",
       "options": [
@@ -368,7 +368,7 @@
     {
       "id": "path_pal",
       "name": "Colour palette for track colouring",
-      "description": "Name of the colour palette to use when colouring tracks. Palettes are labeled with the type of data they are designed to represent (qualitative, sequential, or diverging). Ignored if all tracks are being coloured the same (see 'Track colour option' above). Note that in this app, integer attributes are treated as qualitative as they often represent ID values.",
+      "description": "Name of the colour palette to use when colouring tracks. Palettes are labeled with the type of data they are designed to represent (qualitative, sequential, or diverging). Ignored if all tracks are being coloured the same (see 'Track colour option' above). Note that in this app, integer attributes are treated as qualitative as they often represent ID values. See Documentation for examples of the color palettes.",
       "defaultValue": "Set 2",
       "type": "DROPDOWN",
       "options": [

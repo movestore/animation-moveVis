@@ -9,7 +9,8 @@ Github repository: *https://www.github.com/movestore/animation-moveVis*
 Generate an animation of your tracks using the [moveVis](https://movevis.org/) 
 R package. The animation is saved as an artefact that can be downloaded to your
 device. (Note: depending on the size of your data set this App may take a while
-to run [30+ min, see logs].)
+to run. Consider activating the 'Notification Setting' (bell icon) to receive an 
+email when the Workflow instance has finished.)
 
 ## Documentation
 
@@ -19,7 +20,8 @@ defined resolution (see settings below). Then all tracks are plotted as
 moving dots on a common map. Tracks can optionally be coloured by
 their IDs or by their values for another attribute present in the input
 data. The frames of all individual tracks are finally combined and
-written as an animated file to download as MoveApps output artefact. The
+written as an animated file to download as MoveApps output artefact in one of the 
+available formats ("mp4", "gif", "mov", "flv", "avi", "mpeg", "3gp", "ogg"). The
 original data set is also passed on as output to a possible next App.
 
 ### Application scope
@@ -33,6 +35,9 @@ This app was designed to support any point-location movement data.
 This app is applicable for data that contain multiple point locations that
 can be linked by individual, deployment, or tag. Each individual, deployment,
 or tag being animated should have at least 2 (preferably more) fixes.
+If your data set has high temporal resolution, spans over a large time period and/or 
+contains a large amount of individuals, pay close attention to the first two 
+settings `Temporal resolution for alignment`and `Unit of your alignment resolution`.
 
 ### Input type
 
@@ -78,13 +83,35 @@ background. Several map providers are available. Some providers
 [Mapbox](https://www.mapbox.com/), and 
 [MapTiler](https://www.maptiler.com/)) require an associated API key,
 which you must have obtained from the map provider website prior to
-running the App (see `map_token` below). Examples of available basemaps can
-be found on the following pages:
+running the App (see `API Key for the given map provider` below). 
+Examples of available basemaps can be found on the following pages. After each 
+provider is the list of currently available maps in this App:
 
-- [Stamen and Stadia](https://stadiamaps.com/explore-the-map/#map=7/52.3/0)
-- [Thunderforest](https://www.thunderforest.com/maps/)
-- [Mapbox](https://www.mapbox.com/maps#map-styling)
-- [MapTiler](https://www.maptiler.com/maps/#style=streets-v2&lang=auto&mode=2d&position=5.86/51.328/10.454)
+- [OSM](https://opentopomap.org): 'OSM Topographic', 'OSM Streets', 'OSM Streets DE'
+- [Stamen and Stadia](https://stadiamaps.com/explore-the-map/#map=7/52.3/0) (API Key needed): 
+'Stamen Toner', 'Stamen Toner BG' ,'Stamen Terrain','Stamen Terrain BG', 'Stamen Watercolor', 
+'Stadia Alidade Smooth', 'Stadia Alidade Smooth Dark', 'Stadia Outdoors', 'Stadia OSM Bright'
+- [Thunderforest](https://www.thunderforest.com/maps/) (API Key needed): 'Thunderforest Cycle',
+'Thunderforest Transport', 'Thunderforest Landscape', 'Thunderforest Outdoors', 
+'Thunderforest Transport Dark', 'Thunderforest Spinal', 'Thunderforest Pioneer', 
+'Thunderforest Mobile Atlas', 'Thunderforest Neighborhood', 'Thunderforest Atlas'
+- [Carto](https://carto.com/basemaps): 'Carto Light', 'Carto Light No Labels', 
+'Carto Dark', 'Carto Dark No Labels', 'Carto Voyager', 'Carto Voyager No Labels', 
+'Carto Voyager Labels Under'
+- [Mapbox](https://www.mapbox.com/maps#map-styling) (API Key needed): 'Mapbox Streets',
+'Mapbox Outdoors', 'Mapbox Light', 'Mapbox Dark', 'Mapbox Satellite', 
+'Mapbox Hybrid', 'Mapbox Terrain'
+- [ESRI](https://www.arcgis.com/apps/mapviewer/index.html?webmap): 'ESRI NatGeo World Map',
+'ESRI USA Topo Maps', 'ESRI World Imagery', 'ESRI World Physical Map', 
+'ESRI World Shaded Relief', 'ESRI World Street Map', 'ESRI World Terrain Base', 
+'ESRI World Topo Map', 'ESRI World Dark Gray Base', 'ESRI World Light Gray Base', 
+'ESRI World Hillshade Dark', 'ESRI World Hillshade', 'ESRI World Ocean Base', 
+'ESRI Antarctic Imagery', 'ESRI Arctic Ocean Base', 'ESRI World Navigation Charts'
+- [MapTiler](https://www.maptiler.com/maps/#style=streets-v2&lang=auto&mode=2d&position=5.86/51.328/10.454) 
+(API Key needed): 'MapTiler Aquarelle', 'MapTiler Backdrop', 'MapTiler Basic', 
+'MapTiler Bright', 'MapTiler Dataviz', 'MapTiler Landscape', 'MapTiler Ocean', 
+'MapTiler Outdoor', 'MapTiler Satellite', 'MapTiler Streets', 'MapTiler Toner',
+'MapTiler Topo', 'MapTiler Winter'
 
 Examples can also be found on the 
 [leaflet-extras demo page](https://leaflet-extras.github.io/leaflet-providers/preview/).
@@ -92,7 +119,13 @@ Note that not all of the styles provided by a given map service are
 supported in this App.
 
 **API Key for the given map provider (`map_token`)** API key used to
-access maps from providers that require API authorization.
+access maps from providers that require API authorization. The providers [Stamen](https://maps.stamen.com/#terrain/12/37.7706/-122.3782),
+[Stadia](https://stadiamaps.com/), 
+[Thunderforest](https://www.thunderforest.com/), 
+[Mapbox](https://www.mapbox.com/), and 
+[MapTiler](https://www.maptiler.com/)) require an associated API key,
+which you must have obtained from the map provider website prior to
+running the App.
 
 **Background map extent (`lon_ext`, `lat_ext`):** Geographic extent of the
 background map used in the animation. `lon_ext` controls the 
@@ -102,28 +135,60 @@ are left NULL, the geographic extent of the track data will be used for
 that dimension.
 
 **Track colour option (`col_opt`):** Method to use when selecting colours for
-the tracks in the animation. Default is `one` (i.e. all tracks
-have the same colour). If `"trackid"`, colours each track ID differently.
-If `"other"`, colours based on another attribute in the data (see 
-`colour_paths_by` below).
+the tracks in the animation. Default is `Single colour (red) for all tracks` 
+(i.e. all tracks have the same colour). The option `Coloured by track ID`, 
+colours each track ID differently. And `Coloured by event or track attribute (define below)`, 
+colours based on another attribute in the data (see 
+`Other attribute for track colouring` below).
 
 **Other attribute for track colouring (`colour_paths_by`):** Name of the
 event or track attribute to use when colouring tracks in the output map.
-This must exactly match the name of the attribute in the input data.
-Only used if `col_opt` is set to `"other"`. If an attribute of the same
-name exists in both the event and track data, the values in the track 
-data are used.
+This must exactly match the name of the attribute in the input data. Check the 
+previous app's data overview for available attributes and their spelling. If you 
+opt to include a legend, it will show the values of the attribute that correspond 
+to each colour.
+Only used if `Track colour option` is set to `Coloured by event or track attribute`. 
+If an attribute of the same name exists in both the event and track data, 
+the values in the track data are used.
 
 **Palette (`path_pal`)** Name of the colour palette used to colour the
-tracks in the output map. Ignored if `col_opt` is set to `"one"`. Examples
-of many available palettes can be found 
+tracks in the output map. Ignored if `Track colour option` is set to 
+`Single colour (red) for all tracks`. Palettes are labeled with the type of data 
+they are designed to represent (qualitative, sequential, or diverging). Note that 
+in this app, integer attributes are treated as qualitative as they often
+represent ID values.
+Available palettes:
+
+Qualitative: 'Set 2', 'Pastel 1', 'Dark 2', 'Dark 3', 'Set 3', 'Warm', 'Cold', 'Harmonic', 'Dynamic'
+
+Sequential: 'Grays', 'Light Grays', 'Blues 2', 'Blues 3', 'Purples 2', 'Purples 3', 'Reds 2', 
+'Reds 3', 'Greens 2', 'Greens 3', 'Oslo', 'Purple-Blue', 'Red-Purple', 'Red-Blue',
+'Purple-Orange', 'Purple-Yellow', 'Blue-Yellow', 'Green-Yellow', 'Red-Yellow', 'Heat',
+'Heat 2', 'Terrain', 'Terrain 2', 'Viridis', 'Plasma', 'Inferno', 'Rocket', 'Mako',
+'Dark Mint', 'Mint', 'BluGrn', 'Teal', 'TealGrn', 'Emrld', 'BluYl', 'ag_GrnYl',
+'Peach', 'PinkYl', 'Burg', 'BurgYl', 'RedOr', 'OrYel', 'Purp', 'PurpOr',
+'Sunset', 'Magenta', 'SunsetDark', 'ag_Sunset', 'BrwnYl', 'YlOrRd', 'YlOrBr', 
+'OrRd', 'Oranges', 'YlGn', 'YlGnBu', 'Reds', 'RdPu', 'PuRd', 'Purples',
+'PuBuGn', 'PuBu', 'Greens', 'BuGn', 'GnBu', 'BuPu', 'Blues', 'Lajolla',
+'Turku', 'Hawaii', 'Batlow'
+
+Diverging: 'Blue-Red', 'Blue-Red 2', 'Blue-Red 3', 'Red-Green', 'Purple-Green', 'Purple-Brown',
+'Green-Brown', 'Blue-Yellow 2', 'Blue-Yellow 3', 'Green-Orange', 'Cyan-Magenta', 'Tropic',
+'Broc', 'Cork', 'Vik', 'Berlin', 'Lisbon', 'Tofino', 'ArmyRose', 'Earth',
+'Fall', 'Geyser', 'TealRose', 'Temps', 'PuOr', 'RdBu', 'RdGy', 'PiYG',
+'PRGn', 'BrBG', 'RdYlBu', 'RdYlGn', 'Spectral', 'Zissou 1', 'Cividis', 'Roma'
+
+Examples of many available palettes can be found 
 [here](https://colorspace.r-forge.r-project.org/articles/hcl_palettes.html).
 
 **Include legend (`path_legend`):** Should a legend showing the track
-colours be shown? By default, a legend is included.
+colours be shown? By default, a legend is included. Note that the legend may 
+be very large if colouring by an attribute that has many levels. In these 
+cases, you may want to suppress the legend.
 
 **Caption (`caption`):** Text for a caption that will be added at the
-bottom of the animation window. By default, no caption is included.
+bottom of the animation window. Typically this is the data reference. 
+By default, no caption is included.
 
 **Output file format (`file_format`):** File format for the output animation
 file. The following video formats are available: "mp4", "gif", "mov", "flv", 
@@ -141,8 +206,11 @@ Maps are rendered at 300 ppi resolution.
 **Hide attribution (`hide_attribution`):** Toggle to remove the basemap tile
 attribution label included by default in the output map. Note that if you elect
 to remove this label it is your responsibility to ensure the map tiles are 
-cited appropriately (e.g. in the map caption). The App logs will include a 
-line with the basemap tile citation information, if needed.
+cited appropriately (e.g. in the map caption). You can find relevant citation 
+information in the app logs or consult the online user agreement for the 
+selected map provider (see 'Map type' above). In general, you should only 
+need to use this option if the citation label has been cut off by your map 
+boundary and you need to display it in the map caption instead.
 
 ### Changes in output data
 
@@ -150,29 +218,30 @@ The input data remain unchanged.
 
 ### Most common errors
 
-The alignment resolution `res` must be compatible with the temporal
-characteristics of the input data. For instance, attempting to align 
-using a resolution that approaches (or exceeds) the overall length of an 
-individual track will reduce certain tracks to a single point, producing an
-error. On the other hand, fine-grained alignment resolutions may lead to 
-memory limit errors given the large number of frames required 
+The `Temporal resolution for alignment` and `Unit of your alignment resolution`
+settings must be compatible with the temporal characteristics of the input data. 
+For instance, attempting to align using a resolution that approaches (or exceeds) 
+the overall length of an individual track will reduce certain tracks to a single 
+point, producing an error. On the other hand, fine-grained alignment resolutions 
+may lead to memory limit errors given the large number of frames required 
 to render the animation. Note that the default resolution may not be appropriate
 for all data sets; you may need to experiment with different values to determine
-the ideal temporal resolution for your data.
+the ideal temporal resolution for your data. Try a coarse resolution first, and than 
+scale down to get the desired result, specially if you have a data set with high 
+temporal resolution, that spans over a large time period and/or contains a large 
+amount of individuals.
 
 If using a basemap from Stamen, Stadia, Thunderforest, Mapbox, or MapTiler,
-you must also provide an API key to `map_token`. If you do not provide a key
-or provide an invalid key, the App will fail.
+you must also provide an API key to `API Key for the given map provider`. 
+If you do not provide a key or provide an invalid key, the App will fail.
 
-If colouring by an attribute in the input data (`col_opt = "other"`), the name
-of the attribute to use for colouring (`colour_paths_by`) must match the 
+If colouring by an attribute in the input data (`Track colour option` = 
+`Coloured by event or track attribute`), the name of the attribute to use 
+for colouring (`Other attribute for track colouring`) must match the 
 column name for that attribute in the input data exactly. Any misspellings 
 will prevent the attribute from being located in the data and the App will fail.
 
 ### Null or error handling:
-
-**Data:** The full input data set is returned for further use in a next
-App and cannot be empty.
 
 **Temporal resolution for alignment (`res`):** There is no default `res`
 parameter, but it is a required argument. A numeric value must be provided 
