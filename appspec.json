@@ -883,6 +883,20 @@
       ]
     },
     {
+      "id": "width",
+      "name": "Animation output width (cm)",
+      "description": "Width of the output animation in centimeters. If your map is very wide, you may need to increase this value to prevent plot elements from overlapping or being clipped.",
+      "defaultValue": 15
+      "type": "DOUBLE"
+    },
+    {
+      "id": "height",
+      "name": "Animation output height (cm)",
+      "description": "Height of the output animation in centimeters. If your map is very tall, you may need to increase this value to prevent plot elements from overlapping or being clipped.",
+      "defaultValue": 15
+      "type": "DOUBLE"
+    },
+    {
       "id": "hide_attribution",
       "name": "Hide basemap citation label",
       "description": "Remove the label containing the citation information for the basemap tiles used in the animation. IMPORTANT: by removing this label you acknowledge that it is your responsibility to ensure that the basemap tiles are appropriately cited (e.g. by using the 'Caption' setting above). You can find relevant citation information in the app logs or consult the online user agreement for the selected map provider (see 'Map type' above). In general, you should only need to use this option if the citation label has been cut off by your map boundary and you need to display it in the map caption instead.",

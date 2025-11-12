@@ -21,6 +21,9 @@ rFunction <- function(data,
                       file_format = "mp4",
                       out_file = NULL,
                       hide_attribution = FALSE,
+                      width = 15,
+                      height = 15,
+                      out_res = 300,
                       verbose = TRUE) {
   # Copy data so we can return a non-modified version
   data_orig <- data
@@ -58,7 +61,10 @@ rFunction <- function(data,
       overwrite = TRUE, 
       fps = fps,
       display = FALSE,
-      verbose = verbose
+      verbose = verbose,
+      width = cm_to_px(width, res = out_res),
+      height = cm_to_px(height, res = out_res),
+      res = out_res
     )
   } else {
     moveVis::animate_frames(
@@ -67,7 +73,10 @@ rFunction <- function(data,
       overwrite = TRUE, 
       fps = fps,
       display = FALSE,
-      verbose = verbose
+      verbose = verbose,
+      width = cm_to_px(width, res = out_res),
+      height = cm_to_px(height, res = out_res),
+      res = out_res
     )
   }
   
@@ -640,6 +649,14 @@ get_map_ext <- function(y_ext, x_ext, crs, default_bbox) {
   }
   
   map_ext
+}
+
+cm_to_px <- function(x, res = 300) {
+  # Convert from cm to pixels at a given resolution
+  x <- (x / 2.54) * res
+  
+  # Ensure output is divisible by 2 for video encoding
+  floor(x / 2) * 2
 }
 
 `%||%` <- function(x, y) {

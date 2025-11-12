@@ -127,6 +127,13 @@ file. The following video formats are available: "mp4", "gif", "mov", "flv",
 that the MoveApps system may not render mpeg animations smoothly. We suggest 
 using other formats where possible. Default is "mp4".
 
+**Animation output dimensions (`width`, `height`):** Width and height of the
+output animation, in centimeters. By default, creates a 15 centimeter by 15 
+centimeter animation. Depending on the dimensions of the map
+generated for the animation, the default settings may force plot elements
+to overlap or be clipped. In this case, you can modify the dimensions here.
+Maps are rendered at 300 ppi resolution.
+
 **Hide attribution (`hide_attribution`):** Toggle to remove the basemap tile
 attribution label included by default in the output map. Note that if you elect
 to remove this label it is your responsibility to ensure the map tiles are 
