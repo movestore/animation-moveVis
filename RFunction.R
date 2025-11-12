@@ -4,6 +4,49 @@
 # one can use the function from the logger.R file:
 # logger.fatal(), logger.error(), logger.warn(), logger.info(), logger.debug(), logger.trace()
 
+#' Generate a track animation using moveVis
+#'
+#' @param data Input move2 object
+#' @param res Numeric value expressing the temporal resolution for track 
+#'   alignment in units specified by `unit`.
+#' @param unit Unit of temporal alignment used with the provided `res`.
+#' @param map_type Desired basemap. Combination of basemap provider and map
+#'   type, separated with a colon. These correspond to the `map_service` and 
+#'   `map_type` arguments in `basemaps::basemap()`, respectively
+#' @param map_token API key to be used when requesting the indicated `map_type`,
+#'   if needed.
+#' @param map_res Value between 0 and 1 controlling the number of tiles 
+#'   requested from the map tile provider indicated in `map_type`. Essentially,
+#'   this controls the zoom level used when requesting tiles. At the moment,
+#'   this value is not exposed in the app settings, as the default value of
+#'   1 should be appropriate. Note that it is not possible to use this argument
+#'   to increase detail beyond the number of tiles requested when `map_res = 1`.
+#'   To retrieve more "zoomed-in" tiles, you must pass `custom_zoom` to
+#'   `frames_spatial()` instead.
+#' @param high_res Logical indicating whether to retrieve high resolution
+#'   tiles from the map tile provider in `map_type`. This is not exposed to the
+#'   end user. Currently, we retrieve detailed tiles. This increases processing
+#'   time but produces sharper maps, particularly when rendered in large format.
+#' @param y_ext,x_ext Geographic extent to use for the animation basemap, in
+#'   latitude/longitude coordinates.
+#' @param fps Frames per second to use in the rendered animation
+#' @param col_opt Selection indicating how tracks are to be colored. Either
+#'   `"one"`, `"trackid"`, or `"other"`. For `"other"`, a variable in the input
+#'   data is used for coloring (see `colour_paths_by`).
+#' @param path_pal Color palette to use when coloring the tracks, if `col_opt`
+#'   is not `"one"`
+#' @param colour_paths_by Name of the event or track attribute to use when
+#'   coloring the tracks, if `col_opt = "other"`.
+#' @param path_legend Logical indicating whether a legend should be included
+#'   in the output animation.
+#' @param caption A caption to include in the output animation, if any.
+#' @param file_format File format for the output animation.
+#' @param out_file Name of the output animation file.
+#' @param hide_attribution Logical indicating whether the basemap citation
+#'   information included in the map should be hidden.
+#' @param width,height Output dimensions for the animation, in centimeters. 
+#' @param out_res Output resolution. Not exposed to the user. Fixed at 300.
+#' @param verbose Logical indicating whether to print logger information.
 rFunction <- function(data,
                       res = NULL,
                       unit = "hour",
