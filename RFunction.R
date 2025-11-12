@@ -5,8 +5,8 @@
 # logger.fatal(), logger.error(), logger.warn(), logger.info(), logger.debug(), logger.trace()
 
 rFunction <- function(data,
-                      res = "mean",
-                      unit = "hours",
+                      res = NULL,
+                      unit = "hour",
                       map_type = "osm:streets",
                       map_token = "",
                       map_res = 1,
@@ -27,7 +27,7 @@ rFunction <- function(data,
                       verbose = TRUE) {
   # Copy data so we can return a non-modified version
   data_orig <- data
-
+  
   # Wrapper to interpret default settings and generate frames
   frames <- generate_frames(
     data = data,
@@ -134,28 +134,13 @@ deduplicate <- function(x) {
 # Parse resolution info, which can either be a string or a number with units
 # (which are specified with separate MoveApps inputs)
 parse_resolution <- function(res, unit) {
-  res_options <- c("mean", "minimum", "maximum", "median")
+  if (!is.numeric(res)) {
+    stop("Alignment resolution `res` must be a numeric value")
+  }
+  unit <- match.arg(unit, c("sec", "min", "hour", "day"))
   
-  res <- tryCatch({
-    res <- match.arg(res, res_options)
-    logger.info(paste0("Aligning tracks with temporal resolution: ", res))
-    res
-  },
-  error = function(cnd) {
-    res <- suppressWarnings(as.numeric(res))
-    
-    if (is.na(res)) {
-      logger.warn("Unrecognized resolution. Aligning tracks with temporal resolution: mean")
-      res <- "mean"
-    } else {
-      logger.info(paste0("Aligning tracks with temporal resolution: ", res, " (", unit, ")"))
-      res <- units::as_units(res, unit)
-    }
-    
-    res
-  })
-  
-  res
+  logger.info(paste0("Aligning tracks with temporal resolution: ", res, " (", unit, ")"))
+  units::as_units(res, unit)
 }
 
 # Service and type are contained in a single setting and concatenated with `:`
@@ -189,7 +174,7 @@ parse_map_spec <- function(map_type, map_token) {
 # frame behavior as the app itself produces only an animated file output.
 generate_frames <- function(data,
                             res = "mean",
-                            unit = "hours",
+                            unit = "hour",
                             map_type = "osm:streets",
                             map_token = "",
                             map_res = 1,

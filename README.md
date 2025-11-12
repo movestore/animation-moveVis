@@ -51,15 +51,15 @@ tracked positions aligned by time.
 
 **Temporal resolution for alignment (`res`):** This parameter allows the
 user to define the time interval by which the tracks will be thinned for
-alignment. This can either be one of "mean", "minimum", "maximum", or
-"median" (to calculate the alignment resolution from the temporal
-information in the data) or it can be a numeric value. If a numeric
-value, it is used as the alignment resolution directly along with an
-associated unit provided below (see `unit`).
+alignment. Combined with the provided units (see `unit` below), this numeric
+value determines the temporal intervals at which point locations will be
+selected for each track. Track trajectories will then be animated between 
+these points. Higher `res` values improve processing time but can make the
+animation appear less smooth.
 
 **Unit of your alignment resolution (`unit`):** Parameter to select a
-time unit for alignment resolution. One of "seconds", "minutes",
-"hours", or "days".
+time unit for alignment resolution. One of `"sec"`, `"min"`,
+`"hour"`, or `"day"`.
 
 **Speed of animation (`fps`):** Number of frames to be shown per second
 in the output animation. Default is 25.
@@ -177,10 +177,14 @@ data. If you want your animation to have a different output CRS, use the
 **Data:** The full input data set is returned for further use in a next
 App and cannot be empty.
 
+**Temporal resolution for alignment (`res`):** There is no default `res`
+parameter, but it is a required argument. A numeric value must be provided 
+by the user.
+
 **Unit of your alignment resolution (`unit`):** This unit parameter
-defaults to `"hours"`, which might not be appropriate given the temporal
+defaults to `"hour"`, which might not be appropriate given the temporal
 resolution of your input data. In this case, you may need to select a
-different unit or use a data-driven input for `res`.
+different unit.
 
 **Map service API key (`map_token`):** If you select a map 
 type from a provider that requires an API key, you must provide an API key

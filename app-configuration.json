@@ -1,6 +1,6 @@
 {
     "res" : 12,
-    "unit" : "hours",
+    "unit" : "hour",
     "map_type" : "carto:light",
     "map_token": "secret",
     "fps" : 25,

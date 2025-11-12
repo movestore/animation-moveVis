@@ -10,31 +10,44 @@ source("../../RFunction.R")
 d <- test_data()
 
 test_that("Can animate frames with default values", {
+  out_file <- file.path(tempdir(), "animation_moveVis.mp4")
+  
   capture.output(
-    rFunction(
-      d, 
-      out_file = file.path(tempdir(), paste0("animation_moveVis.mp4")), 
-      verbose = FALSE
-    )
+    rFunction(d, res = 1, unit = "day", out_file = out_file, verbose = FALSE)
   )
-  expect_true("animation_moveVis.mp4" %in% list.files(tempdir()))
+  
+  expect_true(file.exists(out_file))
+  expect_true(file.size(out_file) > 0)
 })
 
 test_that("Can color with single color", {
   capture.output(
-    frames <- generate_frames(d, map_res = 0.1)
+    frames <- generate_frames(d, res = 1, unit = "day", map_res = 0.1)
   )
   vdiffr::expect_doppelganger("frames-5-one", frames[[5]])
 })
 
 test_that("Can color by track ID", {
   capture.output(
-    frames <- generate_frames(d, col_opt = "trackid", map_res = 0.1)
+    frames <- generate_frames(
+      d, 
+      res = 1, 
+      unit = "day", 
+      col_opt = "trackid", 
+      map_res = 0.1
+    )
   )
   vdiffr::expect_doppelganger("frames-5-trackid", frames[[5]])
   
   capture.output(
-    frames <- generate_frames(d, col_opt = "trackid", path_pal = "Viridis", map_res = 0.1)
+    frames <- generate_frames(
+      d, 
+      res = 1, 
+      unit = "day", 
+      col_opt = "trackid", 
+      path_pal = "Viridis", 
+      map_res = 0.1
+    )
   )
   vdiffr::expect_doppelganger("frames-5-trackid-viridis", frames[[5]])
 })
@@ -44,6 +57,8 @@ test_that("Can color by attribute", {
   capture.output(
     frames <- generate_frames(
       d,
+      res = 1, 
+      unit = "day",
       col_opt = "other",
       colour_paths_by = "tag_id",
       path_pal = "Harmonic",
@@ -58,7 +73,12 @@ test_that("Warn if no API token", {
   withr::local_envvar(list(STADIA_API_KEY = NA))
   
   expect_output(
-    frames <- generate_frames(d, map_type = "osm_stadia:alidade_smooth"),
+    frames <- generate_frames(
+      d, 
+      res = 1, 
+      unit = "day", 
+      map_type = "osm_stadia:alidade_smooth"
+    ),
     paste0(
       "\\[WARN\\] Map service osm_stadia requires API authorization, ",
       "but no key was provided.+"
@@ -70,7 +90,12 @@ test_that("Warn if no API token", {
 
 test_that("Produce correct map tile citation", {
   expect_output(
-    frames <- generate_frames(d, map_type = "carto:dark"),
+    frames <- generate_frames(
+      d, 
+      res = 1, 
+      unit = "day", 
+      map_type = "carto:dark"
+    ),
     paste0(
       "\\[INFO\\].+Citation.+for basemap 'dark' from map service 'carto': ",
       "\u00A9 CARTO \\(http://www.carto.com/attributions/\\) ",
@@ -90,6 +115,8 @@ test_that("Can provide custom map extent", {
   capture.output(
     frames <- generate_frames(
       d, 
+      res = 1, 
+      unit = "day",
       map_res = 0.1,
       y_ext = "[69;  70",
       x_ext = "(47, 50)"
@@ -113,6 +140,8 @@ test_that("Can provide custom map extent", {
   expect_output(
     frames <- generate_frames(
       d, 
+      res = 1, 
+      unit = "day",
       map_res = 0.1,
       y_ext = "[69;  70",
       x_ext = "(47"
@@ -134,6 +163,8 @@ test_that("Can provide custom map extent", {
   expect_output(
     frames <- generate_frames(
       d, 
+      res = 1, 
+      unit = "day",
       map_res = 0.1,
       y_ext = "[69;  69",
       x_ext = "(48, 49"
@@ -156,6 +187,8 @@ test_that("Can provide custom map extent", {
   expect_output(
     frames <- generate_frames(
       d, 
+      res = 1, 
+      unit = "day",
       map_res = 0.1,
       y_ext = "[69;  70"
     ),
@@ -166,6 +199,8 @@ test_that("Can provide custom map extent", {
   capture.output(
     frames <- generate_frames(
       d, 
+      res = 1, 
+      unit = "day",
       map_res = 0.1,
       y_ext = "[69.1ab70.)",
       x_ext = "(.-1, 49"
@@ -185,7 +220,14 @@ test_that("Can provide custom map extent", {
   
   expect_error(
     capture.output(
-      generate_frames(d, map_res = 0.1, y_ext = "[-5;  5", x_ext = "(47, 50)")
+      generate_frames(
+        d, 
+        res = 1, 
+        unit = "day", 
+        map_res = 0.1, 
+        lat_ext = "[-5;  5", 
+        lon_ext = "(47, 50)"
+      )
     ),
     "Argument 'ext' does not overlap"
   )
@@ -193,7 +235,12 @@ test_that("Can provide custom map extent", {
 
 test_that("Render map in web mercator despite input CRS", {
   capture.output(
-    frames <- generate_frames(sf::st_transform(d, "epsg:32637"), map_res = 0.1)
+    frames <- generate_frames(
+      sf::st_transform(d, "epsg:32637"), 
+      res = 1, 
+      unit = "day",
+      map_res = 0.1
+    )
   )
   
   expect_equal(frames$crs, sf::st_crs("epsg:3857"))
@@ -201,19 +248,12 @@ test_that("Render map in web mercator despite input CRS", {
 })
 
 test_that("Can provide res as text or numeric", {
-  # Use output as proxy here, since it's difficult to programatically
-  # determine what alignment was used without returning the output of
-  # `align_move()`
-  expect_output(
+  expect_error(
     frames <- generate_frames(d, res = "max"),
-    "\\[INFO\\] Aligning tracks with temporal resolution: maximum"
+    "Alignment resolution `res` must be a numeric value"
   )
   expect_output(
-    frames <- generate_frames(d, res = 1, unit = "days"),
-    "\\[INFO\\] Aligning tracks with temporal resolution: 1 \\(days\\)"
-  )
-  expect_output(
-    frames <- generate_frames(d, res = "foobar"),
-    "\\[WARN\\] Unrecognized resolution. Aligning tracks with temporal resolution: mean"
+    frames <- generate_frames(d, res = 1, unit = "day"),
+    "\\[INFO\\] Aligning tracks with temporal resolution: 1 \\(day\\)"
   )
 })
