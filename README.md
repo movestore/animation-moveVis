@@ -49,6 +49,12 @@ tracked positions aligned by time.
 
 ### Settings
 
+**Render a single test frame (`dry_run`):** Use this parameter to produce 
+a single static test frame instead of a full animation file. Because rendering
+a full animation can take time, you can enable this setting
+to test that the animation basemap, colors, and other graphical
+parameters are set to your liking before rendering a full animation.
+
 **Temporal resolution for alignment (`res`):** This parameter allows the
 user to define the time interval by which the tracks will be thinned for
 alignment. Combined with the provided units (see `unit` below), this numeric
@@ -127,7 +133,7 @@ file. The following video formats are available: "mp4", "gif", "mov", "flv",
 that the MoveApps system may not render mpeg animations smoothly. We suggest 
 using other formats where possible. Default is "mp4".
 
-**Animation output dimensions (`width`, `height`):** Width and height of the
+**Animation output dimensions (`out_width`, `out_height`):** Width and height of the
 output animation, in centimeters. By default, creates a 15 centimeter by 15 
 centimeter animation. Depending on the dimensions of the map
 generated for the animation, the default settings may force plot elements

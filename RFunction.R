@@ -44,7 +44,7 @@
 #' @param out_file Name of the output animation file.
 #' @param hide_attribution Logical indicating whether the basemap citation
 #'   information included in the map should be hidden.
-#' @param width,height Output dimensions for the animation, in centimeters. 
+#' @param out_width,out_height Output dimensions for the animation, in centimeters. 
 #' @param out_res Output resolution. Not exposed to the user. Fixed at 300.
 #' @param verbose Logical indicating whether to print logger information.
 rFunction <- function(data,
@@ -64,9 +64,10 @@ rFunction <- function(data,
                       file_format = "mp4",
                       out_file = NULL,
                       hide_attribution = FALSE,
-                      width = 15,
-                      height = 15,
+                      out_width = 15,
+                      out_height = 15,
                       out_res = 300,
+                      dry_run = FALSE,
                       verbose = TRUE) {
   # Copy data so we can return a non-modified version
   data_orig <- data
@@ -90,7 +91,31 @@ rFunction <- function(data,
     verbose = verbose
   )
   
-  out_file <- out_file %||% appArtifactPath(paste0("animation_moveVis.", file_format))
+  out_width <- cm_to_px(out_width, res = out_res)
+  out_height <- cm_to_px(out_height, res = out_res)
+  
+  if (dry_run) {
+    # Get mid-animation frame for better sense of track style?
+    i <- floor(length(frames) / 2)
+    
+    out_file <- out_file %||% 
+      appArtifactPath(paste0("animation_moveVis-frame", i, ".png"))
+    
+    grDevices::png(
+      out_file, 
+      width = out_width, 
+      height = out_height, 
+      res = out_res
+    )
+    
+    print(frames[[i]])
+    grDevices::dev.off()
+    
+    return(data_orig)
+  }
+  
+  out_file <- out_file %||% 
+    appArtifactPath(paste0("animation_moveVis.", file_format))
   
   if (file_format %in% c("3gp", "mpeg")) {
     logger.info("Using codec libx264 for file format: ", file_format)
@@ -105,8 +130,8 @@ rFunction <- function(data,
       fps = fps,
       display = FALSE,
       verbose = verbose,
-      width = cm_to_px(width, res = out_res),
-      height = cm_to_px(height, res = out_res),
+      width = out_width,
+      height = out_height,
       res = out_res
     )
   } else {
@@ -117,8 +142,8 @@ rFunction <- function(data,
       fps = fps,
       display = FALSE,
       verbose = verbose,
-      width = cm_to_px(width, res = out_res),
-      height = cm_to_px(height, res = out_res),
+      width = out_width,
+      height = out_height,
       res = out_res
     )
   }

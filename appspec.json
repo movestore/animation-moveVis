@@ -2,6 +2,13 @@
   "version": "1.2",
   "settings": [
     {
+      "id": "dry_run",
+      "name": "Render an individual test frame",
+      "description": "Check this box to produce a static test frame instead of rendering a full animation. Use this setting to fine-tune your selections for other graphical settings before rendering a full animation file.",
+      "defaultValue": false,
+      "type": "CHECKBOX"
+    },
+    {
       "id": "res",
       "name": "Temporal resolution for track alignment",
       "description": "This setting defines the temporal resolution to which the movement data will be thinned for alignment. Provide a numeric value which will be combined with the selected unit (see \"Unit of your alignment resolution\" below) to define the alignment resolution. Note that temporal gaps in your data can lead to errors when using units that are unsuitable for the temporal reoslution of your data. Also note that large data sets can take a long time to process or lead to memory limit errors at fine-grained resolutions.",
@@ -883,14 +890,14 @@
       ]
     },
     {
-      "id": "width",
+      "id": "out_width",
       "name": "Animation output width (cm)",
       "description": "Width of the output animation in centimeters. If your map is very wide, you may need to increase this value to prevent plot elements from overlapping or being clipped.",
       "defaultValue": 15,
       "type": "DOUBLE"
     },
     {
-      "id": "height",
+      "id": "out_height",
       "name": "Animation output height (cm)",
       "description": "Height of the output animation in centimeters. If your map is very tall, you may need to increase this value to prevent plot elements from overlapping or being clipped.",
       "defaultValue": 15,

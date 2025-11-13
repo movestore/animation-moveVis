@@ -20,6 +20,24 @@ test_that("Can animate frames with default values", {
   expect_true(file.size(out_file) > 0)
 })
 
+test_that("Can generate a static test frame", {
+  out_file <- file.path(tempdir(), "animation_moveVis-frame4.png")
+  
+  capture.output(
+    rFunction(
+      d, 
+      res = 1, 
+      unit = "day", 
+      map_res = 0.1, 
+      dry_run = TRUE, 
+      out_file = out_file
+    )
+  )
+  
+  expect_true(file.exists(out_file))
+  expect_true(file.size(out_file) > 0)
+})
+
 test_that("Can color with single color", {
   capture.output(
     frames <- generate_frames(d, res = 1, unit = "day", map_res = 0.1)
