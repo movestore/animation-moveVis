@@ -136,8 +136,8 @@ test_that("Can provide custom map extent", {
       res = 1, 
       unit = "day",
       map_res = 0.1,
-      y_ext = "[69;  70",
-      x_ext = "(47, 50)"
+      lat_ext = "[69;  70",
+      lon_ext = "(47, 50)"
     )
   )
   
@@ -161,8 +161,8 @@ test_that("Can provide custom map extent", {
       res = 1, 
       unit = "day",
       map_res = 0.1,
-      y_ext = "[69;  70",
-      x_ext = "(47"
+      lat_ext = "[69;  70",
+      lon_ext = "(47"
     ),
     "Invalid X extent.+Using background map extent"
   )
@@ -184,8 +184,8 @@ test_that("Can provide custom map extent", {
       res = 1, 
       unit = "day",
       map_res = 0.1,
-      y_ext = "[69;  69",
-      x_ext = "(48, 49"
+      lat_ext = "[69;  69",
+      lon_ext = "(48, 49"
     ),
     "Invalid Y extent.+Using background map extent"
   )
@@ -208,7 +208,7 @@ test_that("Can provide custom map extent", {
       res = 1, 
       unit = "day",
       map_res = 0.1,
-      y_ext = "[69;  70"
+      lat_ext = "[69;  70"
     ),
     "\\[INFO\\] Using background map extent"
   )
@@ -220,8 +220,8 @@ test_that("Can provide custom map extent", {
       res = 1, 
       unit = "day",
       map_res = 0.1,
-      y_ext = "[69.1ab70.)",
-      x_ext = "(.-1, 49"
+      lat_ext = "[69.1ab70.)",
+      lon_ext = "(.-1, 49"
     )
   )
   
