@@ -11,15 +11,15 @@
     {
       "id": "res",
       "name": "Temporal resolution for track alignment",
-      "description": "This setting defines the temporal resolution to which the movement data will be thinned for alignment. Provide a numeric value which will be combined with the selected unit (see \"Unit of your alignment resolution\" below) to define the alignment resolution. Note that temporal gaps in your data can lead to errors when using units that are unsuitable for the temporal reoslution of your data. Also note that large data sets can take a long time to process or lead to memory limit errors at fine-grained resolutions.",
-      "defaultValue": null,
+      "description": "Select temporal resolution to which the data will be thinned. Provide a numeric value which will be combined with the selected unit (see \"Unit of your alignment resolution\" below) to define the alignment resolution. Note that large data sets can take a long time to process, especially at fine-grained resolutions.",
+      "defaultValue": 1,
       "type": "DOUBLE"
     },
     {
       "id": "unit",
       "name": "Unit of your alignment resolution",
       "description": "Select the time unit of your selected alignment resolution if you provided a numeric resolution value above. Note that your data have to encompass at least 10-20 times the duration of the unit. Further, large time gaps within or between tracks can lead to errors or unexpected behaviour.",
-      "defaultValue": "hour",
+      "defaultValue": "day",
       "type": "RADIOBUTTONS",
       "options": [
         {
@@ -319,20 +319,20 @@
     {
       "id": "map_token",
       "name": "Map service API key",
-      "description": "API Key for your account with the given map service provider. The following services require API authorization: Stamen, Stadia, Thunderforest, Mapbox, MapTiler. If requesting a basemap from one of these providers, you must provide your API token here. See the map provider's website for more information about creating an API key.",
+      "description": "API key for your account with the given map service provider. The following services require API authorization: Stamen, Stadia, Thunderforest, Mapbox, MapTiler. If requesting a basemap from one of these providers, you must provide your API token here. See the map provider's website for more information about creating an API key.",
       "defaultValue": null,
       "type": "SECRET"
     },
     {
       "id": "lon_ext",
-      "name": "X extent of background map",
+      "name": "Longitude extent of background map",
       "description": "Optionally provide two numeric values that define the minimum and maximum longitude bounds for the background map extent. The digits should be separated by a space or comma (e.g. '45, 50'). For degrees west of the Prime Meridian, use negative numbers (e.g. 5 degrees West would be provided as -5). If left blank, the extent of the animal track data will be used.",
       "defaultValue": null,
       "type": "STRING"
     },
     {
       "id": "lat_ext",
-      "name": "Y extent of background map",
+      "name": "Latitude extent of background map",
       "description": "Optionally provide two numeric values that define the minimum and maximum latitude bounds for the background map extent. The digits should be separated by a space or comma (e.g. '45, 50'). For degrees south of the equator, use negative numbers (e.g. 5 degrees South would be provided as -5). If left blank, the extent of the animal track data will be used.",
       "defaultValue": null,
       "type": "STRING"
