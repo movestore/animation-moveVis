@@ -371,9 +371,17 @@ generate_frames <- function(data,
   frames <- frames |>
     moveVis::add_labels(x = "X", y = "Y", caption = caption) |>
     moveVis::add_northarrow() |>
-    moveVis::add_scalebar() |>
     moveVis::add_timestamps(type = "label") |> 
     moveVis::add_progress(colour = "white")
+  
+  # Use ggspatial for scale bar, which accounts for curvature
+  frames <- moveVis::add_gg(
+    frames, 
+    ggplot2::expr(ggspatial::annotation_scale(
+      pad_x = grid::unit(0.5, "cm"),
+      pad_y = grid::unit(0.5, "cm")
+    ))
+  )
   
   if (!hide_attribution) {
     frames <- add_attribution(
