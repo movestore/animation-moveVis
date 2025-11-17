@@ -917,6 +917,9 @@
         "name": "dplyr"
       },
       {
+        "name": "ggspatial"
+      },
+      {
         "name": "move2"
       },
       {
