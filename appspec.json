@@ -324,6 +324,13 @@
       "type": "SECRET"
     },
     {
+      "id": "high_res",
+      "name": "Use high-resolution basemap",
+      "description": "Check this box to retrieve high-resolution tiles for use in the animation basemap. This improves map quality but will increase animation processing time.",
+      "defaultValue": false,
+      "type": "CHECKBOX"
+    },
+    {
       "id": "lon_ext",
       "name": "Longitude extent of background map",
       "description": "Optionally provide two numeric values that define the minimum and maximum longitude bounds for the background map extent. The digits should be separated by a space or comma (e.g. '45, 50'). For degrees west of the Prime Meridian, use negative numbers (e.g. 5 degrees West would be provided as -5). If left blank, the extent of the animal track data will be used.",

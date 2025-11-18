@@ -135,6 +135,11 @@ access maps from providers that require API authorization. The providers
 which you must have obtained from the map provider website prior to
 running the App.
 
+**Use high-resolution basemap (`high_res`):** Check this box to use
+high-resolution basemap tiles in the animation. This can improve the visual
+quality of the basemap but will also increase rendering times. By default,
+standard-resolution tiles are used.
+
 **Background map extent (`lon_ext`, `lat_ext`):** Geographic extent (separately
 for longitude and latitude) of the background map used in the animation. The 
 digits should be separated by a space or comma (e.g. "45, 50"). Enter degrees 

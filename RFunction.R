@@ -24,8 +24,7 @@
 #'   To retrieve more "zoomed-in" tiles, you must pass `custom_zoom` to
 #'   `frames_spatial()` instead.
 #' @param high_res Logical indicating whether to retrieve high resolution
-#'   tiles from the map tile provider in `map_type`. This is not exposed to the
-#'   end user. Currently, we retrieve detailed tiles. This increases processing
+#'   tiles from the map tile provider in `map_type`. This increases processing
 #'   time but produces sharper maps, particularly when rendered in large format.
 #' @param lat_ext,lon_ext Geographic extent to use for the animation basemap, in
 #'   latitude/longitude coordinates.
@@ -53,6 +52,7 @@ rFunction <- function(data,
                       map_type = "osm:streets",
                       map_token = "",
                       map_res = 1,
+                      high_res = FALSE,
                       lat_ext = NULL,
                       lon_ext = NULL,
                       fps = 25,
@@ -80,6 +80,7 @@ rFunction <- function(data,
     map_type = map_type,
     map_token = map_token,
     map_res = map_res,
+    high_res = high_res,
     lat_ext = lat_ext,
     lon_ext = lon_ext,
     col_opt = col_opt,
@@ -246,6 +247,7 @@ generate_frames <- function(data,
                             map_type = "osm:streets",
                             map_token = "",
                             map_res = 1,
+                            high_res = FALSE,
                             lat_ext = NULL,
                             lon_ext = NULL,
                             col_opt = "one",
@@ -351,6 +353,7 @@ generate_frames <- function(data,
     map_type = map_type,
     map_res = map_res,
     path_size = 2,
+    high_res = high_res,
     ext = map_ext,
     crs = sf::st_crs("epsg:3857"),
     crs_graticule = sf::st_crs("epsg:4326"),
