@@ -289,6 +289,18 @@ generate_frames <- function(data,
       default_bbox = bbox
     )
     
+    if (!is.null(map_ext)) {
+      logger.info(
+        paste0(
+          "Using custom background map extent: ",
+          "Latitude: (", map_ext$ymin, ", ", map_ext$ymax, ") ",
+          "Longitude: (", map_ext$xmin, ", ", map_ext$xmax, ")"
+        )
+      )
+    } else {
+      logger.info("Using default extent for background map.")
+    }
+    
     # Input extent is in 4326, but map output will be in Web Mercator,
     # so we transform the extent to Web Mercator
     map_ext <- sf::st_bbox(
@@ -298,16 +310,6 @@ generate_frames <- function(data,
     # Otherwise use moveVis default extent
     map_ext <- NULL
     logger.info("Using default extent for background map.")
-  }
-  
-  if (!is.null(map_ext)) {
-    logger.info(
-      paste0(
-        "Using background map extent: ",
-        "Y: (", map_ext$ymin, ", ", map_ext$ymax, ") ",
-        "X: (", map_ext$xmin, ", ", map_ext$xmax, ")"
-      )
-    )
   }
   
   if (col_opt == "one") {
@@ -369,7 +371,7 @@ generate_frames <- function(data,
   )
   
   frames <- frames |>
-    moveVis::add_labels(x = "X", y = "Y", caption = caption) |>
+    moveVis::add_labels(x = "Longitude", y = "Latitude", caption = caption) |>
     moveVis::add_northarrow() |>
     moveVis::add_timestamps(type = "label") |> 
     moveVis::add_progress(colour = "white")
