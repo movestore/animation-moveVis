@@ -921,6 +921,9 @@
   "dependencies": {
     "R": [
       {
+        "name": "basemaps"
+      },
+      {
         "name": "dplyr"
       },
       {
