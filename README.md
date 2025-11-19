@@ -138,7 +138,9 @@ running the App.
 **Use high-resolution basemap (`high_res`):** Check this box to use
 high-resolution basemap tiles in the animation. This can improve the visual
 quality of the basemap but will also increase rendering times. By default,
-standard-resolution tiles are used.
+standard-resolution tiles are used. Note that some map providers (e.g. OSM)
+do not provide high resolution tiles, in which case this setting will be
+ignored.
 
 **Background map extent (`lon_ext`, `lat_ext`):** Geographic extent (separately
 for longitude and latitude) of the background map used in the animation. The 

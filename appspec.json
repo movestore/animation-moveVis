@@ -326,7 +326,7 @@
     {
       "id": "high_res",
       "name": "Use high-resolution basemap",
-      "description": "Check this box to retrieve high-resolution tiles for use in the animation basemap. This improves map quality but will increase animation processing time.",
+      "description": "Check this box to retrieve high-resolution tiles for use in the animation basemap. This improves map quality but will increase animation processing time. Note that some providers (e.g. OSM) do not provide high resolution tiles.",
       "defaultValue": false,
       "type": "CHECKBOX"
     },
