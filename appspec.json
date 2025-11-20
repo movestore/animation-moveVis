@@ -3,9 +3,9 @@
   "settings": [
     {
       "id": "dry_run",
-      "name": "Render an individual test frame",
-      "description": "Check this box to produce a static test frame instead of rendering a full animation. Use this setting to fine-tune your selections for other graphical settings before rendering a full animation file.",
-      "defaultValue": false,
+      "name": "Generate a single test image",
+      "description": "Check this box to produce a static test image instead of rendering a full animation. Because creating an animation can be time-intensive, you can use this setting to fine-tune your selections for other graphical settings before generating a full animation file.",
+      "defaultValue": true,
       "type": "CHECKBOX"
     },
     {

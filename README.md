@@ -55,8 +55,8 @@ tracked positions aligned by time.
 
 ### Settings
 
-**Render a single test frame (`dry_run`):** Use this parameter to produce 
-a single static test frame instead of a full animation file. Because rendering
+**Generate a single test image (`dry_run`):** Use this parameter to produce 
+a single static image instead of a full animation file. Because rendering
 a full animation can take time, you can enable this setting
 to test that the animation basemap, colors, and other graphical
 parameters are set to your liking before rendering a full animation.
