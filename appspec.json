@@ -51,7 +51,7 @@
       "id": "map_type",
       "name": "Map type",
       "description": "Select the map style that you want to use as your animation background. Note that some map providers may require the specification of an API key (see 'Map Service API Key' below). Some map types may not have full global coverage—if you encounter a `Base map download failed` error, try a different map type. See the app documentation for links to preview supported map types.",
-      "defaultValue": "osm:topographic",
+      "defaultValue": "carto:voyager",
       "type": "DROPDOWN",
       "options": [
         {
@@ -327,7 +327,7 @@
       "id": "high_res",
       "name": "Use high-resolution basemap",
       "description": "Check this box to use high-resolution tiles in the animation basemap. This improves map quality but will increase animation processing time. Note that some providers (e.g. OSM) do not provide high resolution tiles.",
-      "defaultValue": false,
+      "defaultValue": true,
       "type": "CHECKBOX"
     },
     {

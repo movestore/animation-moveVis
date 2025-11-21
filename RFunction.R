@@ -49,7 +49,7 @@
 rFunction <- function(data,
                       res = NULL,
                       unit = "hour",
-                      map_type = "osm:streets",
+                      map_type = "carto:voyager",
                       map_token = "",
                       map_res = 1,
                       high_res = FALSE,
@@ -227,12 +227,12 @@ parse_map_spec <- function(map_type, map_token) {
         "Map service ", map_service, 
         " requires API authorization, but no key was provided. ",
         "You can obtain a key at the map service's website. ",
-        "Using OSM topographic basemap."
+        "Using default basemap."
       )
     )
     
-    map_service <- "osm"
-    map_type <- "topographic"
+    map_service <- "carto"
+    map_type <- "voyager"
   }
   
   list(map_service = map_service, map_type = map_type)
@@ -244,7 +244,7 @@ parse_map_spec <- function(map_type, map_token) {
 generate_frames <- function(data,
                             res = "mean",
                             unit = "hour",
-                            map_type = "osm:streets",
+                            map_type = "carto:voyager",
                             map_token = "",
                             map_res = 1,
                             high_res = FALSE,

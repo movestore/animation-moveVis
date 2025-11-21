@@ -137,8 +137,8 @@ running the App.
 
 **Use high-resolution basemap (`high_res`):** Check this box to use
 high-resolution basemap tiles in the animation. This can improve the visual
-quality of the basemap but will also increase rendering times. By default,
-standard-resolution tiles are used. Note that some map providers (e.g. OSM)
+quality of the basemap but will also increase animation processing times. By
+default, high-resolution tiles are used. Note that some map providers (e.g. OSM)
 do not provide high resolution tiles, in which case this setting will be
 ignored.
 
@@ -276,9 +276,15 @@ different unit.
 **Map service API key (`map_token`):** If you select a map 
 type from a provider that requires an API key, you must provide an API key
 to **API key for the given map provider**. If left NULL, the default basemap 
-(OSM Topographic) will be used instead. Map providers that require an API 
+(Carto Voyager) will be used instead. Map providers that require an API 
 key are: Stamen, Stadia, Thunderforest, Mapbox, and MapTiler. You can learn 
 more about getting an API key on the map provider's website.
+
+**Use high-resolution basemap (`high_res`):** Some map providers (e.g. OSM) 
+do not provide high resolution basemap tiles. In these cases, the app should
+automatically provide the standard resolution tiles without failure. If
+you encounter errors retrieving any basemaps, please notify us (e.g. via a
+GitHub issue).
 
 **Background map extent (`lon_ext`, `lat_ext`):** If either 
 **Longitude extent of background map**,

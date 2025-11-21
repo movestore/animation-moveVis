@@ -102,8 +102,8 @@ test_that("Warn if no API token", {
       "but no key was provided.+"
     )
   )
-  expect_equal(frames$aesthetics$map_service, "osm")
-  expect_equal(frames$aesthetics$map_type, "topographic")
+  expect_equal(frames$aesthetics$map_service, "carto")
+  expect_equal(frames$aesthetics$map_type, "voyager")
 })
 
 test_that("Produce correct map tile citation", {
