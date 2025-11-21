@@ -164,7 +164,7 @@ test_that("Can provide custom map extent", {
       lat_ext = "[69;  70",
       lon_ext = "(47"
     ),
-    "Invalid X extent.+Using background map extent"
+    "Invalid longitude extent.+Using longitude extent of track data"
   )
   
   expect_equal(
@@ -187,7 +187,7 @@ test_that("Can provide custom map extent", {
       lat_ext = "[69;  69",
       lon_ext = "(48, 49"
     ),
-    "Invalid Y extent.+Using background map extent"
+    "Invalid latitude extent.+Using latitude extent of track data"
   )
   
   expect_equal(
@@ -210,7 +210,7 @@ test_that("Can provide custom map extent", {
       map_res = 0.1,
       lat_ext = "[69;  70"
     ),
-    "\\[INFO\\] Using background map extent"
+    "\\[INFO\\] Using custom background map extent"
   )
   
   # Check handling of decimals and negatives

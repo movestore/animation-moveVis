@@ -684,10 +684,10 @@ get_map_ext <- function(lat_ext, lon_ext, crs, default_bbox) {
     map_ext <- NULL
   } else {
     if (inherits(lat_ext, "try-error")) {
-      logger.warn("Invalid Y extent. Using Y extent of track data.")
+      logger.warn("Invalid latitude extent. Using latitude extent of track data.")
       lat_ext <- c(default_bbox[2], default_bbox[4])
     } else if (inherits(lon_ext, "try-error")) {
-      logger.warn("Invalid X extent. Using X extent of track data.")
+      logger.warn("Invalid longitude extent. Using longitude extent of track data.")
       lon_ext <- c(default_bbox[1], default_bbox[3])
     }
     
