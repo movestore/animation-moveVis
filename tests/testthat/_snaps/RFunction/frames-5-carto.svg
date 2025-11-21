@@ -134,8 +134,8 @@
 <text x='407.26' y='542.65' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='22.02px' lengthAdjust='spacingAndGlyphs'>48.78</text>
 <text x='429.29' y='542.65' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='3.31px' lengthAdjust='spacingAndGlyphs'>°</text>
 <text x='432.60' y='542.65' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='5.87px' lengthAdjust='spacingAndGlyphs'>E</text>
-<text x='308.69' y='554.87' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='7.34px' lengthAdjust='spacingAndGlyphs'>X</text>
-<text transform='translate(150.88,277.18) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='7.34px' lengthAdjust='spacingAndGlyphs'>Y</text>
+<text x='308.69' y='554.87' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='48.33px' lengthAdjust='spacingAndGlyphs'>Longitude</text>
+<text transform='translate(150.88,277.18) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='39.14px' lengthAdjust='spacingAndGlyphs'>Latitude</text>
 <rect x='435.80' y='238.11' width='140.89' height='78.13' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <text x='441.28' y='252.30' style='font-size: 11.00px; font-family: sans;' textLength='47.07px' lengthAdjust='spacingAndGlyphs'>Track IDs</text>
 <rect x='441.28' y='258.93' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
