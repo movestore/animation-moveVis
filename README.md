@@ -59,7 +59,9 @@ tracked positions aligned by time.
 a single static image instead of a full animation file. Because rendering
 a full animation can take time, you can enable this setting
 to test that the animation basemap, colors, and other graphical
-parameters are set to your liking before rendering a full animation.
+parameters are set to your liking before rendering a full animation. You can
+also check the app logs after rendering a test image to see how long the full
+animation would be with the given settings.
 
 **Temporal resolution for alignment (`res`):** This parameter allows the
 user to define the time interval by which the tracks will be thinned for
@@ -224,6 +226,9 @@ output animation, in centimeters. By default, creates a 15 centimeter by 15
 centimeter animation. Depending on the dimensions of the map
 generated for the animation, the default settings may force plot elements
 to overlap or be clipped. In this case, you can modify the dimensions here.
+Modifying the dimensions will also change the size of the track paths relative
+to the basemap.
+
 Maps are rendered at 300 ppi resolution.
 
 **Hide attribution (`hide_attribution`):** Toggle to remove the basemap tile

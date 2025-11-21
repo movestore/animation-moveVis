@@ -4,7 +4,7 @@
     {
       "id": "dry_run",
       "name": "Generate a single test image",
-      "description": "Check this box to produce a static test image instead of rendering a full animation. Because creating an animation can be time-intensive, you can use this setting to fine-tune your selections for other graphical settings before generating a full animation file.",
+      "description": "When this box is checked, the app produces static test image instead of a full animation. Because creating an animation can be time-intensive, you can use this setting to fine-tune your selections for other graphical settings before generating a full animation file. Once you are satisfied with how the static map looks, uncheck this box to generate a full animation.",
       "defaultValue": true,
       "type": "CHECKBOX"
     },
