@@ -1973,7 +1973,7 @@
       "RemoteUsername": "robe2037",
       "RemoteRepo": "moveVis",
       "RemoteRef": "moveapps",
-      "RemoteSha": "78d52d0d8618486a295ce497b5315bd21426ae62"
+      "RemoteSha": "8c2d6c2cb7c094ebed8a0e37e3313ee72e92708e"
     },
     "openssl": {
       "Package": "openssl",
