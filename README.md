@@ -3,7 +3,7 @@
 MoveApps
 
 Github repository:
-[*https://www.github.com/movestore/animation-moveVis*](https://www.github.com/movestore/animation-moveVis){.uri}
+[https://www.github.com/movestore/animation-moveVis](https://www.github.com/movestore/animation-moveVis)
 
 ## Description
 
@@ -39,7 +39,7 @@ that can be linked by individual, deployment, or tag. Each individual,
 deployment, or tag being animated should have at least 2 (preferably
 more) fixes. If your data set has high temporal resolution, spans over a
 large time period and/or contains a large amount of individuals, pay
-close attention to the first two settings (**Temporal resolution for
+close attention to the two settings (**Temporal resolution for
 alignment** and **Unit of your alignment resolution**).
 
 ### Input type
