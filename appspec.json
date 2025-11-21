@@ -1,180 +1,948 @@
 {
-    "version": "1.2",
+  "version": "1.2",
   "settings": [
-	{
-      "id": "reso",
-      "name": "Temporal resolution for alignment",
-      "description": "Insert a numeric value to define the temporal resolution to which the movement data will be thinned for alignment. Default is the mean temporal resolution of the data set. Beware of errors by gaps in your data or unsuitable units. See below for possible time units. Also note that too large data sets can run very long or lead to (memorey limit) errors.",
-      "defaultValue": null,
-      "type": "DOUBLE"
+    {
+      "id": "dry_run",
+      "name": "Generate a single test image",
+      "description": "When this box is checked, the app produces static test image instead of a full animation. Because creating an animation can be time-intensive, you can use this setting to fine-tune your selections for other graphical settings before generating a full animation file. Once you are satisfied with how the static map looks, uncheck this box to generate a full animation.",
+      "defaultValue": true,
+      "type": "CHECKBOX"
     },
     {
-      "id": "uni",
-      "name": "Unit of your alignment resolution",
-      "description": "Select the time unit of your selected alignment resolution. This will also be used for average alignment resolution if you do not provide a value above. Default is hours. Note that your data have to encompass at least 10-20 times the duration of the unit. Also large time gaps within or between individual tracks can lead to errors or unexpected behaviour.",
-      "defaultValue": "hours",
-      "type": "RADIOBUTTONS",
-      "options": [
-		{
-          "value": "secs",
-          "displayText": "seconds"
-        },
-		        {
-          "value": "mins",
-          "displayText": "minutes"
-        },
-		        {
-          "value": "hours",
-          "displayText": "hours"
-        },
-		        {
-          "value": "days",
-          "displayText": "days"
-        }
-      ]
-	},
-	{
-      "id": "frames_per_sec",
-      "name": "Speed of animation",
-      "description": "Insert a numeric value to define the speed at which your animation shall be running. The unit is frames per second, i.e. relates to the data set. Defaults to 25.",
-      "defaultValue": 25,
-      "type": "DOUBLE"
-    },
-	{
-      "id": "maptype",
-      "name": "Map type",
-      "description": "Select the type of map that you want to use as your animation background. We try again using Open Street meap (osm). Presently, too many requests might lead to problems, we work on a local OSM mirror option.",
-      "defaultValue": "topographic",
-      "type": "DROPDOWN",
-      "options": [
-        {
-          "value": "topographic",
-          "displayText": "topographic"
-        },
-		{
-          "value": "streets",
-          "displayText": "streets"
-        }
-      ]
-    },
-	{
-      "id": "mapres",
-      "name": "Resolution of background map",
-      "description": "Select the resolution for your background map in the range between 0 and 1. Take into account the extent of your data set (i.e. high resolution is not necessary for far ranging data). Note that selection of a too high or too low value might lead to different error. Please try out different values if in doubt. Default 1.",
+      "id": "res",
+      "name": "Temporal resolution for track alignment",
+      "description": "Select temporal resolution to which the data will be thinned. Provide a numeric value which will be combined with the selected unit (see \"Unit of your alignment resolution\" below) to define the alignment resolution. Note that large data sets can take a long time to process, especially at fine-grained resolutions.",
       "defaultValue": 1,
       "type": "DOUBLE"
     },
-	{
+    {
+      "id": "unit",
+      "name": "Unit of your alignment resolution",
+      "description": "Select the time unit for your selected alignment resolution above. Ideally, your data should encompass at least 10-20 times the duration of the unit. Note that large time gaps within or between tracks can lead to errors or unexpected behaviour.",
+      "defaultValue": "day",
+      "type": "RADIOBUTTONS",
+      "options": [
+        {
+          "value": "sec",
+          "displayText": "seconds"
+        },
+        {
+          "value": "min",
+          "displayText": "minutes"
+        },
+        {
+          "value": "hour",
+          "displayText": "hours"
+        },
+        {
+          "value": "day",
+          "displayText": "days"
+        }
+      ]
+    },
+    {
+      "id": "fps",
+      "name": "Speed of animation",
+      "description": "Insert a numeric value to define the speed at which your animation will run in frames per second.",
+      "defaultValue": 25,
+      "type": "DOUBLE"
+    },
+    {
+      "id": "map_type",
+      "name": "Map type",
+      "description": "Select the map style that you want to use as your animation background. Note that some map providers may require the specification of an API key (see 'Map Service API Key' below). Some map types may not have full global coverage—if you encounter a `Base map download failed` error, try a different map type. See the app documentation for links to preview supported map types.",
+      "defaultValue": "carto:voyager",
+      "type": "DROPDOWN",
+      "options": [
+        {
+          "value": "osm:topographic",
+          "displayText": "OSM Topographic"
+        },
+        {
+          "value": "osm:streets",
+          "displayText": "OSM Streets"
+        },
+        {
+          "value": "osm:streets_de",
+          "displayText": "OSM Streets DE"
+        },
+        {
+          "value": "osm_stamen:toner",
+          "displayText": "Stamen Toner"
+        },
+        {
+          "value": "osm_stamen:toner_bg",
+          "displayText": "Stamen Toner BG"
+        },
+        {
+          "value": "osm_stamen:terrain",
+          "displayText": "Stamen Terrain"
+        },
+        {
+          "value": "osm_stamen:terrain_bg",
+          "displayText": "Stamen Terrain BG"
+        },
+        {
+          "value": "osm_stamen:watercolor",
+          "displayText": "Stamen Watercolor"
+        },
+        {
+          "value": "osm_stadia:alidade_smooth",
+          "displayText": "Stadia Alidade Smooth"
+        },
+        {
+          "value": "osm_stadia:alidade_smooth_dark",
+          "displayText": "Stadia Alidade Smooth Dark"
+        },
+        {
+          "value": "osm_stadia:outdoors",
+          "displayText": "Stadia Outdoors"
+        },
+        {
+          "value": "osm_stadia:osm_bright",
+          "displayText": "Stadia OSM Bright"
+        },
+        {
+          "value": "osm_thunderforest:cycle",
+          "displayText": "Thunderforest Cycle"
+        },
+        {
+          "value": "osm_thunderforest:transport",
+          "displayText": "Thunderforest Transport"
+        },
+        {
+          "value": "osm_thunderforest:landscape",
+          "displayText": "Thunderforest Landscape"
+        },
+        {
+          "value": "osm_thunderforest:outdoors",
+          "displayText": "Thunderforest Outdoors"
+        },
+        {
+          "value": "osm_thunderforest:transport_dark",
+          "displayText": "Thunderforest Transport Dark"
+        },
+        {
+          "value": "osm_thunderforest:spinal",
+          "displayText": "Thunderforest Spinal"
+        },
+        {
+          "value": "osm_thunderforest:pioneer",
+          "displayText": "Thunderforest Pioneer"
+        },
+        {
+          "value": "osm_thunderforest:mobile_atlas",
+          "displayText": "Thunderforest Mobile Atlas"
+        },
+        {
+          "value": "osm_thunderforest:neighbourhood",
+          "displayText": "Thunderforest Neighborhood"
+        },
+        {
+          "value": "osm_thunderforest:atlas",
+          "displayText": "Thunderforest Atlas"
+        },
+        {
+          "value": "carto:light",
+          "displayText": "Carto Light"
+        },
+        {
+          "value": "carto:light_no_labels",
+          "displayText": "Carto Light No Labels"
+        },
+        {
+          "value": "carto:dark",
+          "displayText": "Carto Dark"
+        },
+        {
+          "value": "carto:dark_no_labels",
+          "displayText": "Carto Dark No Labels"
+        },
+        {
+          "value": "carto:voyager",
+          "displayText": "Carto Voyager"
+        },
+        {
+          "value": "carto:voyager_no_labels",
+          "displayText": "Carto Voyager No Labels"
+        },
+        {
+          "value": "carto:voyager_labels_under",
+          "displayText": "Carto Voyager Labels Under"
+        },
+        {
+          "value": "mapbox:streets",
+          "displayText": "Mapbox Streets"
+        },
+        {
+          "value": "mapbox:outdoors",
+          "displayText": "Mapbox Outdoors"
+        },
+        {
+          "value": "mapbox:light",
+          "displayText": "Mapbox Light"
+        },
+        {
+          "value": "mapbox:dark",
+          "displayText": "Mapbox Dark"
+        },
+        {
+          "value": "mapbox:satellite",
+          "displayText": "Mapbox Satellite"
+        },
+        {
+          "value": "mapbox:hybrid",
+          "displayText": "Mapbox Hybrid"
+        },
+        {
+          "value": "mapbox:terrain",
+          "displayText": "Mapbox Terrain"
+        },
+        {
+          "value": "esri:natgeo_world_map",
+          "displayText": "ESRI NatGeo World Map"
+        },
+        {
+          "value": "esri:usa_topo_maps",
+          "displayText": "ESRI USA Topo Maps"
+        },
+        {
+          "value": "esri:world_imagery",
+          "displayText": "ESRI World Imagery"
+        },
+        {
+          "value": "esri:world_physical_map",
+          "displayText": "ESRI World Physical Map"
+        },
+        {
+          "value": "esri:world_shaded_relief",
+          "displayText": "ESRI World Shaded Relief"
+        },
+        {
+          "value": "esri:world_street_map",
+          "displayText": "ESRI World Street Map"
+        },
+        {
+          "value": "esri:world_terrain_base",
+          "displayText": "ESRI World Terrain Base"
+        },
+        {
+          "value": "esri:world_topo_map",
+          "displayText": "ESRI World Topo Map"
+        },
+        {
+          "value": "esri:world_dark_gray_base",
+          "displayText": "ESRI World Dark Gray Base"
+        },
+        {
+          "value": "esri:world_light_gray_base",
+          "displayText": "ESRI World Light Gray Base"
+        },
+        {
+          "value": "esri:world_hillshade_dark",
+          "displayText": "ESRI World Hillshade Dark"
+        },
+        {
+          "value": "esri:world_hillshade",
+          "displayText": "ESRI World Hillshade"
+        },
+        {
+          "value": "esri:world_ocean_base",
+          "displayText": "ESRI World Ocean Base"
+        },
+        {
+          "value": "esri:antarctic_imagery",
+          "displayText": "ESRI Antarctic Imagery"
+        },
+        {
+          "value": "esri:arctic_ocean_base",
+          "displayText": "ESRI Arctic Ocean Base"
+        },
+        {
+          "value": "esri:world_navigation_charts",
+          "displayText": "ESRI World Navigation Charts"
+        },
+        {
+          "value": "maptiler:aquarelle",
+          "displayText": "MapTiler Aquarelle"
+        },
+        {
+          "value": "maptiler:backdrop",
+          "displayText": "MapTiler Backdrop"
+        },
+        {
+          "value": "maptiler:basic",
+          "displayText": "MapTiler Basic"
+        },
+        {
+          "value": "maptiler:bright",
+          "displayText": "MapTiler Bright"
+        },
+        {
+          "value": "maptiler:dataviz",
+          "displayText": "MapTiler Dataviz"
+        },
+        {
+          "value": "maptiler:landscape",
+          "displayText": "MapTiler Landscape"
+        },
+        {
+          "value": "maptiler:ocean",
+          "displayText": "MapTiler Ocean"
+        },
+        {
+          "value": "maptiler:outdoor",
+          "displayText": "MapTiler Outdoor"
+        },
+        {
+          "value": "maptiler:satellite",
+          "displayText": "MapTiler Satellite"
+        },
+        {
+          "value": "maptiler:streets",
+          "displayText": "MapTiler Streets"
+        },
+        {
+          "value": "maptiler:toner",
+          "displayText": "MapTiler Toner"
+        },
+        {
+          "value": "maptiler:topo",
+          "displayText": "MapTiler Topo"
+        },
+        {
+          "value": "maptiler:winter",
+          "displayText": "MapTiler Winter"
+        }
+      ]
+    },
+    {
+      "id": "map_token",
+      "name": "Map service API key",
+      "description": "API key for your account with the given map service provider. The following services require API authorization: Stamen, Stadia, Thunderforest, Mapbox, MapTiler. If requesting a basemap from one of these providers, you must provide your API token here. See the map provider's website for more information about creating an API key.",
+      "defaultValue": null,
+      "type": "SECRET"
+    },
+    {
+      "id": "high_res",
+      "name": "Use high-resolution basemap",
+      "description": "Check this box to use high-resolution tiles in the animation basemap. This improves map quality but will increase animation processing time. Note that some providers (e.g. OSM) do not provide high resolution tiles.",
+      "defaultValue": true,
+      "type": "CHECKBOX"
+    },
+    {
+      "id": "lon_ext",
+      "name": "Longitude extent of background map",
+      "description": "Optionally provide two numeric values that define the minimum and maximum longitude bounds for the background map extent. The digits should be separated by a space or comma (e.g. '45, 50'). For degrees west of the Prime Meridian, use negative numbers (e.g. 5 degrees West would be provided as -5). If left blank, the extent of the animal track data will be used.",
+      "defaultValue": null,
+      "type": "STRING"
+    },
+    {
+      "id": "lat_ext",
+      "name": "Latitude extent of background map",
+      "description": "Optionally provide two numeric values that define the minimum and maximum latitude bounds for the background map extent. The digits should be separated by a space or comma (e.g. '45, 50'). For degrees south of the equator, use negative numbers (e.g. 5 degrees South would be provided as -5). If left blank, the extent of the animal track data will be used.",
+      "defaultValue": null,
+      "type": "STRING"
+    },
+    {
       "id": "col_opt",
       "name": "Track colour option",
       "description": "Select how you want to colour your animated tracks.",
       "defaultValue": "one",
       "type": "RADIOBUTTONS",
       "options": [
-		{
+        {
           "value": "one",
-          "displayText": "same colour (red) for all tracks"
+          "displayText": "Single colour (red) for all tracks"
         },
-		        {
+        {
           "value": "trackid",
-          "displayText": "coloured by track ID"
+          "displayText": "Coloured by track ID"
         },
-				{
-          "value": "animalid",
-          "displayText": "coloured by animal ID"
-        },
-		        {
+        {
           "value": "other",
-          "displayText": "coloured by other animal or track attribute (define below)"
+          "displayText": "Coloured by event or track attribute (define below)"
         }
       ]
-	},
-		    {
-      "id": "other",
-      "name": "Other attribute for track colouring",
-      "description": "Insert the exact spelling of the other animal or track attribute by which you want to colour your animated tracks. Check the previous App's data overview for available attributes and their spelling. Note that the legend (if you select to show it) will still give the track IDs as names, but colour them by the selected attribute.",
+    },
+    {
+      "id": "colour_paths_by",
+      "name": "Attribute for track colouring",
+      "description": "If you selected 'Coloured by event or track attribute' above, provide the name of the event or track attribute that you want to use to colour your animated tracks. This must exactly match the name of the attribute in the input data. Check the previous app's data overview for available attributes and their spelling. If you opt to include a legend, it will show the values of the attribute that correspond to each colour.",
       "defaultValue": "",
       "type": "STRING"
     },
-	{
-      "id": "show_legend",
-      "name": "Track ID legend",
-      "description": "Select if you want to include a legend to your animation map.",
+    {
+      "id": "path_pal",
+      "name": "Colour palette for track colouring",
+      "description": "Name of the colour palette to use when colouring tracks. Palettes are labeled with the type of data they are designed to represent (qualitative, sequential, or diverging). Ignored if all tracks are being coloured the same (see 'Track colour option' above). Note that in this app, integer attributes are treated as qualitative as they often represent ID values. See the app documentation for examples of the color palettes.",
+      "defaultValue": "Set 2",
+      "type": "DROPDOWN",
+      "options": [
+        {
+          "value": "Set 2",
+          "displayText": "Set 2 (Qualitative)"
+        },
+        {
+          "value": "Pastel 1",
+          "displayText": "Pastel 1 (Qualitative)"
+        },
+        {
+          "value": "Dark 2",
+          "displayText": "Dark 2 (Qualitative)"
+        },
+        {
+          "value": "Dark 3",
+          "displayText": "Dark 3 (Qualitative)"
+        },
+        {
+          "value": "Set 3",
+          "displayText": "Set 3 (Qualitative)"
+        },
+        {
+          "value": "Warm",
+          "displayText": "Warm (Qualitative)"
+        },
+        {
+          "value": "Cold",
+          "displayText": "Cold (Qualitative)"
+        },
+        {
+          "value": "Harmonic",
+          "displayText": "Harmonic (Qualitative)"
+        },
+        {
+          "value": "Dynamic",
+          "displayText": "Dynamic (Qualitative)"
+        },
+        {
+          "value": "Grays",
+          "displayText": "Grays (Sequential)"
+        },
+        {
+          "value": "Light Grays",
+          "displayText": "Light Grays (Sequential)"
+        },
+        {
+          "value": "Blues 2",
+          "displayText": "Blues 2 (Sequential)"
+        },
+        {
+          "value": "Blues 3",
+          "displayText": "Blues 3 (Sequential)"
+        },
+        {
+          "value": "Purples 2",
+          "displayText": "Purples 2 (Sequential)"
+        },
+        {
+          "value": "Purples 3",
+          "displayText": "Purples 3 (Sequential)"
+        },
+        {
+          "value": "Reds 2",
+          "displayText": "Reds 2 (Sequential)"
+        },
+        {
+          "value": "Reds 3",
+          "displayText": "Reds 3 (Sequential)"
+        },
+        {
+          "value": "Greens 2",
+          "displayText": "Greens 2 (Sequential)"
+        },
+        {
+          "value": "Greens 3",
+          "displayText": "Greens 3 (Sequential)"
+        },
+        {
+          "value": "Oslo",
+          "displayText": "Oslo (Sequential)"
+        },
+        {
+          "value": "Purple-Blue",
+          "displayText": "Purple-Blue (Sequential)"
+        },
+        {
+          "value": "Red-Purple",
+          "displayText": "Red-Purple (Sequential)"
+        },
+        {
+          "value": "Red-Blue",
+          "displayText": "Red-Blue (Sequential)"
+        },
+        {
+          "value": "Purple-Orange",
+          "displayText": "Purple-Orange (Sequential)"
+        },
+        {
+          "value": "Purple-Yellow",
+          "displayText": "Purple-Yellow (Sequential)"
+        },
+        {
+          "value": "Blue-Yellow",
+          "displayText": "Blue-Yellow (Sequential)"
+        },
+        {
+          "value": "Green-Yellow",
+          "displayText": "Green-Yellow (Sequential)"
+        },
+        {
+          "value": "Red-Yellow",
+          "displayText": "Red-Yellow (Sequential)"
+        },
+        {
+          "value": "Heat",
+          "displayText": "Heat (Sequential)"
+        },
+        {
+          "value": "Heat 2",
+          "displayText": "Heat 2 (Sequential)"
+        },
+        {
+          "value": "Terrain",
+          "displayText": "Terrain (Sequential)"
+        },
+        {
+          "value": "Terrain 2",
+          "displayText": "Terrain 2 (Sequential)"
+        },
+        {
+          "value": "Viridis",
+          "displayText": "Viridis (Sequential)"
+        },
+        {
+          "value": "Plasma",
+          "displayText": "Plasma (Sequential)"
+        },
+        {
+          "value": "Inferno",
+          "displayText": "Inferno (Sequential)"
+        },
+        {
+          "value": "Rocket",
+          "displayText": "Rocket (Sequential)"
+        },
+        {
+          "value": "Mako",
+          "displayText": "Mako (Sequential)"
+        },
+        {
+          "value": "Dark Mint",
+          "displayText": "Dark Mint (Sequential)"
+        },
+        {
+          "value": "Mint",
+          "displayText": "Mint (Sequential)"
+        },
+        {
+          "value": "BluGrn",
+          "displayText": "BluGrn (Sequential)"
+        },
+        {
+          "value": "Teal",
+          "displayText": "Teal (Sequential)"
+        },
+        {
+          "value": "TealGrn",
+          "displayText": "TealGrn (Sequential)"
+        },
+        {
+          "value": "Emrld",
+          "displayText": "Emrld (Sequential)"
+        },
+        {
+          "value": "BluYl",
+          "displayText": "BluYl (Sequential)"
+        },
+        {
+          "value": "ag_GrnYl",
+          "displayText": "ag_GrnYl (Sequential)"
+        },
+        {
+          "value": "Peach",
+          "displayText": "Peach (Sequential)"
+        },
+        {
+          "value": "PinkYl",
+          "displayText": "PinkYl (Sequential)"
+        },
+        {
+          "value": "Burg",
+          "displayText": "Burg (Sequential)"
+        },
+        {
+          "value": "BurgYl",
+          "displayText": "BurgYl (Sequential)"
+        },
+        {
+          "value": "RedOr",
+          "displayText": "RedOr (Sequential)"
+        },
+        {
+          "value": "OrYel",
+          "displayText": "OrYel (Sequential)"
+        },
+        {
+          "value": "Purp",
+          "displayText": "Purp (Sequential)"
+        },
+        {
+          "value": "PurpOr",
+          "displayText": "PurpOr (Sequential)"
+        },
+        {
+          "value": "Sunset",
+          "displayText": "Sunset (Sequential)"
+        },
+        {
+          "value": "Magenta",
+          "displayText": "Magenta (Sequential)"
+        },
+        {
+          "value": "SunsetDark",
+          "displayText": "SunsetDark (Sequential)"
+        },
+        {
+          "value": "ag_Sunset",
+          "displayText": "ag_Sunset (Sequential)"
+        },
+        {
+          "value": "BrwnYl",
+          "displayText": "BrwnYl (Sequential)"
+        },
+        {
+          "value": "YlOrRd",
+          "displayText": "YlOrRd (Sequential)"
+        },
+        {
+          "value": "YlOrBr",
+          "displayText": "YlOrBr (Sequential)"
+        },
+        {
+          "value": "OrRd",
+          "displayText": "OrRd (Sequential)"
+        },
+        {
+          "value": "Oranges",
+          "displayText": "Oranges (Sequential)"
+        },
+        {
+          "value": "YlGn",
+          "displayText": "YlGn (Sequential)"
+        },
+        {
+          "value": "YlGnBu",
+          "displayText": "YlGnBu (Sequential)"
+        },
+        {
+          "value": "Reds",
+          "displayText": "Reds (Sequential)"
+        },
+        {
+          "value": "RdPu",
+          "displayText": "RdPu (Sequential)"
+        },
+        {
+          "value": "PuRd",
+          "displayText": "PuRd (Sequential)"
+        },
+        {
+          "value": "Purples",
+          "displayText": "Purples (Sequential)"
+        },
+        {
+          "value": "PuBuGn",
+          "displayText": "PuBuGn (Sequential)"
+        },
+        {
+          "value": "PuBu",
+          "displayText": "PuBu (Sequential)"
+        },
+        {
+          "value": "Greens",
+          "displayText": "Greens (Sequential)"
+        },
+        {
+          "value": "BuGn",
+          "displayText": "BuGn (Sequential)"
+        },
+        {
+          "value": "GnBu",
+          "displayText": "GnBu (Sequential)"
+        },
+        {
+          "value": "BuPu",
+          "displayText": "BuPu (Sequential)"
+        },
+        {
+          "value": "Blues",
+          "displayText": "Blues (Sequential)"
+        },
+        {
+          "value": "Lajolla",
+          "displayText": "Lajolla (Sequential)"
+        },
+        {
+          "value": "Turku",
+          "displayText": "Turku (Sequential)"
+        },
+        {
+          "value": "Hawaii",
+          "displayText": "Hawaii (Sequential)"
+        },
+        {
+          "value": "Batlow",
+          "displayText": "Batlow (Sequential)"
+        },
+        {
+          "value": "Blue-Red",
+          "displayText": "Blue-Red (Diverging)"
+        },
+        {
+          "value": "Blue-Red 2",
+          "displayText": "Blue-Red 2 (Diverging)"
+        },
+        {
+          "value": "Blue-Red 3",
+          "displayText": "Blue-Red 3 (Diverging)"
+        },
+        {
+          "value": "Red-Green",
+          "displayText": "Red-Green (Diverging)"
+        },
+        {
+          "value": "Purple-Green",
+          "displayText": "Purple-Green (Diverging)"
+        },
+        {
+          "value": "Purple-Brown",
+          "displayText": "Purple-Brown (Diverging)"
+        },
+        {
+          "value": "Green-Brown",
+          "displayText": "Green-Brown (Diverging)"
+        },
+        {
+          "value": "Blue-Yellow 2",
+          "displayText": "Blue-Yellow 2 (Diverging)"
+        },
+        {
+          "value": "Blue-Yellow 3",
+          "displayText": "Blue-Yellow 3 (Diverging)"
+        },
+        {
+          "value": "Green-Orange",
+          "displayText": "Green-Orange (Diverging)"
+        },
+        {
+          "value": "Cyan-Magenta",
+          "displayText": "Cyan-Magenta (Diverging)"
+        },
+        {
+          "value": "Tropic",
+          "displayText": "Tropic (Diverging)"
+        },
+        {
+          "value": "Broc",
+          "displayText": "Broc (Diverging)"
+        },
+        {
+          "value": "Cork",
+          "displayText": "Cork (Diverging)"
+        },
+        {
+          "value": "Vik",
+          "displayText": "Vik (Diverging)"
+        },
+        {
+          "value": "Berlin",
+          "displayText": "Berlin (Diverging)"
+        },
+        {
+          "value": "Lisbon",
+          "displayText": "Lisbon (Diverging)"
+        },
+        {
+          "value": "Tofino",
+          "displayText": "Tofino (Diverging)"
+        },
+        {
+          "value": "ArmyRose",
+          "displayText": "ArmyRose (Diverging)"
+        },
+        {
+          "value": "Earth",
+          "displayText": "Earth (Diverging)"
+        },
+        {
+          "value": "Fall",
+          "displayText": "Fall (Diverging)"
+        },
+        {
+          "value": "Geyser",
+          "displayText": "Geyser (Diverging)"
+        },
+        {
+          "value": "TealRose",
+          "displayText": "TealRose (Diverging)"
+        },
+        {
+          "value": "Temps",
+          "displayText": "Temps (Diverging)"
+        },
+        {
+          "value": "PuOr",
+          "displayText": "PuOr (Diverging)"
+        },
+        {
+          "value": "RdBu",
+          "displayText": "RdBu (Diverging)"
+        },
+        {
+          "value": "RdGy",
+          "displayText": "RdGy (Diverging)"
+        },
+        {
+          "value": "PiYG",
+          "displayText": "PiYG (Diverging)"
+        },
+        {
+          "value": "PRGn",
+          "displayText": "PRGn (Diverging)"
+        },
+        {
+          "value": "BrBG",
+          "displayText": "BrBG (Diverging)"
+        },
+        {
+          "value": "RdYlBu",
+          "displayText": "RdYlBu (Diverging)"
+        },
+        {
+          "value": "RdYlGn",
+          "displayText": "RdYlGn (Diverging)"
+        },
+        {
+          "value": "Spectral",
+          "displayText": "Spectral (Diverging)"
+        },
+        {
+          "value": "Zissou 1",
+          "displayText": "Zissou 1 (Diverging)"
+        },
+        {
+          "value": "Cividis",
+          "displayText": "Cividis (Diverging)"
+        },
+        {
+          "value": "Roma",
+          "displayText": "Roma (Diverging)"
+        }
+      ]
+    },
+    {
+      "id": "path_legend",
+      "name": "Include legend",
+      "description": "Indicate if a legend identifying the track colours should be included in the output map. Note that the legend may be very large if colouring by an attribute that has many levels. In these cases, you may want to suppress the legend.",
       "defaultValue": true,
       "type": "CHECKBOX"
     },
-	    {
-      "id": "capt",
+    {
+      "id": "caption",
       "name": "Caption",
-      "description": "Insert a caption text that will be displayed at the bottom of the visualisation window. Typically this is the data reference.",
+      "description": "Insert any caption text to be displayed at the bottom of the output map. Typically this is the data reference.",
       "defaultValue": " ",
       "type": "STRING"
     },
-	{
+    {
       "id": "file_format",
       "name": "Output file format",
-      "description": "Select an output file format from the below options. The file extension must correspond to a file format known by the available renderers of the system on which the video will be run.",
+      "description": "Select a file format for your output animation file. The file extension must correspond to a file format known by the available renderers of the system on which the video will be run.",
       "defaultValue": "mp4",
       "type": "RADIOBUTTONS",
       "options": [
-		{
+        {
           "value": "mp4",
           "displayText": "mp4"
         },
-		        {
+        {
           "value": "gif",
           "displayText": "gif"
         },
-		        {
+        {
           "value": "mov",
           "displayText": "mov"
         },
-		        {
+        {
           "value": "flv",
           "displayText": "flv"
         },
-		        {
+        {
           "value": "avi",
           "displayText": "avi"
         },
-		        {
+        {
           "value": "mpeg",
           "displayText": "mpeg"
         },
-		        {
+        {
           "value": "3gp",
           "displayText": "3gp"
         },
-		        {
+        {
           "value": "ogg",
           "displayText": "ogg"
         }
       ]
-	},
-	{
-      "id": "ext_adap",
-      "name": "Adaption factor for map extent",
-      "description": "Insert the adaption factor by which to multiply the map extent. Anything between 0.1 and 1 decreases, above 1 increases the extent. By default, the extent of the data is used, i.e. 1.",
-      "defaultValue": 1,
+    },
+    {
+      "id": "out_width",
+      "name": "Animation output width (cm)",
+      "description": "Width of the output animation in centimeters. If your map is very wide, you may need to increase this value to prevent plot elements from overlapping or being clipped.",
+      "defaultValue": 15,
       "type": "DOUBLE"
+    },
+    {
+      "id": "out_height",
+      "name": "Animation output height (cm)",
+      "description": "Height of the output animation in centimeters. If your map is very tall, you may need to increase this value to prevent plot elements from overlapping or being clipped.",
+      "defaultValue": 15,
+      "type": "DOUBLE"
+    },
+    {
+      "id": "hide_attribution",
+      "name": "Hide basemap citation label",
+      "description": "Remove the label containing the citation information for the basemap tiles used in the animation. IMPORTANT: by removing this label you acknowledge that it is your responsibility to ensure that the basemap tiles are appropriately cited (e.g. by using the 'Caption' setting above). You can find relevant citation information in the app logs or consult the online user agreement for the selected map provider (see 'Map type' above). In general, you should only need to use this option if the citation label has been cut off by your map boundary and you need to display it in the map caption instead.",
+      "defaultValue": false,
+      "type": "CHECKBOX"
     }
   ],
   "dependencies": {
     "R": [
       {
-        "name": "move"
+        "name": "basemaps"
       },
-	  {
+      {
+        "name": "dplyr"
+      },
+      {
+        "name": "ggspatial"
+      },
+      {
         "name": "move2"
       },
-	  {
+      {
         "name": "moveVis"
       },
-	  {
-        "name": "fields"
+      {
+        "name": "ggplot2"
       },
-	  {
-        "name": "basemaps"
+      {
+        "name": "sf"
+      },
+      {
+        "name": "units"
       }
     ]
   },
@@ -186,12 +954,12 @@
   "keywords": [
     "animation",
     "gif",
-	"mp4",
-	"moveVis"
+    "mp4",
+    "moveVis"
   ],
   "people": [
     {
-     "firstName": "Andrea",
+      "firstName": "Andrea",
       "middleInitials": null,
       "lastName": "Kölzsch",
       "email": "akoelzsch@ab.mpg.de",
@@ -200,6 +968,18 @@
         "creator"
       ],
       "orcid": "0000-0003-0193-1563",
+      "affiliation": "Max-Planck-Institute of Animal Behavior",
+      "affiliationRor": "https://ror.org/026stee22"
+    },
+    {
+      "firstName": "Finn",
+      "middleInitials": null,
+      "lastName": "Roberts",
+      "email": "froberts@ab.mpg.de",
+      "roles": [
+        "contributor"
+      ],
+      "orcid": null,
       "affiliation": "Max-Planck-Institute of Animal Behavior",
       "affiliationRor": "https://ror.org/026stee22"
     }

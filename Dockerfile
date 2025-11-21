@@ -2,9 +2,11 @@
 # MoveApps R SDK
 ########################################################################################################################
 
-FROM rocker/geospatial:4.3.2
+FROM rocker/geospatial:4.4.2
 
 LABEL maintainer = "couchbits GmbH <us@couchbits.com>"
+
+RUN apt-get update && apt-get install -y libavfilter-dev cargo && rm -rf /var/lib/apt/lists/*
 
 # Security Aspects
 # group `staff` b/c of:
