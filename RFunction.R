@@ -355,6 +355,7 @@ generate_frames <- function(data,
     path_size = 2,
     high_res = high_res,
     ext = map_ext,
+    margin_factor = 1.3, # Ignored if `ext` provided
     crs = sf::st_crs("epsg:3857"),
     crs_graticule = sf::st_crs("epsg:4326"),
     path_colours = path_colours,
