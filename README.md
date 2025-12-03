@@ -159,9 +159,9 @@ which case this setting will be ignored.
 **Background map extent (`lon_ext`, `lat_ext`):** Geographic extent
 (separately for longitude and latitude) of the background map used in
 the animation. The digits should be separated by a space or comma (e.g.
-"45, 50"). Enter degrees west of the Prime Meridian and south of the
-equator as negative numbers (e.g. 5 degrees West would be provided as
-"-5"). Avoid setting an extent that is very large relative to the extent
+"45.2, 50.3"). Enter degrees west of the Prime Meridian and south of the
+equator as negative numbers (e.g. 5.1 degrees West would be provided as
+"-5.1"). Avoid setting an extent that is very large relative to the extent
 of the track data, as this may produce invalid geometry calculations and
 cause the app to fail.
 
