@@ -333,7 +333,7 @@
     {
       "id": "lon_ext",
       "name": "Longitude extent of background map",
-      "description": "Optionally provide two numeric values that define the minimum and maximum longitude bounds for the background map extent. The digits should be separated by a space or comma (e.g. '45.2, 50.3'). For degrees west of the Prime Meridian, use negative numbers (e.g. 5.1 degrees West would be provided as -5.1). If left blank, the extent of the animal track data will be used.",
+      "description": "Optionally provide two numeric values that define the western and eastern longitude bounds for the background map extent. The digits should be separated by a space or comma (e.g. '45.2, 50.3'). For degrees west of the Prime Meridian, use negative numbers (e.g. 5.1 degrees West would be provided as -5.1). If the Eastern value is less than the Western value, the map will wrap across the International Date Line. If left blank, the extent of the animal track data will be used.",
       "defaultValue": null,
       "type": "STRING"
     },

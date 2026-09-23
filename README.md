@@ -165,8 +165,19 @@ equator as negative numbers (e.g. 5.1 degrees West would be provided as
 of the track data, as this may produce invalid geometry calculations and
 cause the app to fail.
 
+Longitude bounds are ordered west to east. Thus, if the western bound is larger
+than the eastern bound (e.g. 170, -170), the map will wrap across the
+international date line. Use this to ensure that tracks that traverse the 
+date line do not "jump" from one side of the map to the other.
+
 If either (or both) are left blank, the geographic extent of the track
-data will be used for that dimension.
+data will be used for that dimension. If tracks appear to cluster around
+the date line, an extent that centers on the date line will be used by default.
+
+Note that a map that wraps across the date line is rendered in geographic
+coordinates (EPSG:4326) rather than Web Mercator. Basemap
+tiles are reprojected as a result, which may slightly distort their
+labels.
 
 **Track colour option (`col_opt`):** Method to use when selecting
 colours for the tracks in the animation. Default is "Single colour (red)

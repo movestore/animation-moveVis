@@ -275,3 +275,86 @@ test_that("Can provide res as text or numeric", {
     "\\[INFO\\] Aligning tracks with temporal resolution: 1 \\(day\\)"
   )
 })
+
+test_that("Can detect tracks crossing the date line", {
+  expect_true(crosses_dateline(dateline_data()))
+  expect_false(crosses_dateline(d))
+
+  # a genuinely wide spread is not made narrower by shifting, so it is not
+  # mistaken for a date line crossing
+  spread <- function(lons) {
+    sf::st_as_sf(
+      data.frame(x = lons, y = rep(20, length(lons))),
+      coords = c("x", "y"), crs = 4326
+    )
+  }
+  expect_false(crosses_dateline(spread(seq(-120, 20, by = 10))))
+  expect_false(crosses_dateline(spread(seq(-170, 170, by = 20))))
+})
+
+test_that("Date line data is centered on the date line by default", {
+  expect_output(
+    frames <- generate_frames(
+      dateline_data(), res = 1, unit = "hour", map_res = 0.1
+    ),
+    "\\[WARN\\] Track data appear to cross the international date line"
+  )
+
+  expect_equal(frames$crs, sf::st_crs("epsg:4326"))
+  expect_gt(frames$aesthetics$gg.ext[["xmax"]], 180)
+})
+
+test_that("Standard data is unaffected by date line detection", {
+  out <- capture.output(
+    frames <- generate_frames(d, res = 1, unit = "day", map_res = 0.1)
+  )
+
+  expect_false(any(grepl("date line", out)))
+  expect_equal(frames$crs, sf::st_crs("epsg:3857"))
+})
+
+test_that("Descending longitude extent crosses the date line", {
+  expect_output(
+    frames <- generate_frames(
+      dateline_data(), res = 1, unit = "hour", map_res = 0.1,
+      lat_ext = "51.5, 53.2",
+      lon_ext = "179, -179"
+    ),
+    "\\[INFO\\] Longitude extent is ordered east to west"
+  )
+
+  # "179, -179" describes the 2 degrees spanning the date line, not the 358
+  # degrees the other way around
+  expect_equal(frames$crs, sf::st_crs("epsg:4326"))
+  expect_equal(
+    frames$aesthetics$gg.ext,
+    sf::st_bbox(
+      c(xmin = 179, ymin = 51.5, xmax = 181, ymax = 53.2),
+      crs = sf::st_crs("epsg:4326")
+    )
+  )
+})
+
+test_that("Ascending longitude extent overrides date line detection", {
+  capture.output(
+    frames <- generate_frames(
+      dateline_data(), res = 1, unit = "hour", map_res = 0.1,
+      lat_ext = "51.5, 53.2",
+      lon_ext = "-179, 179"
+    )
+  )
+
+  expect_equal(frames$crs, sf::st_crs("epsg:3857"))
+  expect_equal(
+    frames$aesthetics$gg.ext,
+    sf::st_bbox(
+      sf::st_transform(
+        sf::st_as_sfc(sf::st_bbox(
+          c(xmin = -179, ymin = 51.5, xmax = 179, ymax = 53.2),
+          crs = sf::st_crs("epsg:4326")
+        )),
+        sf::st_crs("epsg:3857")
+      )
+    )
+  )
+})

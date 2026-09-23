@@ -27,7 +27,8 @@
 #'   tiles from the map tile provider in `map_type`. This increases processing
 #'   time but produces sharper maps, particularly when rendered in large format.
 #' @param lat_ext,lon_ext Geographic extent to use for the animation basemap, in
-#'   latitude/longitude coordinates.
+#'   latitude/longitude coordinates. Longitude bounds are ordered west to east,
+#'   so a descending extent will wrap the map across the date line.
 #' @param fps Frames per second to use in the rendered animation
 #' @param col_opt Selection indicating how tracks are to be colored. Either
 #'   `"one"`, `"trackid"`, or `"other"`. For `"other"`, a variable in the input
@@ -238,6 +239,48 @@ parse_map_spec <- function(map_type, map_token) {
   list(map_service = map_service, map_type = map_type)
 }
 
+# As a default, we determine a set of tracks to cross the dateline (i.e.
+# require a pacific-centered view) when the longitudinal width is smaller
+# when wrapping across the date line than when wrapping across the prime
+# meridian.
+crosses_dateline <- function(x) {
+  x <- sf::st_transform(x, "epsg:4326")
+  width <- function(b) as.numeric(b[["xmax"]] - b[["xmin"]])
+
+  width(sf::st_bbox(sf::st_shift_longitude(x))) < width(sf::st_bbox(x))
+}
+
+# Determine whether extent wraps the date line or not
+resolve_dateline <- function(data, lon_ext) {
+  lon <- if (!is.null(lon_ext)) try(parse_coords(lon_ext), silent = TRUE)
+
+  if (!is.null(lon) && !inherits(lon, "try-error")) {
+    if (lon[1] > lon[2]) {
+      logger.info(
+        paste0(
+          "Longitude extent is ordered east to west, describing a span that ",
+          "crosses the date line. Centring the map on the date line."
+        )
+      )
+      return(TRUE)
+    }
+
+    return(FALSE)
+  }
+
+  if (crosses_dateline(data)) {
+    logger.warn(
+      paste0(
+        "Track data appear to cross the international date line. Centering ",
+        "the map on the date line."
+      )
+    )
+    return(TRUE)
+  }
+
+  FALSE
+}
+
 # Wrapper for preprocessing, alignment, and static frame generation
 # Bundling these features together makes it easier to write unit tests for
 # frame behavior as the app itself produces only an animated file output.
@@ -263,6 +306,16 @@ generate_frames <- function(data,
   # Interpret resolution/unit input
   res <- parse_resolution(res, unit)
   
+  # Determine if tracks "cross" date line. If so, force 4326, which is the only
+  # CRS that moveVis supports in this case.
+  cross_dateline <- resolve_dateline(data, lon_ext)
+  
+  crs <- if (cross_dateline) {
+    sf::st_crs("epsg:4326")
+  } else {
+    sf::st_crs("epsg:3857")
+  }
+  
   # Split map provider from map type and check API access
   map_spec <- parse_map_spec(map_type, map_token)
   map_service <- map_spec[["map_service"]]
@@ -277,7 +330,15 @@ generate_frames <- function(data,
   
   # If either y or x extent is provided, build custom bbox
   if (!is.null(lat_ext) || !is.null(lon_ext)) {
-    bbox <- sf::st_bbox(sf::st_transform(data, "epsg:4326"))
+    data_ll <- sf::st_transform(data, "epsg:4326")
+    
+    # A date line crossing extent is described in shifted (0-360) longitudes,
+    # to match how moveVis shifts the track data
+    if (cross_dateline) {
+      data_ll <- sf::st_shift_longitude(data_ll)
+    }
+    
+    bbox <- sf::st_bbox(data_ll)
     
     # If one of the axes is not provided, use the bbox extent as a default
     lat_ext <- lat_ext %||% paste(bbox[2], bbox[4])
@@ -288,7 +349,8 @@ generate_frames <- function(data,
       lat_ext, 
       lon_ext, 
       crs = sf::st_crs("epsg:4326"), 
-      default_bbox = bbox
+      default_bbox = bbox,
+      shift_lon = cross_dateline
     )
     
     if (!is.null(map_ext)) {
@@ -303,11 +365,11 @@ generate_frames <- function(data,
       logger.info("Using default extent for background map.")
     }
     
-    # Input extent is in 4326, but map output will be in Web Mercator,
-    # so we transform the extent to Web Mercator
-    map_ext <- sf::st_bbox(
-      sf::st_transform(sf::st_as_sfc(map_ext), "epsg:3857")
-    )
+    # Input extent is in 4326; transform it to the output CRS unless the map
+    # is already being rendered in geographic coordinates
+    if (crs != sf::st_crs("epsg:4326")) {
+      map_ext <- sf::st_bbox(sf::st_transform(sf::st_as_sfc(map_ext), crs))
+    }
   } else {
     # Otherwise use moveVis default extent
     map_ext <- NULL
@@ -356,7 +418,8 @@ generate_frames <- function(data,
     high_res = high_res,
     ext = map_ext,
     margin_factor = 1.3, # Ignored if `ext` provided
-    crs = sf::st_crs("epsg:3857"),
+    crs = crs,
+    cross_dateline = cross_dateline,
     crs_graticule = sf::st_crs("epsg:4326"),
     path_colours = path_colours,
     colour_paths_by = colour_paths_by,
@@ -673,10 +736,16 @@ parse_coords <- function(x) {
 # Construct map extent from a set of input lat/lon coordinates, using
 # a given bounding box as a default fallback in the event of malformed
 # user input
-get_map_ext <- function(lat_ext, lon_ext, crs, default_bbox) {
+get_map_ext <- function(lat_ext, lon_ext, crs, default_bbox, shift_lon = FALSE) {
   # Try to parse input coords
   lat_ext <- try(parse_coords(lat_ext), silent = TRUE)
   lon_ext <- try(parse_coords(lon_ext), silent = TRUE)
+  
+  # If tracks cross the date line, shift longitude to 0-360 space to produce
+  # a contiguous track
+  if (isTRUE(shift_lon) && !inherits(lon_ext, "try-error")) {
+    lon_ext <- ifelse(lon_ext < 0, lon_ext + 360, lon_ext)
+  }
   
   # If they both fail, use moveVis default map extent
   # Otherwise use backup bbox extent for the failed dimension
