@@ -545,6 +545,19 @@ osm_attribution <- function(url = FALSE) {
   x
 }
 
+# OpenTopoMap tiles are CC-BY-SA 3.0 and require their own credit alongside
+# the OSM data and SRTM elevation data they are rendered from
+# (see https://opentopomap.org/about#verwendung)
+opentopomap_attribution <- function(url = FALSE) {
+  x <- "Map style: © OpenTopoMap (CC-BY-SA)"
+
+  if (url) {
+    x <- paste0(x, " (https://opentopomap.org/about#verwendung)")
+  }
+
+  paste0("Map data: ", osm_attribution(url), ", SRTM | ", x)
+}
+
 stadia_attribution <- function(stamen = FALSE, url = FALSE) {
   stadia_text <- "\u00A9 Stadia Maps"
   stamen_text <- "\u00A9 Stamen Design"
@@ -651,7 +664,14 @@ esri_attribution <- function(map_type) {
 attribution_config <- function() {
   list(
     osm = list(
-      attribution = function(x, url = FALSE) osm_attribution(url = url)
+      attribution = function(x, url = FALSE) {
+        # OSM topographic tiles are served by OpenTopoMap
+        if (x == "topographic") {
+          opentopomap_attribution(url = url)
+        } else {
+          osm_attribution(url = url)
+        }
+      }
     ),
     osm_stamen = list(
       attribution = function(x, url = FALSE) stadia_attribution(stamen = TRUE, url = url)
