@@ -326,7 +326,7 @@
     "basemaps": {
       "Package": "basemaps",
       "Version": "0.1.1",
-      "Source": "Repository",
+      "Source": "GitHub",
       "Type": "Package",
       "Title": "Accessing Spatial Basemaps in R",
       "Depends": [
@@ -361,10 +361,14 @@
       "BugReports": "https://github.com/16eagle/basemaps/issues",
       "URL": "https://jakob.schwalb-willmann.de/basemaps/",
       "Config/roxygen2/version": "8.0.0",
-      "NeedsCompilation": "no",
       "Author": "Jakob Schwalb-Willmann [aut, cre] (ORCID: <https://orcid.org/0000-0003-2665-1509>)",
       "Maintainer": "Jakob Schwalb-Willmann <dev@schwalb-willmann.de>",
-      "Repository": "CRAN"
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "robe2037",
+      "RemoteRepo": "basemaps",
+      "RemoteRef": "moveapps",
+      "RemoteSha": "993a42c543bc933f64682425a9a59867d5f42e41"
     },
     "bit": {
       "Package": "bit",
@@ -1920,6 +1924,7 @@
         "lwgeom",
         "units",
         "basemaps",
+        "slippymath",
         "lubridate",
         "ggplot2",
         "rlang",
@@ -1949,7 +1954,7 @@
       "RemoteUsername": "robe2037",
       "RemoteRepo": "moveVis",
       "RemoteRef": "moveapps",
-      "RemoteSha": "75820a4b01fa43db160bb373507d49b8822e89ca"
+      "RemoteSha": "6896f511067f14ca0bc494ead3a01b6a13c6d555"
     },
     "openssl": {
       "Package": "openssl",
