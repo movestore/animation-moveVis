@@ -334,6 +334,21 @@ test_that("Descending longitude extent crosses the date line", {
   )
 })
 
+test_that("A blank longitude extent across the date line is not reported invalid", {
+  # The track extent used for the blank axis is in shifted (0-360) longitudes,
+  # which must not be rejected as if the user had entered them
+  out <- capture.output(
+    frames <- generate_frames(
+      dateline_data(), res = 1, unit = "hour", map_res = 0.1,
+      lat_ext = "51.5, 53.2"
+    )
+  )
+
+  expect_false(any(grepl("Invalid", out)))
+  expect_equal(frames$crs, sf::st_crs("epsg:4326"))
+  expect_gt(frames$aesthetics$gg.ext[["xmax"]], 180)
+})
+
 test_that("Ascending longitude extent overrides date line detection", {
   capture.output(
     frames <- generate_frames(

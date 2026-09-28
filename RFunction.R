@@ -339,12 +339,9 @@ generate_frames <- function(data,
     }
     
     bbox <- sf::st_bbox(data_ll)
-    
-    # If one of the axes is not provided, use the bbox extent as a default
-    lat_ext <- lat_ext %||% paste(bbox[2], bbox[4])
-    lon_ext <- lon_ext %||% paste(bbox[1], bbox[3])
-    
-    # Construct geog extent for the output map
+
+    # Construct geog extent for the output map. An axis that is not provided
+    # takes the bbox extent.
     map_ext <- get_map_ext(
       lat_ext, 
       lon_ext, 
@@ -765,16 +762,16 @@ parse_lon <- function(x) parse_coords(x, range = c(-180, 180))
 parse_lat <- function(x) parse_coords(x, range = c(-90, 90))
 
 # Construct map extent from a set of input lat/lon coordinates, using
-# a given bounding box as a default fallback in the event of malformed
-# user input
+# a given bounding box as a default fallback for an axis that is not provided
+# or in the event of malformed user input
 get_map_ext <- function(lat_ext, lon_ext, crs, default_bbox, shift_lon = FALSE) {
   # Try to parse input coords
-  lat_ext <- try(parse_lat(lat_ext), silent = TRUE)
-  lon_ext <- try(parse_lon(lon_ext), silent = TRUE)
-  
-  # If tracks cross the date line, shift longitude to 0-360 space to produce
-  # a contiguous track
-  if (isTRUE(shift_lon) && !inherits(lon_ext, "try-error")) {
+  lat_ext <- if (!is.null(lat_ext)) try(parse_lat(lat_ext), silent = TRUE)
+  lon_ext <- if (!is.null(lon_ext)) try(parse_lon(lon_ext), silent = TRUE)
+
+  # Across the date line, negative longitudes describe the eastern side of the
+  # map, so shift them past 180 to keep the extent contiguous
+  if (isTRUE(shift_lon) && is.numeric(lon_ext)) {
     lon_ext <- ifelse(lon_ext < 0, lon_ext + 360, lon_ext)
   }
   
@@ -791,7 +788,10 @@ get_map_ext <- function(lat_ext, lon_ext, crs, default_bbox, shift_lon = FALSE) 
       logger.warn("Invalid longitude extent. Using longitude extent of track data.")
       lon_ext <- c(default_bbox[1], default_bbox[3])
     }
-    
+
+    lat_ext <- lat_ext %||% c(default_bbox[2], default_bbox[4])
+    lon_ext <- lon_ext %||% c(default_bbox[1], default_bbox[3])
+
     # Construct extent
     map_ext <- sf::st_bbox(
       c(
