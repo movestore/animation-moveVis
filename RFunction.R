@@ -50,7 +50,7 @@
 rFunction <- function(data,
                       res = NULL,
                       unit = "hour",
-                      map_type = "carto:voyager",
+                      map_type = "osm:streets",
                       map_token = "",
                       map_res = 1,
                       high_res = FALSE,
@@ -219,7 +219,7 @@ parse_map_spec <- function(map_type, map_token) {
   map_service <- sub(":.*$", "", map_type)
   map_type <- sub("^[^:]*:", "", map_type)
   
-  key_req <- c("osm_stamen", "osm_stadia", 
+  key_req <- c("carto", "osm_stamen", "osm_stadia", 
                "osm_thunderforest", "mapbox", "maptiler")
   
   if (map_service %in% key_req && map_token == "") {
@@ -232,8 +232,8 @@ parse_map_spec <- function(map_type, map_token) {
       )
     )
     
-    map_service <- "carto"
-    map_type <- "voyager"
+    map_service <- "osm"
+    map_type <- "streets"
   }
   
   list(map_service = map_service, map_type = map_type)
@@ -287,7 +287,7 @@ resolve_dateline <- function(data, lon_ext) {
 generate_frames <- function(data,
                             res = "mean",
                             unit = "hour",
-                            map_type = "carto:voyager",
+                            map_type = "osm:streets",
                             map_token = "",
                             map_res = 1,
                             high_res = FALSE,

@@ -102,8 +102,8 @@ test_that("Warn if no API token", {
       "but no key was provided.+"
     )
   )
-  expect_equal(frames$aesthetics$map_service, "carto")
-  expect_equal(frames$aesthetics$map_type, "voyager")
+  expect_equal(frames$aesthetics$map_service, "osm")
+  expect_equal(frames$aesthetics$map_type, "streets")
 })
 
 test_that("Produce correct map tile citation", {
@@ -112,17 +112,16 @@ test_that("Produce correct map tile citation", {
       d, 
       res = 1, 
       unit = "day", 
-      map_type = "carto:dark"
+      map_type = "osm:streets"
     ),
     paste0(
-      "\\[INFO\\].+Citation.+for basemap 'dark' from map service 'carto': ",
-      "\u00A9 CARTO \\(http://www.carto.com/attributions/\\) ",
+      "\\[INFO\\].+Citation.+for basemap 'streets' from map service 'osm': ",
       "\u00A9 OpenStreetMap contributors, under ODbL ",
       "\\(https://www.openstreetmap.org/copyright\\)"
     )
   )
   
-  vdiffr::expect_doppelganger("frames-5-carto", frames[[5]])
+  vdiffr::expect_doppelganger("frames-5-osm", frames[[5]])
 })
 
 test_that("Can provide custom map extent", {

@@ -51,7 +51,7 @@
       "id": "map_type",
       "name": "Map type",
       "description": "Select the map style that you want to use as your animation background. Note that some map providers may require the specification of an API key (see 'Map Service API Key' below). Some map types may not have full global coverage—if you encounter a `Base map download failed` error, try a different map type. See the app documentation for links to preview supported map types.",
-      "defaultValue": "carto:voyager",
+      "defaultValue": "osm:streets",
       "type": "DROPDOWN",
       "options": [
         {
@@ -319,7 +319,7 @@
     {
       "id": "map_token",
       "name": "Map service API key",
-      "description": "API key for your account with the given map service provider. The following services require API authorization: Stamen, Stadia, Thunderforest, Mapbox, MapTiler. If requesting a basemap from one of these providers, you must provide your API token here. See the map provider's website for more information about creating an API key.",
+      "description": "API key for your account with the given map service provider. The following services require API authorization: CARTO, Stamen, Stadia, Thunderforest, Mapbox, MapTiler. If requesting a basemap from one of these providers, you must provide your API token here. See the map provider's website for more information about creating an API key.",
       "defaultValue": null,
       "type": "SECRET"
     },

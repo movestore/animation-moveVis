@@ -89,7 +89,8 @@ in the output animation. Defaults to 25.
 
 **Map type (`map_type`):** Basemap to use for the animation background.
 Several map providers are available. Some providers
-([Stamen](https://maps.stamen.com/#terrain/12/37.7706/-122.3782),
+([CARTO](https://carto.com/basemaps/apikey/),
+[Stamen](https://maps.stamen.com/#terrain/12/37.7706/-122.3782),
 [Stadia](https://stadiamaps.com/),
 [Thunderforest](https://www.thunderforest.com/),
 [Mapbox](https://www.mapbox.com/), and
@@ -113,7 +114,8 @@ After each provider is the list of currently available maps in this App:
     Transport Dark", "Thunderforest Spinal", "Thunderforest Pioneer",
     "Thunderforest Mobile Atlas", "Thunderforest Neighborhood",
     "Thunderforest Atlas"
--   [Carto](https://carto.com/basemaps): "Carto Light", "Carto Light No
+-   [Carto](https://carto.com/basemaps) (API key
+    needed): "Carto Light", "Carto Light No
     Labels", "Carto Dark", "Carto Dark No Labels", "Carto Voyager",
     "Carto Voyager No Labels", "Carto Voyager Labels Under"
 -   [Mapbox](https://www.mapbox.com/maps#map-styling) (API key needed):
@@ -141,11 +143,12 @@ in this App.
 
 **API key for the given map provider (`map_token`)** API key used to
 access maps from providers that require API authorization. The providers
+[CARTO](https://carto.com/basemaps/apikey/),
 [Stamen](https://maps.stamen.com/#terrain/12/37.7706/-122.3782),
 [Stadia](https://stadiamaps.com/),
 [Thunderforest](https://www.thunderforest.com/),
 [Mapbox](https://www.mapbox.com/), and
-[MapTiler](https://www.maptiler.com/)) require an associated API key,
+[MapTiler](https://www.maptiler.com/) require an associated API key,
 which you must have obtained from the map provider website prior to
 running the App.
 
@@ -316,8 +319,8 @@ different unit.
 **Map service API key (`map_token`):** If you select a map type from a
 provider that requires an API key, you must provide an API key to **API
 key for the given map provider**. If left NULL, the default basemap
-(Carto Voyager) will be used instead. Map providers that require an API
-key are: Stamen, Stadia, Thunderforest, Mapbox, and MapTiler. You can
+(OSM Streets) will be used instead. Map providers that require an API
+key are: CARTO, Stamen, Stadia, Thunderforest, Mapbox, and MapTiler. You can
 learn more about getting an API key on the map provider's website.
 
 **Use high-resolution basemap (`high_res`):** Some map providers (e.g.
