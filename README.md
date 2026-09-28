@@ -297,10 +297,14 @@ especially if you have a data set with high temporal resolution, that
 spans over a large time period and/or contains a large amount of
 individuals.
 
-If using a basemap from Stamen, Stadia, Thunderforest, Mapbox, or
+If using a basemap from CARTO, Stamen, Stadia, Thunderforest, Mapbox, or
 MapTiler, you must also provide an API key to the **API key for the
-given map provider** setting. If you do not provide a key or provide an
-invalid key, the App will fail.
+given map provider** setting. In most cases, failure to provide a valid key
+will cause the App to fail. In the case of CARTO, an invalid key will
+instead provide a background map with empty tiles reading "API KEY REQUIRED".
+If you see this in your output, check that you have
+provided a valid CARTO API key to **API key for the given map
+provider**.
 
 If colouring by an attribute in the input data (by setting **Track
 colour option** to "Coloured by event or track attribute"), the name of
@@ -321,7 +325,9 @@ provider that requires an API key, you must provide an API key to **API
 key for the given map provider**. If left NULL, the default basemap
 (OSM Streets) will be used instead. Map providers that require an API
 key are: CARTO, Stamen, Stadia, Thunderforest, Mapbox, and MapTiler. You can
-learn more about getting an API key on the map provider's website.
+learn more about getting an API key on the map provider's website. Note
+that an invalid CARTO key does not cause an error; the basemap will
+instead display "API KEY REQUIRED" (see above).
 
 **Use high-resolution basemap (`high_res`):** Some map providers (e.g.
 OSM) do not provide high resolution basemap tiles. In these cases, the
