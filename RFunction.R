@@ -252,7 +252,7 @@ crosses_dateline <- function(x) {
 
 # Determine whether extent wraps the date line or not
 resolve_dateline <- function(data, lon_ext) {
-  lon <- if (!is.null(lon_ext)) try(parse_coords(lon_ext), silent = TRUE)
+  lon <- if (!is.null(lon_ext)) try(parse_lon(lon_ext), silent = TRUE)
 
   if (!is.null(lon) && !inherits(lon, "try-error")) {
     if (lon[1] > lon[2]) {
@@ -367,7 +367,7 @@ generate_frames <- function(data,
     
     # Input extent is in 4326; transform it to the output CRS unless the map
     # is already being rendered in geographic coordinates
-    if (crs != sf::st_crs("epsg:4326")) {
+    if (!is.null(map_ext) && crs != sf::st_crs("epsg:4326")) {
       map_ext <- sf::st_bbox(sf::st_transform(sf::st_as_sfc(map_ext), crs))
     }
   } else {
@@ -717,14 +717,20 @@ split_coords <- function(x) {
 
 # Basic check that parsed lat/lon coordinates from user input string are
 # valid
-coords_valid <- function(x) {
-  length(x) == 2 && all(!is.na(x)) && all(is.numeric(x)) && x[1] != x[2]
+coords_valid <- function(x, range = NULL) {
+  valid <- length(x) == 2 && all(!is.na(x)) && all(is.numeric(x)) && x[1] != x[2]
+
+  if (valid && !is.null(range)) {
+    valid <- all(x >= range[1] & x <= range[2])
+  }
+
+  valid
 }
 
 # Wrapper to parse user input coordinates
-parse_coords <- function(x) {
+parse_coords <- function(x, range = NULL) {
   x <- split_coords(x)
-  valid <- coords_valid(x)
+  valid <- coords_valid(x, range = range)
   
   if (!valid) {
     stop("Invalid extent coordinates provided.")
@@ -733,13 +739,18 @@ parse_coords <- function(x) {
   x
 }
 
+# Parse an extent for a given axis. Every caller must agree on what counts as
+# a usable extent, or one can act on an extent another has rejected.
+parse_lon <- function(x) parse_coords(x, range = c(-180, 180))
+parse_lat <- function(x) parse_coords(x, range = c(-90, 90))
+
 # Construct map extent from a set of input lat/lon coordinates, using
 # a given bounding box as a default fallback in the event of malformed
 # user input
 get_map_ext <- function(lat_ext, lon_ext, crs, default_bbox, shift_lon = FALSE) {
   # Try to parse input coords
-  lat_ext <- try(parse_coords(lat_ext), silent = TRUE)
-  lon_ext <- try(parse_coords(lon_ext), silent = TRUE)
+  lat_ext <- try(parse_lat(lat_ext), silent = TRUE)
+  lon_ext <- try(parse_lon(lon_ext), silent = TRUE)
   
   # If tracks cross the date line, shift longitude to 0-360 space to produce
   # a contiguous track

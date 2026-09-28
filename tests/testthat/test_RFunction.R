@@ -358,3 +358,101 @@ test_that("Ascending longitude extent overrides date line detection", {
     )
   )
 })
+
+test_that("Extent coordinates outside the valid range are rejected", {
+  expect_true(coords_valid(c(-50, 50), range = c(-180, 180)))
+  expect_false(coords_valid(c(-50, 200), range = c(-180, 180)))
+  expect_false(coords_valid(c(-200, 50), range = c(-180, 180)))
+  expect_false(coords_valid(c(0, 400), range = c(-180, 180)))
+
+  # bounds themselves are valid
+  expect_true(coords_valid(c(-180, 180), range = c(-180, 180)))
+  expect_true(coords_valid(c(-90, 90), range = c(-90, 90)))
+  expect_false(coords_valid(c(0, 100), range = c(-90, 90)))
+})
+
+test_that("Longitude outside -180 to 180 falls back to the track extent", {
+  bbox <- sf::st_bbox(d)
+
+  # "200" would otherwise be reinterpreted as -160 once projected
+  expect_output(
+    frames <- generate_frames(
+      d, res = 1, unit = "day", map_res = 0.1,
+      lat_ext = "69, 70",
+      lon_ext = "-50, 200"
+    ),
+    "Invalid longitude extent.+Using longitude extent of track data"
+  )
+
+  expect_equal(
+    frames$aesthetics$gg.ext,
+    sf::st_transform(
+      sf::st_bbox(
+        c(xmin = bbox[[1]], ymin = 69, xmax = bbox[[3]], ymax = 70),
+        crs = sf::st_crs("epsg:4326")
+      ),
+      crs = sf::st_crs("epsg:3857")
+    )
+  )
+})
+
+test_that("An out-of-range longitude does not suppress date line detection", {
+  # An invalid extent should fall back to the same default map view as
+  # if no input was provided
+  expect_output(
+    frames <- generate_frames(
+      dateline_data(), res = 1, unit = "hour", map_res = 0.1,
+      lon_ext = "-50, 200"
+    ),
+    "\\[WARN\\] Track data appear to cross the international date line"
+  )
+
+  expect_equal(frames$crs, sf::st_crs("epsg:4326"))
+
+  expect_equal(
+    frames$aesthetics$gg.ext,
+    sf::st_bbox(sf::st_shift_longitude(
+      sf::st_transform(dateline_data(), "epsg:4326")
+    ))
+  )
+})
+
+test_that("Latitude outside -90 to 90 falls back to the track extent", {
+  bbox <- sf::st_bbox(d)
+
+  expect_output(
+    frames <- generate_frames(
+      d, res = 1, unit = "day", map_res = 0.1,
+      lat_ext = "0, 100",
+      lon_ext = "48, 49"
+    ),
+    "Invalid latitude extent.+Using latitude extent of track data"
+  )
+
+  expect_equal(
+    frames$aesthetics$gg.ext,
+    sf::st_transform(
+      sf::st_bbox(
+        c(xmin = 48, ymin = bbox[[2]], xmax = 49, ymax = bbox[[4]]),
+        crs = sf::st_crs("epsg:4326")
+      ),
+      crs = sf::st_crs("epsg:3857")
+    )
+  )
+})
+
+test_that("An unusable extent falls back instead of failing", {
+  # when neither axis can be parsed there is no extent to transform, which
+  # previously reached sf::st_as_sfc(NULL) and errored
+  expect_output(
+    frames <- generate_frames(
+      d, res = 1, unit = "day", map_res = 0.1,
+      lat_ext = "garbage",
+      lon_ext = "nonsense"
+    ),
+    "Invalid map extent.+Using default extent for background map"
+  )
+
+  expect_is(frames, "moveVis")
+  expect_equal(frames$crs, sf::st_crs("epsg:3857"))
+})

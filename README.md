@@ -165,6 +165,10 @@ equator as negative numbers (e.g. 5.1 degrees West would be provided as
 of the track data, as this may produce invalid geometry calculations and
 cause the app to fail.
 
+Longitude values must be between -180 and 180, and latitude values between
+-90 and 90. If a value is outside its range, the app ignores it and uses
+the extent of the track data for that dimension.
+
 Longitude bounds are ordered west to east. Thus, if the western bound is larger
 than the eastern bound (e.g. 170, -170), the map will wrap across the
 international date line. Use this to ensure that tracks that traverse the 
