@@ -323,8 +323,8 @@ different unit.
 
 **Map service API key (`map_token`):** If you select a map type from a
 provider that requires an API key, you must provide an API key to **API
-key for the given map provider**. If left NULL, the default basemap
-(OSM Streets) will be used instead. Map providers that require an API
+key for the given map provider**. If left NULL, the App will fail with
+an error naming the map provider. Map providers that require an API
 key are: CARTO, Stamen, Stadia, Thunderforest, Mapbox, and MapTiler. You can
 learn more about getting an API key on the map provider's website. Note
 that an invalid CARTO key does not cause an error; the basemap will

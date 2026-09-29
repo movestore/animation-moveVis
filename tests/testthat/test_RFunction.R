@@ -87,23 +87,36 @@ test_that("Can color by attribute", {
   vdiffr::expect_doppelganger("frames-5-tagid", frames[[5]])
 })
 
-test_that("Warn if no API token", {
+test_that("Error if no API token", {
   withr::local_envvar(list(STADIA_API_KEY = NA))
-  
-  expect_output(
-    frames <- generate_frames(
-      d, 
-      res = 1, 
-      unit = "day", 
+
+  expect_error(
+    generate_frames(
+      d,
+      res = 1,
+      unit = "day",
       map_type = "osm_stadia:alidade_smooth"
     ),
     paste0(
-      "\\[WARN\\] Map service osm_stadia requires API authorization, ",
-      "but no key was provided.+"
+      "Map service osm_stadia requires API authorization, ",
+      "but no key was provided"
     )
   )
-  expect_equal(frames$aesthetics$map_service, "osm")
-  expect_equal(frames$aesthetics$map_type, "streets")
+})
+
+test_that("Error if API token is NULL", {
+  # MoveApps passes an unset SECRET setting as NULL rather than ""
+  expect_error(
+    parse_map_spec("carto:voyager", NULL),
+    "Map service carto requires API authorization"
+  )
+})
+
+test_that("No API token is needed for providers that do not require one", {
+  expect_equal(
+    parse_map_spec("osm:topographic", NULL),
+    list(map_service = "osm", map_type = "topographic")
+  )
 })
 
 test_that("Produce correct map tile citation", {

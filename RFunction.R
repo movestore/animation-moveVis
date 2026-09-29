@@ -219,21 +219,20 @@ parse_map_spec <- function(map_type, map_token) {
   map_service <- sub(":.*$", "", map_type)
   map_type <- sub("^[^:]*:", "", map_type)
   
+  # MoveApps passes an unset SECRET setting as NULL
+  map_token <- map_token %||% ""
+  
   key_req <- c("carto", "osm_stamen", "osm_stadia", 
                "osm_thunderforest", "mapbox", "maptiler")
   
   if (map_service %in% key_req && map_token == "") {
-    logger.warn(
+    stop(
       paste0(
         "Map service ", map_service, 
         " requires API authorization, but no key was provided. ",
-        "You can obtain a key at the map service's website. ",
-        "Using default basemap."
+        "Obtain a key at the map service's website."
       )
     )
-    
-    map_service <- "osm"
-    map_type <- "streets"
   }
   
   list(map_service = map_service, map_type = map_type)
