@@ -385,6 +385,29 @@ test_that("Extent coordinates outside the valid range are rejected", {
   expect_false(coords_valid(c(0, 100), range = c(-90, 90)))
 })
 
+test_that("Descending longitude must only cross the date line", {
+  expect_equal(parse_lon("170, -170"), c(170, -170))
+  expect_equal(parse_lon("0, -10"), c(0, -10))
+
+  # These would wrap across both the date line and the prime meridian
+  expect_error(parse_lon("50.3, 45.2"), "Invalid extent")
+  expect_error(parse_lon("-170, -175"), "Invalid extent")
+  expect_false(resolve_dateline(d, "50.3, 45.2"))
+})
+
+test_that("Descending longitude on one side of the date line falls back", {
+  expect_output(
+    frames <- generate_frames(
+      dateline_data(), res = 1, unit = "hour", map_res = 0.1,
+      lon_ext = "-170, -175"
+    ),
+    "Invalid longitude extent.+Using longitude extent of track data"
+  )
+
+  # Falls back to detection, which still centers on the date line
+  expect_equal(frames$crs, sf::st_crs("epsg:4326"))
+})
+
 test_that("Longitude outside -180 to 180 falls back to the track extent", {
   bbox <- sf::st_bbox(d)
 

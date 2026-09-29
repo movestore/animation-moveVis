@@ -175,7 +175,8 @@ the extent of the track data for that dimension.
 Longitude bounds are ordered west to east. Thus, if the western bound is larger
 than the eastern bound (e.g. 170, -170), the map will wrap across the
 international date line. Use this to ensure that tracks that traverse the 
-date line do not "jump" from one side of the map to the other.
+date line do not "jump" from one side of the map to the other. In this case, the
+extent must start east of the Prime Meridian and end west of it.
 
 If either (or both) are left blank, the geographic extent of the track
 data will be used for that dimension. If tracks appear to cluster around

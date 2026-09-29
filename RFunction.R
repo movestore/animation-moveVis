@@ -758,7 +758,18 @@ parse_coords <- function(x, range = NULL) {
 
 # Parse an extent for a given axis. Every caller must agree on what counts as
 # a usable extent, or one can act on an extent another has rejected.
-parse_lon <- function(x) parse_coords(x, range = c(-180, 180))
+parse_lon <- function(x) {
+  x <- parse_coords(x, range = c(-180, 180))
+
+  # moveVis only supports dateline-wrapping when the extent goes from eastern
+  # hemisphere to western hemisphere. It cannot wrap both IDL and Prime Meridian
+  if (x[1] > x[2] && !(x[1] >= 0 && x[2] <= 0)) {
+    stop("Invalid extent coordinates provided.")
+  }
+
+  x
+}
+
 parse_lat <- function(x) parse_coords(x, range = c(-90, 90))
 
 # Construct map extent from a set of input lat/lon coordinates, using
