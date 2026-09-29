@@ -779,10 +779,11 @@ get_map_ext <- function(lat_ext, lon_ext, crs, default_bbox, shift_lon = FALSE) 
   lat_ext <- if (!is.null(lat_ext)) try(parse_lat(lat_ext), silent = TRUE)
   lon_ext <- if (!is.null(lon_ext)) try(parse_lon(lon_ext), silent = TRUE)
 
-  # Across the date line, negative longitudes describe the eastern side of the
-  # map, so shift them past 180 to keep the extent contiguous
-  if (isTRUE(shift_lon) && is.numeric(lon_ext)) {
-    lon_ext <- ifelse(lon_ext < 0, lon_ext + 360, lon_ext)
+  # Across the date line, the second (eastern) bound lies in the western
+  # hemisphere, so shift it past 180 to keep the extent contiguous. This
+  # includes a bound of 0, which marks the eastern edge at 360.
+  if (isTRUE(shift_lon) && is.numeric(lon_ext) && lon_ext[1] > lon_ext[2]) {
+    lon_ext[2] <- lon_ext[2] + 360
   }
   
   # If they both fail, use moveVis default map extent

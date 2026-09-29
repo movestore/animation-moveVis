@@ -347,6 +347,27 @@ test_that("Descending longitude extent crosses the date line", {
   )
 })
 
+test_that("Descending longitude extent can end on the prime meridian", {
+  bbox <- sf::st_bbox(
+    c(xmin = 5, ymin = 50, xmax = 8, ymax = 52),
+    crs = sf::st_crs("epsg:4326")
+  )
+  lon_ext <- function(x) {
+    ext <- get_map_ext(
+      "50, 52", x,
+      crs = sf::st_crs("epsg:4326"),
+      default_bbox = bbox,
+      shift_lon = TRUE
+    )
+    unname(c(ext$xmin, ext$xmax))
+  }
+
+  # "10, 0" runs east from 10 across the date line to the prime meridian
+  expect_equal(lon_ext("10, 0"), c(10, 360))
+  expect_equal(lon_ext("0, -10"), c(0, 350))
+  expect_equal(lon_ext("170, -170"), c(170, 190))
+})
+
 test_that("A blank longitude extent across the date line is not reported invalid", {
   # The track extent used for the blank axis is in shifted (0-360) longitudes,
   # which must not be rejected as if the user had entered them
