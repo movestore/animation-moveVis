@@ -259,7 +259,7 @@ resolve_dateline <- function(data, lon_ext) {
       logger.info(
         paste0(
           "Longitude extent is ordered east to west, describing a span that ",
-          "crosses the date line. Centring the map on the date line."
+          "crosses the date line. Centering the map on the date line."
         )
       )
       return(TRUE)
