@@ -27,7 +27,8 @@
 #'   tiles from the map tile provider in `map_type`. This increases processing
 #'   time but produces sharper maps, particularly when rendered in large format.
 #' @param lat_ext,lon_ext Geographic extent to use for the animation basemap, in
-#'   latitude/longitude coordinates.
+#'   latitude/longitude coordinates. Longitude bounds are ordered west to east,
+#'   so a descending extent will wrap the map across the date line.
 #' @param fps Frames per second to use in the rendered animation
 #' @param col_opt Selection indicating how tracks are to be colored. Either
 #'   `"one"`, `"trackid"`, or `"other"`. For `"other"`, a variable in the input
@@ -49,7 +50,7 @@
 rFunction <- function(data,
                       res = NULL,
                       unit = "hour",
-                      map_type = "carto:voyager",
+                      map_type = "osm:streets",
                       map_token = "",
                       map_res = 1,
                       high_res = FALSE,
@@ -218,24 +219,65 @@ parse_map_spec <- function(map_type, map_token) {
   map_service <- sub(":.*$", "", map_type)
   map_type <- sub("^[^:]*:", "", map_type)
   
-  key_req <- c("osm_stamen", "osm_stadia", 
+  # MoveApps passes an unset SECRET setting as NULL
+  map_token <- map_token %||% ""
+  
+  key_req <- c("carto", "osm_stamen", "osm_stadia", 
                "osm_thunderforest", "mapbox", "maptiler")
   
   if (map_service %in% key_req && map_token == "") {
-    logger.warn(
+    stop(
       paste0(
         "Map service ", map_service, 
         " requires API authorization, but no key was provided. ",
-        "You can obtain a key at the map service's website. ",
-        "Using default basemap."
+        "Obtain a key at the map service's website."
       )
     )
-    
-    map_service <- "carto"
-    map_type <- "voyager"
   }
   
   list(map_service = map_service, map_type = map_type)
+}
+
+# As a default, we determine a set of tracks to cross the dateline (i.e.
+# require a pacific-centered view) when the longitudinal width is smaller
+# when wrapping across the date line than when wrapping across the prime
+# meridian.
+crosses_dateline <- function(x) {
+  x <- sf::st_transform(x, "epsg:4326")
+  width <- function(b) as.numeric(b[["xmax"]] - b[["xmin"]])
+
+  width(sf::st_bbox(sf::st_shift_longitude(x))) < width(sf::st_bbox(x))
+}
+
+# Determine whether extent wraps the date line or not
+resolve_dateline <- function(data, lon_ext) {
+  lon <- if (!is.null(lon_ext)) try(parse_lon(lon_ext), silent = TRUE)
+
+  if (!is.null(lon) && !inherits(lon, "try-error")) {
+    if (lon[1] > lon[2]) {
+      logger.info(
+        paste0(
+          "Longitude extent is ordered east to west, describing a span that ",
+          "crosses the date line. Centering the map on the date line."
+        )
+      )
+      return(TRUE)
+    }
+
+    return(FALSE)
+  }
+
+  if (crosses_dateline(data)) {
+    logger.warn(
+      paste0(
+        "Track data appear to cross the international date line. Centering ",
+        "the map on the date line."
+      )
+    )
+    return(TRUE)
+  }
+
+  FALSE
 }
 
 # Wrapper for preprocessing, alignment, and static frame generation
@@ -244,7 +286,7 @@ parse_map_spec <- function(map_type, map_token) {
 generate_frames <- function(data,
                             res = "mean",
                             unit = "hour",
-                            map_type = "carto:voyager",
+                            map_type = "osm:streets",
                             map_token = "",
                             map_res = 1,
                             high_res = FALSE,
@@ -263,6 +305,16 @@ generate_frames <- function(data,
   # Interpret resolution/unit input
   res <- parse_resolution(res, unit)
   
+  # Determine if tracks "cross" date line. If so, force 4326, which is the only
+  # CRS that moveVis supports in this case.
+  cross_dateline <- resolve_dateline(data, lon_ext)
+  
+  crs <- if (cross_dateline) {
+    sf::st_crs("epsg:4326")
+  } else {
+    sf::st_crs("epsg:3857")
+  }
+  
   # Split map provider from map type and check API access
   map_spec <- parse_map_spec(map_type, map_token)
   map_service <- map_spec[["map_service"]]
@@ -277,18 +329,24 @@ generate_frames <- function(data,
   
   # If either y or x extent is provided, build custom bbox
   if (!is.null(lat_ext) || !is.null(lon_ext)) {
-    bbox <- sf::st_bbox(sf::st_transform(data, "epsg:4326"))
+    data_ll <- sf::st_transform(data, "epsg:4326")
     
-    # If one of the axes is not provided, use the bbox extent as a default
-    lat_ext <- lat_ext %||% paste(bbox[2], bbox[4])
-    lon_ext <- lon_ext %||% paste(bbox[1], bbox[3])
+    # A date line crossing extent is described in shifted (0-360) longitudes,
+    # to match how moveVis shifts the track data
+    if (cross_dateline) {
+      data_ll <- sf::st_shift_longitude(data_ll)
+    }
     
-    # Construct geog extent for the output map
+    bbox <- sf::st_bbox(data_ll)
+
+    # Construct geog extent for the output map. An axis that is not provided
+    # takes the bbox extent.
     map_ext <- get_map_ext(
       lat_ext, 
       lon_ext, 
       crs = sf::st_crs("epsg:4326"), 
-      default_bbox = bbox
+      default_bbox = bbox,
+      shift_lon = cross_dateline
     )
     
     if (!is.null(map_ext)) {
@@ -303,11 +361,11 @@ generate_frames <- function(data,
       logger.info("Using default extent for background map.")
     }
     
-    # Input extent is in 4326, but map output will be in Web Mercator,
-    # so we transform the extent to Web Mercator
-    map_ext <- sf::st_bbox(
-      sf::st_transform(sf::st_as_sfc(map_ext), "epsg:3857")
-    )
+    # Input extent is in 4326; transform it to the output CRS unless the map
+    # is already being rendered in geographic coordinates
+    if (!is.null(map_ext) && crs != sf::st_crs("epsg:4326")) {
+      map_ext <- sf::st_bbox(sf::st_transform(sf::st_as_sfc(map_ext), crs))
+    }
   } else {
     # Otherwise use moveVis default extent
     map_ext <- NULL
@@ -356,7 +414,8 @@ generate_frames <- function(data,
     high_res = high_res,
     ext = map_ext,
     margin_factor = 1.3, # Ignored if `ext` provided
-    crs = sf::st_crs("epsg:3857"),
+    crs = crs,
+    cross_dateline = cross_dateline,
     crs_graticule = sf::st_crs("epsg:4326"),
     path_colours = path_colours,
     colour_paths_by = colour_paths_by,
@@ -482,6 +541,19 @@ osm_attribution <- function(url = FALSE) {
   x
 }
 
+# OpenTopoMap tiles are CC-BY-SA 3.0 and require their own credit alongside
+# the OSM data and SRTM elevation data they are rendered from
+# (see https://opentopomap.org/about#verwendung)
+opentopomap_attribution <- function(url = FALSE) {
+  x <- "Map style: © OpenTopoMap (CC-BY-SA)"
+
+  if (url) {
+    x <- paste0(x, " (https://opentopomap.org/about#verwendung)")
+  }
+
+  paste0("Map data: ", osm_attribution(url), ", SRTM | ", x)
+}
+
 stadia_attribution <- function(stamen = FALSE, url = FALSE) {
   stadia_text <- "\u00A9 Stadia Maps"
   stamen_text <- "\u00A9 Stamen Design"
@@ -588,7 +660,14 @@ esri_attribution <- function(map_type) {
 attribution_config <- function() {
   list(
     osm = list(
-      attribution = function(x, url = FALSE) osm_attribution(url = url)
+      attribution = function(x, url = FALSE) {
+        # OSM topographic tiles are served by OpenTopoMap
+        if (x == "topographic") {
+          opentopomap_attribution(url = url)
+        } else {
+          osm_attribution(url = url)
+        }
+      }
     ),
     osm_stamen = list(
       attribution = function(x, url = FALSE) stadia_attribution(stamen = TRUE, url = url)
@@ -654,14 +733,20 @@ split_coords <- function(x) {
 
 # Basic check that parsed lat/lon coordinates from user input string are
 # valid
-coords_valid <- function(x) {
-  length(x) == 2 && all(!is.na(x)) && all(is.numeric(x)) && x[1] != x[2]
+coords_valid <- function(x, range = NULL) {
+  valid <- length(x) == 2 && all(!is.na(x)) && all(is.numeric(x)) && x[1] != x[2]
+
+  if (valid && !is.null(range)) {
+    valid <- all(x >= range[1] & x <= range[2])
+  }
+
+  valid
 }
 
 # Wrapper to parse user input coordinates
-parse_coords <- function(x) {
+parse_coords <- function(x, range = NULL) {
   x <- split_coords(x)
-  valid <- coords_valid(x)
+  valid <- coords_valid(x, range = range)
   
   if (!valid) {
     stop("Invalid extent coordinates provided.")
@@ -670,13 +755,36 @@ parse_coords <- function(x) {
   x
 }
 
+# Parse an extent for a given axis. Every caller must agree on what counts as
+# a usable extent, or one can act on an extent another has rejected.
+parse_lon <- function(x) {
+  x <- parse_coords(x, range = c(-180, 180))
+
+  # moveVis only supports dateline-wrapping when the extent goes from eastern
+  # hemisphere to western hemisphere. It cannot wrap both IDL and Prime Meridian
+  if (x[1] > x[2] && !(x[1] >= 0 && x[2] <= 0)) {
+    stop("Invalid extent coordinates provided.")
+  }
+
+  x
+}
+
+parse_lat <- function(x) parse_coords(x, range = c(-90, 90))
+
 # Construct map extent from a set of input lat/lon coordinates, using
-# a given bounding box as a default fallback in the event of malformed
-# user input
-get_map_ext <- function(lat_ext, lon_ext, crs, default_bbox) {
+# a given bounding box as a default fallback for an axis that is not provided
+# or in the event of malformed user input
+get_map_ext <- function(lat_ext, lon_ext, crs, default_bbox, shift_lon = FALSE) {
   # Try to parse input coords
-  lat_ext <- try(parse_coords(lat_ext), silent = TRUE)
-  lon_ext <- try(parse_coords(lon_ext), silent = TRUE)
+  lat_ext <- if (!is.null(lat_ext)) try(parse_lat(lat_ext), silent = TRUE)
+  lon_ext <- if (!is.null(lon_ext)) try(parse_lon(lon_ext), silent = TRUE)
+
+  # Across the date line, the second (eastern) bound lies in the western
+  # hemisphere, so shift it past 180 to keep the extent contiguous. This
+  # includes a bound of 0, which marks the eastern edge at 360.
+  if (isTRUE(shift_lon) && is.numeric(lon_ext) && lon_ext[1] > lon_ext[2]) {
+    lon_ext[2] <- lon_ext[2] + 360
+  }
   
   # If they both fail, use moveVis default map extent
   # Otherwise use backup bbox extent for the failed dimension
@@ -691,7 +799,10 @@ get_map_ext <- function(lat_ext, lon_ext, crs, default_bbox) {
       logger.warn("Invalid longitude extent. Using longitude extent of track data.")
       lon_ext <- c(default_bbox[1], default_bbox[3])
     }
-    
+
+    lat_ext <- lat_ext %||% c(default_bbox[2], default_bbox[4])
+    lon_ext <- lon_ext %||% c(default_bbox[1], default_bbox[3])
+
     # Construct extent
     map_ext <- sf::st_bbox(
       c(

@@ -89,7 +89,8 @@ in the output animation. Defaults to 25.
 
 **Map type (`map_type`):** Basemap to use for the animation background.
 Several map providers are available. Some providers
-([Stamen](https://maps.stamen.com/#terrain/12/37.7706/-122.3782),
+([CARTO](https://carto.com/basemaps/apikey/),
+[Stamen](https://maps.stamen.com/#terrain/12/37.7706/-122.3782),
 [Stadia](https://stadiamaps.com/),
 [Thunderforest](https://www.thunderforest.com/),
 [Mapbox](https://www.mapbox.com/), and
@@ -113,7 +114,8 @@ After each provider is the list of currently available maps in this App:
     Transport Dark", "Thunderforest Spinal", "Thunderforest Pioneer",
     "Thunderforest Mobile Atlas", "Thunderforest Neighborhood",
     "Thunderforest Atlas"
--   [Carto](https://carto.com/basemaps): "Carto Light", "Carto Light No
+-   [Carto](https://carto.com/basemaps) (API key
+    needed): "Carto Light", "Carto Light No
     Labels", "Carto Dark", "Carto Dark No Labels", "Carto Voyager",
     "Carto Voyager No Labels", "Carto Voyager Labels Under"
 -   [Mapbox](https://www.mapbox.com/maps#map-styling) (API key needed):
@@ -141,11 +143,12 @@ in this App.
 
 **API key for the given map provider (`map_token`)** API key used to
 access maps from providers that require API authorization. The providers
+[CARTO](https://carto.com/basemaps/apikey/),
 [Stamen](https://maps.stamen.com/#terrain/12/37.7706/-122.3782),
 [Stadia](https://stadiamaps.com/),
 [Thunderforest](https://www.thunderforest.com/),
 [Mapbox](https://www.mapbox.com/), and
-[MapTiler](https://www.maptiler.com/)) require an associated API key,
+[MapTiler](https://www.maptiler.com/) require an associated API key,
 which you must have obtained from the map provider website prior to
 running the App.
 
@@ -165,8 +168,24 @@ equator as negative numbers (e.g. 5.1 degrees West would be provided as
 of the track data, as this may produce invalid geometry calculations and
 cause the app to fail.
 
+Longitude values must be between -180 and 180, and latitude values between
+-90 and 90. If a value is outside its range, the app ignores it and uses
+the extent of the track data for that dimension.
+
+Longitude bounds are ordered west to east. Thus, if the western bound is larger
+than the eastern bound (e.g. 170, -170), the map will wrap across the
+international date line. Use this to ensure that tracks that traverse the 
+date line do not "jump" from one side of the map to the other. In this case, the
+extent must start east of the Prime Meridian and end west of it.
+
 If either (or both) are left blank, the geographic extent of the track
-data will be used for that dimension.
+data will be used for that dimension. If tracks appear to cluster around
+the date line, an extent that centers on the date line will be used by default.
+
+Note that a map that wraps across the date line is rendered in geographic
+coordinates (EPSG:4326) rather than Web Mercator. Basemap
+tiles are reprojected as a result, which may slightly distort their
+labels.
 
 **Track colour option (`col_opt`):** Method to use when selecting
 colours for the tracks in the animation. Default is "Single colour (red)
@@ -279,10 +298,14 @@ especially if you have a data set with high temporal resolution, that
 spans over a large time period and/or contains a large amount of
 individuals.
 
-If using a basemap from Stamen, Stadia, Thunderforest, Mapbox, or
+If using a basemap from CARTO, Stamen, Stadia, Thunderforest, Mapbox, or
 MapTiler, you must also provide an API key to the **API key for the
-given map provider** setting. If you do not provide a key or provide an
-invalid key, the App will fail.
+given map provider** setting. In most cases, failure to provide a valid key
+will cause the App to fail. In the case of CARTO, an invalid key will
+instead provide a background map with empty tiles reading "API KEY REQUIRED".
+If you see this in your output, check that you have
+provided a valid CARTO API key to **API key for the given map
+provider**.
 
 If colouring by an attribute in the input data (by setting **Track
 colour option** to "Coloured by event or track attribute"), the name of
@@ -300,10 +323,12 @@ different unit.
 
 **Map service API key (`map_token`):** If you select a map type from a
 provider that requires an API key, you must provide an API key to **API
-key for the given map provider**. If left NULL, the default basemap
-(Carto Voyager) will be used instead. Map providers that require an API
-key are: Stamen, Stadia, Thunderforest, Mapbox, and MapTiler. You can
-learn more about getting an API key on the map provider's website.
+key for the given map provider**. If left NULL, the App will fail with
+an error naming the map provider. Map providers that require an API
+key are: CARTO, Stamen, Stadia, Thunderforest, Mapbox, and MapTiler. You can
+learn more about getting an API key on the map provider's website. Note
+that an invalid CARTO key does not cause an error; the basemap will
+instead display "API KEY REQUIRED" (see above).
 
 **Use high-resolution basemap (`high_res`):** Some map providers (e.g.
 OSM) do not provide high resolution basemap tiles. In these cases, the
