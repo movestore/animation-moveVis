@@ -899,14 +899,14 @@
     {
       "id": "out_width",
       "name": "Animation output width (cm)",
-      "description": "Width of the output animation in centimeters. If your map is very wide, you may need to increase this value to prevent plot elements from overlapping or being clipped.",
+      "description": "Width of the output animation in centimeters. Increase this value to expand the map canvas horizontally and prevent elements from overlapping or being clipped. Decrease this value to remove whitespace on the left and right of the map, if any. If changing the width has no visible effect, you may also need to modify the canvas height below.",
       "defaultValue": 15,
       "type": "DOUBLE"
     },
     {
       "id": "out_height",
       "name": "Animation output height (cm)",
-      "description": "Height of the output animation in centimeters. If your map is very tall, you may need to increase this value to prevent plot elements from overlapping or being clipped.",
+      "description": "Height of the output animation in centimeters. Increase this value to expand the map canvas vertically and prevent elements from overlapping or being clipped. Decrease this value to remove whitespace on the top and bottom of the map, if any. If changing the height has no visible effect, you may also need to modify the canvas width above.",
       "defaultValue": 15,
       "type": "DOUBLE"
     },
